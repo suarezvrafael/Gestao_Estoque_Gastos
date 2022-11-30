@@ -1,7 +1,11 @@
 # Gestao_Estoque_Gastos
 Gestão de Estoque e Gastos Interdisciplinar
 <<<<<<< HEAD
+<<<<<<< HEAD
+Samuel Paolo Martins
+=======
 Gustavo Siqueira de Moraes
+>>>>>>> 64905d44edc57e04e4108b190d39dd5cbee6c4ba
 =======
 <<<<<<< HEAD
 Felipe Staub
