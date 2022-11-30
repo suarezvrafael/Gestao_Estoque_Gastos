@@ -1,6 +1,12 @@
 # Gestao_Estoque_Gastos
 Gestão de Estoque e Gastos Interdisciplinar
 <<<<<<< HEAD
+Gustavo Siqueira de Moraes
+=======
+<<<<<<< HEAD
+Felipe Staub
+=======
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 Matheus Reuter
@@ -50,6 +56,11 @@ Marcelo Santos Jaeger
 Jean teste
 >>>>>>> e425ac4def503b1381a12cae11fde098feecd6ea
 >>>>>>> 6a81535213a568cf0b02bb49bcaaeef482436682
+<<<<<<< HEAD
 
 
 teste 10
+=======
+>>>>>>> caab5976a5c600ea3d17f730e502e01b59a5d2f1
+>>>>>>> a0692f74a9a20f92040c0e4927638a2163c4777d
+>>>>>>> 64905d44edc57e04e4108b190d39dd5cbee6c4ba
