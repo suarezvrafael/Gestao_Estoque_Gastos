@@ -14,6 +14,7 @@ namespace WF_Gestao_Estoque_Gastos
         [STAThread]
         static void Main()
         {
+            MessageBox.Show("Testando");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FrmPrincipal());
