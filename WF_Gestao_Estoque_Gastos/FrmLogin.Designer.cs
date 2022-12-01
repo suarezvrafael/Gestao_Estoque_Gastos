@@ -38,7 +38,7 @@
             // 
             this.txtUsuario.Depth = 0;
             this.txtUsuario.Hint = "Usuário";
-            this.txtUsuario.Location = new System.Drawing.Point(121, 165);
+            this.txtUsuario.Location = new System.Drawing.Point(12, 81);
             this.txtUsuario.MouseState = MaterialSkin.MouseState.HOVER;
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.PasswordChar = '\0';
@@ -52,8 +52,8 @@
             // txtSenha
             // 
             this.txtSenha.Depth = 0;
-            this.txtSenha.Hint = "************************";
-            this.txtSenha.Location = new System.Drawing.Point(121, 219);
+            this.txtSenha.Hint = "********";
+            this.txtSenha.Location = new System.Drawing.Point(12, 130);
             this.txtSenha.MouseState = MaterialSkin.MouseState.HOVER;
             this.txtSenha.Name = "txtSenha";
             this.txtSenha.PasswordChar = '\0';
@@ -67,7 +67,8 @@
             // btnEntrar
             // 
             this.btnEntrar.Depth = 0;
-            this.btnEntrar.Location = new System.Drawing.Point(327, 259);
+            this.btnEntrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEntrar.Location = new System.Drawing.Point(218, 179);
             this.btnEntrar.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnEntrar.Name = "btnEntrar";
             this.btnEntrar.Primary = true;
@@ -80,7 +81,7 @@
             // btnCancelar
             // 
             this.btnCancelar.Depth = 0;
-            this.btnCancelar.Location = new System.Drawing.Point(237, 259);
+            this.btnCancelar.Location = new System.Drawing.Point(137, 179);
             this.btnCancelar.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Primary = true;
@@ -94,7 +95,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(309, 350);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnEntrar);
             this.Controls.Add(this.txtSenha);
