@@ -38,7 +38,7 @@
             // 
             this.txtUsuario.Depth = 0;
             this.txtUsuario.Hint = "Usuário";
-            this.txtUsuario.Location = new System.Drawing.Point(12, 81);
+            this.txtUsuario.Location = new System.Drawing.Point(12, 83);
             this.txtUsuario.MouseState = MaterialSkin.MouseState.HOVER;
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.PasswordChar = '\0';
@@ -53,7 +53,7 @@
             // 
             this.txtSenha.Depth = 0;
             this.txtSenha.Hint = "********";
-            this.txtSenha.Location = new System.Drawing.Point(12, 130);
+            this.txtSenha.Location = new System.Drawing.Point(12, 132);
             this.txtSenha.MouseState = MaterialSkin.MouseState.HOVER;
             this.txtSenha.Name = "txtSenha";
             this.txtSenha.PasswordChar = '\0';
@@ -81,11 +81,11 @@
             // btnCancelar
             // 
             this.btnCancelar.Depth = 0;
-            this.btnCancelar.Location = new System.Drawing.Point(137, 179);
+            this.btnCancelar.Location = new System.Drawing.Point(123, 179);
             this.btnCancelar.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Primary = true;
-            this.btnCancelar.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelar.Size = new System.Drawing.Size(89, 23);
             this.btnCancelar.TabIndex = 3;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
@@ -96,11 +96,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(309, 350);
+            this.ControlBox = false;
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnEntrar);
             this.Controls.Add(this.txtSenha);
             this.Controls.Add(this.txtUsuario);
             this.Name = "FrmLogin";
+            this.Sizable = false;
             this.Text = "Login";
             this.ResumeLayout(false);
 

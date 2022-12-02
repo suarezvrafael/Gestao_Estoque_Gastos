@@ -9,11 +9,11 @@ namespace WF_Gestao_Estoque_Gastos
         public FrmPrincipal()
         {
             InitializeComponent();
+            this.CenterToScreen();
         }
 
         private void FrmPrincipal_Load(object sender, EventArgs e)
         {
-
         }
 
         private void empresaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -38,6 +38,12 @@ namespace WF_Gestao_Estoque_Gastos
         {
             var telaCadstroUnidadeMedida = new FrmCadUnidadeMedida();
             telaCadstroUnidadeMedida.Show();
+        }
+
+        private void FrmPrincipal_Shown(object sender, EventArgs e)
+        {
+            var frmLogin = new FrmLogin();
+            frmLogin.ShowDialog();
         }
     }
 }
