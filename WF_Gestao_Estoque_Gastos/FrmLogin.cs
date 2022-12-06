@@ -60,7 +60,7 @@ namespace WF_Gestao_Estoque_Gastos
             }
             catch (Exception error)
             {
-                MessageBox.Show("Falha na conexão");
+                MessageBox.Show("Falha na conexão.");
             }
             finally
             {
@@ -68,9 +68,20 @@ namespace WF_Gestao_Estoque_Gastos
                 if (usuarioLogou)
                     this.Close();
                 else
-                    MessageBox.Show("Usuário e/ou senha incorretos!");
+                    MessageBox.Show("Usuário e/ou senha incorretos.");
             }
 
+        }
+
+        private void FrmLogin_Load(object sender, EventArgs e)
+        {
+            cbxEmpresa.DataSource = new List<string>()
+            {
+                "COMPUMAX",
+                "IDEAL",
+                "AFUBRA"
+            };
+            cbxEmpresa.SelectedIndex = -1;
         }
     }
 }
