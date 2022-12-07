@@ -2,12 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Forms;
 
 namespace WF_Gestao_Estoque_Gastos
@@ -46,7 +41,6 @@ namespace WF_Gestao_Estoque_Gastos
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-
                     var rdrUsuario = reader["username"].ToString();
                     var rdrSenha = reader["senha"].ToString();
 
@@ -75,6 +69,12 @@ namespace WF_Gestao_Estoque_Gastos
 
         private void FrmLogin_Load(object sender, EventArgs e)
         {
+            var usuarioDoBanco = new Usuario()
+            {
+                Username = "empresa@gmail.com",
+                ManterLogado = true,
+                Senha = "123"
+            };
             cbxEmpresa.DataSource = new List<string>()
             {
                 "COMPUMAX",
@@ -82,6 +82,30 @@ namespace WF_Gestao_Estoque_Gastos
                 "AFUBRA"
             };
             cbxEmpresa.SelectedIndex = -1;
+
+            if (usuarioDoBanco.ManterLogado)
+            {
+                chxManterLogin.Checked = usuarioDoBanco.ManterLogado;
+                txtUsuario.Text = usuarioDoBanco.Username;
+                txtSenha.Text = usuarioDoBanco.Senha;
+
+                Empresa empresa = RetornaEmpresaById(usuarioDoBanco.EmpresaId);
+
+                cbxEmpresa.SelectedIndex =  cbxEmpresa.FindStringExact(empresa.NomeFantasia);
+            }
+        }
+
+        private Empresa RetornaEmpresaById(int empresaId)
+        {
+            return new Empresa()
+            {
+                NomeFantasia = "COMPUMAX"
+            };
+        }
+
+        private void chxManterLogin_CheckedChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

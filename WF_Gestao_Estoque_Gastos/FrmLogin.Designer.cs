@@ -130,6 +130,7 @@
             this.chxManterLogin.TabIndex = 6;
             this.chxManterLogin.Text = "Lembrar de mim";
             this.chxManterLogin.UseVisualStyleBackColor = false;
+            this.chxManterLogin.CheckedChanged += new System.EventHandler(this.chxManterLogin_CheckedChanged);
             // 
             // FrmLogin
             // 
