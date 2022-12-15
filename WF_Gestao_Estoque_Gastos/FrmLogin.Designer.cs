@@ -60,7 +60,7 @@
             this.txtSenha.Location = new System.Drawing.Point(12, 132);
             this.txtSenha.MouseState = MaterialSkin.MouseState.HOVER;
             this.txtSenha.Name = "txtSenha";
-            this.txtSenha.PasswordChar = '\0';
+            this.txtSenha.PasswordChar = '*';
             this.txtSenha.SelectedText = "";
             this.txtSenha.SelectionLength = 0;
             this.txtSenha.SelectionStart = 0;
