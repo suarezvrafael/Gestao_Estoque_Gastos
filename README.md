@@ -42,7 +42,4 @@ Gestão de Estoque e Gastos Interdisciplinar
    - tblusuario
    - tblingrediente
    - unidademedida  
-   
- Texto1
-
- Texto 2
+ 
