@@ -14,7 +14,7 @@ namespace WF_Gestao_Estoque_Gastos
         {
             InitializeComponent();
             this.CenterToScreen();
-            con = new MySqlConnection("server=localhost;database=gestaogastronomiaturma;uid=root;pwd=;");
+            con = new MySqlConnection("server=localhost;database=gestao_estoque_gastos;uid=root;pwd=;");
             cmd = new MySqlCommand();
             cmd.Connection = con;
         }
@@ -51,7 +51,7 @@ namespace WF_Gestao_Estoque_Gastos
             }
             catch (Exception)
             {
-                MessageBox.Show("Falha na conexão.");
+                MensagemErroConexao();
             }
             finally
             {
@@ -59,7 +59,8 @@ namespace WF_Gestao_Estoque_Gastos
                 if (usuarioLogou)
                     this.Close();
                 else
-                    MessageBox.Show("m e/ou senha incorretos.");
+                    //string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon
+                    MessageBox.Show("Usuário e/ou senha incorretos.","Erro",MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -94,7 +95,7 @@ namespace WF_Gestao_Estoque_Gastos
             }
             catch (Exception)
             {
-                MessageBox.Show("Falha na conexão.");
+                MensagemErroConexao();
             }
             finally
             {
@@ -107,9 +108,10 @@ namespace WF_Gestao_Estoque_Gastos
             var empresa = BuscaEmpresaPorId(id);
             cbxEmpresa.SelectedIndex = cbxEmpresa.FindStringExact(empresa.NomeFantasia);
         }
-        private void PreencheUsuarioManterLogin()
+        private bool PreencheUsuarioManterLogin()
         {
             var id = 0;
+            var sucesso = false;
             try
             {
                 con.Open();
@@ -122,28 +124,40 @@ namespace WF_Gestao_Estoque_Gastos
                     //cbxEmpresa.SelectedValue = reader["nomeFantasia"].ToString();
                     chxManterLogin.Checked = int.Parse(reader["manterlogado"].ToString()) == 1;
                     id = int.Parse(reader["empresaId"].ToString());
+
+                    sucesso = true;
                 }
 
             }
             catch (Exception)
             {
-                MessageBox.Show("Falha na conexão.");
+                MensagemErroConexao();
             }
             finally
             {
                 con.Close();
-                reader.Close();
+                if(reader != null)
+                    reader.Close();
                 if (id != 0)
                     PreencheEmpresaDoUsuarioManterLogin(id);
             }
+
+            return sucesso;
         }
         private void FrmLogin_Load(object sender, EventArgs e)
         {
-            PreencheComboEmpresa();
-            PreencheUsuarioManterLogin();
+            var sucesso = PreencheComboEmpresa();
+            if (sucesso == false)
+                Application.Exit();
+
+            sucesso = PreencheUsuarioManterLogin();
+
+            if (sucesso == false)
+                Application.Exit();
         }
-        private void PreencheComboEmpresa()
+        private bool PreencheComboEmpresa()
         {
+            var sucesso = false;
             try
             {
                 con.Open();
@@ -154,23 +168,28 @@ namespace WF_Gestao_Estoque_Gastos
                     cbxEmpresa.Items.Add(
                         reader["nomeFantasia"].ToString()
                     );
-                    
+                    sucesso = true;
                 }
 
             }
             catch (Exception)
             {
-                MessageBox.Show("Falha na conexão.");
+                MensagemErroConexao();
             }
             finally
             {
                 con.Close();
             }
-            
+            return sucesso;
         }
         private void chxManterLogin_CheckedChanged(object sender, EventArgs e)
         {
             
+        }
+
+        private void MensagemErroConexao()
+        {
+            MessageBox.Show("Falha na conexão.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
