@@ -19,7 +19,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         public FrmCadUnidadeMedida()
         {
             InitializeComponent();
-            con = new MySqlConnection("Server=localhost;Database=gestao_estoque;user=root;Pwd=;SslMode=none");
+            con = new MySqlConnection("Server=localhost;Database=gestao_estoque_gasto;user=root;Pwd=;SslMode=none");
             atualizar_lista();
         }
 
@@ -59,7 +59,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             {
                 con.Open();
                 cmd = con.CreateCommand();
-                cmd.CommandText = "INSERT INTO tblunidademedida (descricao, sigla) VALUES(@descricao , @sigla);";
+                cmd.CommandText = "INSERT INTO tblunidademedidaingrediente (descricaoUnidadeMedidaIngrediente, sigla) VALUES(@descricao , @sigla);";
 
                 cmd.Parameters.AddWithValue("descricao", descricao);
                 cmd.Parameters.AddWithValue("sigla", sigla);
@@ -88,7 +88,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 con.Open();
 
                 cmd = con.CreateCommand();
-                cmd.CommandText = "UPDATE tblunidademedida SET descricao = @descricao, sigla = @sigla WHERE descricao = @descricao;";
+                cmd.CommandText = "UPDATE tblunidademedidaingrediente SET descricaoUnidadeMedidaIngrediente = @descricao, sigla = @sigla WHERE descricao = @descricao;";
 
                 cmd.Parameters.AddWithValue("descricao", descricao);
                 cmd.Parameters.AddWithValue("sigla", sigla);
@@ -131,13 +131,13 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 txtDescricao.Text = descricao;
                 txtSigla.Text = sigla;
                 lblId.Text = descricao;
-                MySqlConnection con = new MySqlConnection("Server=localhost;Database=gestao_estoque;user=root;Pwd=;SslMode=none");
+                MySqlConnection con = new MySqlConnection("Server=localhost;Database=gestao_estoque_gasto;user=root;Pwd=;SslMode=none");
                 try
                 {
 
                     con.Open();
                     MySqlCommand cmd = con.CreateCommand();
-                    cmd.CommandText = "DELETE FROM tblunidademedida WHERE descricao = @descricao";
+                    cmd.CommandText = "DELETE FROM tblunidademedidaingrediente WHERE descricaoUnidadeMedidaIngrediente = @descricao";
                     cmd.Parameters.AddWithValue("@descricao", descricao);
                     cmd.ExecuteNonQuery();
                     con.Close();
@@ -162,13 +162,13 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             //cria uma lista do tipo Unidade
             List<Unidade> listaUnidades = new List<Unidade>();
 
-            con = new MySqlConnection("Server=localhost;Database=gestao_estoque;user=root;Pwd=;SslMode=none");
+            con = new MySqlConnection("Server=localhost;Database=gestao_estoque_gasto;user=root;Pwd=;SslMode=none");
             con.Open();
 
             //seta a conexão para o comando
             cmd = new MySqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "SELECT descricao, sigla FROM tblunidademedida";
+            cmd.CommandText = "SELECT descricaoUnidadeMedidaIngrediente, sigla FROM tblunidademedidaingrediente";
 
             //executa o comando
             dr = cmd.ExecuteReader();
@@ -179,7 +179,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 {
                     //id = Convert.ToInt32(dr["id"].ToString()),
-                    descricao = dr["descricao"].ToString(),
+                    descricao = dr["descricaoUnidadeMedidaIngrediente"].ToString(),
                     sigla = dr["sigla"].ToString(),
 
                 };
