@@ -179,7 +179,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 {
                     //id = Convert.ToInt32(dr["id"].ToString()),
-                    descricao = dr["descricao"].ToString(),
+                    descricao = dr["descricaoUnidadeMedidaIngrediente"].ToString(),
                     sigla = dr["sigla"].ToString(),
 
                 };
