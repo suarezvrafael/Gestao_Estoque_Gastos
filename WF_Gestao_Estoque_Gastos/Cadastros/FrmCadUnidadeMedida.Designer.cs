@@ -226,6 +226,7 @@
             this.ClientSize = new System.Drawing.Size(627, 527);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.MaximizeBox = false;
             this.Name = "FrmCadUnidadeMedida";
             this.Text = "Cadastro de Unidade de Medida";
             this.groupBox1.ResumeLayout(false);
