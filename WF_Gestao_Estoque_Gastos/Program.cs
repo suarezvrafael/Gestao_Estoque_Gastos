@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WF_Gestao_Estoque_Gastos.Cadastros;
 
 namespace WF_Gestao_Estoque_Gastos
 {
@@ -14,10 +15,9 @@ namespace WF_Gestao_Estoque_Gastos
         [STAThread]
         static void Main()
         {
-            MessageBox.Show("Testando");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmPrincipal());
+            Application.Run(new FrmCadUsuario());
         }
     }
 }
