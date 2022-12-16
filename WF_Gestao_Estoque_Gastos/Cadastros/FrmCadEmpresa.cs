@@ -13,10 +13,19 @@ using System.Windows.Forms;
 
 namespace WF_Gestao_Estoque_Gastos.Cadastros
 {
+
+
     public partial class FrmCadEmpresa : MaterialForm
     {
+
+        MySqlConnection con;
+        MySqlCommand cmd;
+        MySqlDataReader reader;
         public FrmCadEmpresa()
         {
+            con = new MySqlConnection("server=localhost;database=gestao_estoque_gasto;pwd=;uid=root;");
+            cmd.Connection = con;
+
             InitializeComponent();
         }
 
