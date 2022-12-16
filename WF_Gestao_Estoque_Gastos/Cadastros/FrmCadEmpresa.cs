@@ -1,6 +1,7 @@
 ﻿using MaterialSkin.Controls;
 using MySql.Data.MySqlClient;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,7 +25,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         public FrmCadEmpresa()
         {
             con = new MySqlConnection("server=localhost;database=gestao_estoque_gasto;pwd=;uid=root;");
-            cmd.Connection = con;
+            //cmd.Connection = con;
 
             InitializeComponent();
         }
@@ -36,7 +37,46 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         private void materialRaisedButton1_Click(object sender, EventArgs e)
         {
+            string razaoSocial = mtxtRazaoSocial.Text;
+            string nomeFantasia = mtxtNomeFantasia.Text;
+            var CNPJ = mtxtCnpj.Text;
+            var telefone = mtxtTelefone.Text;
+            string email = mtxtEmail.Text;
+            string cidade = mtxtCidade.Text;
+            string bairro = mtxtBairro.Text;
+            string complemento = mtxtComplemento.Text;
+            var numeroResidencia = mtxtNumero;
+            string rua = mtxtRua.Text;
 
+            try
+            {
+                con.Open();
+                cmd = con.CreateCommand();
+                cmd.CommandText = "INSERT INTO tblempresa (CNPJ,razaoSocial,rua,bairro,numeroEndereco,complemento,email,telefone,nomeFantasia,cidade) VALUES (@CNPJ,@razaoSocial,@rua,@bairro,@numeroResidencia,@complemento,@email,@telefone,@nomeFantasia,@cidade)";
+
+                cmd.Parameters.AddWithValue("CNPJ", CNPJ);
+                cmd.Parameters.AddWithValue("razaoSocial", razaoSocial);
+                cmd.Parameters.AddWithValue("rua", rua);
+                cmd.Parameters.AddWithValue("bairro", bairro);
+                cmd.Parameters.AddWithValue("numeroResidencia", numeroResidencia);
+                cmd.Parameters.AddWithValue("complemento", complemento);
+                cmd.Parameters.AddWithValue("email",email);
+                cmd.Parameters.AddWithValue("telefone", telefone);
+                cmd.Parameters.AddWithValue("nomeFantasia",nomeFantasia);
+                cmd.Parameters.AddWithValue("cidade", cidade);
+
+                int retornoDoInsert = cmd.ExecuteNonQuery();
+
+                if (retornoDoInsert > 0)
+                {
+                    MessageBox.Show("Empresa cadastrada com sucesso!");
+                }
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro, contate o suporte técnico para verificar!");
+            }
         }
 
         private void materialRaisedButton2_Click(object sender, EventArgs e)

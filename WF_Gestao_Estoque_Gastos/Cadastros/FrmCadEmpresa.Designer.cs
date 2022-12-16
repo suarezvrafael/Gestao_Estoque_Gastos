@@ -52,8 +52,8 @@
             this.mtxtNumero = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.mtxtComplemento = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.btnSalvar = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.materialRaisedButton2 = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.btnEditar = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.btnExcluir = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialDivider3 = new MaterialSkin.Controls.MaterialDivider();
             this.listView1 = new System.Windows.Forms.ListView();
             this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
@@ -380,31 +380,31 @@
             this.btnSalvar.UseVisualStyleBackColor = true;
             this.btnSalvar.Click += new System.EventHandler(this.materialRaisedButton1_Click);
             // 
-            // materialRaisedButton1
+            // btnEditar
             // 
-            this.materialRaisedButton1.Depth = 0;
-            this.materialRaisedButton1.Location = new System.Drawing.Point(540, 407);
-            this.materialRaisedButton1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialRaisedButton1.Name = "materialRaisedButton1";
-            this.materialRaisedButton1.Primary = true;
-            this.materialRaisedButton1.Size = new System.Drawing.Size(124, 31);
-            this.materialRaisedButton1.TabIndex = 26;
-            this.materialRaisedButton1.Text = "Editar";
-            this.materialRaisedButton1.UseVisualStyleBackColor = true;
-            this.materialRaisedButton1.Click += new System.EventHandler(this.materialRaisedButton1_Click_1);
+            this.btnEditar.Depth = 0;
+            this.btnEditar.Location = new System.Drawing.Point(540, 407);
+            this.btnEditar.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnEditar.Name = "btnEditar";
+            this.btnEditar.Primary = true;
+            this.btnEditar.Size = new System.Drawing.Size(124, 31);
+            this.btnEditar.TabIndex = 26;
+            this.btnEditar.Text = "Editar";
+            this.btnEditar.UseVisualStyleBackColor = true;
+            this.btnEditar.Click += new System.EventHandler(this.materialRaisedButton1_Click_1);
             // 
-            // materialRaisedButton2
+            // btnExcluir
             // 
-            this.materialRaisedButton2.Depth = 0;
-            this.materialRaisedButton2.Location = new System.Drawing.Point(410, 407);
-            this.materialRaisedButton2.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialRaisedButton2.Name = "materialRaisedButton2";
-            this.materialRaisedButton2.Primary = true;
-            this.materialRaisedButton2.Size = new System.Drawing.Size(124, 31);
-            this.materialRaisedButton2.TabIndex = 27;
-            this.materialRaisedButton2.Text = "Excluir";
-            this.materialRaisedButton2.UseVisualStyleBackColor = true;
-            this.materialRaisedButton2.Click += new System.EventHandler(this.materialRaisedButton2_Click);
+            this.btnExcluir.Depth = 0;
+            this.btnExcluir.Location = new System.Drawing.Point(410, 407);
+            this.btnExcluir.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnExcluir.Name = "btnExcluir";
+            this.btnExcluir.Primary = true;
+            this.btnExcluir.Size = new System.Drawing.Size(124, 31);
+            this.btnExcluir.TabIndex = 27;
+            this.btnExcluir.Text = "Excluir";
+            this.btnExcluir.UseVisualStyleBackColor = true;
+            this.btnExcluir.Click += new System.EventHandler(this.materialRaisedButton2_Click);
             // 
             // materialDivider3
             // 
@@ -431,7 +431,7 @@
             this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1});
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(12, 490);
+            this.listView1.Location = new System.Drawing.Point(15, 490);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(779, 139);
             this.listView1.TabIndex = 29;
@@ -475,7 +475,7 @@
             // columnHeader4
             // 
             this.columnHeader4.Text = "E-mail";
-            this.columnHeader4.Width = 150;
+            this.columnHeader4.Width = 198;
             // 
             // FrmCadEmpresa
             // 
@@ -485,8 +485,8 @@
             this.Controls.Add(this.materialLabel11);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.materialDivider3);
-            this.Controls.Add(this.materialRaisedButton2);
-            this.Controls.Add(this.materialRaisedButton1);
+            this.Controls.Add(this.btnExcluir);
+            this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.btnSalvar);
             this.Controls.Add(this.mtxtComplemento);
             this.Controls.Add(this.mtxtNumero);
@@ -542,8 +542,8 @@
         private MaterialSkin.Controls.MaterialSingleLineTextField mtxtNumero;
         private MaterialSkin.Controls.MaterialSingleLineTextField mtxtComplemento;
         private MaterialSkin.Controls.MaterialRaisedButton btnSalvar;
-        private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton1;
-        private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton2;
+        private MaterialSkin.Controls.MaterialRaisedButton btnEditar;
+        private MaterialSkin.Controls.MaterialRaisedButton btnExcluir;
         private MaterialSkin.Controls.MaterialDivider materialDivider3;
         private System.Windows.Forms.ListView listView1;
         private MaterialSkin.Controls.MaterialLabel materialLabel11;
