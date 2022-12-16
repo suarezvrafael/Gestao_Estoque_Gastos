@@ -31,8 +31,10 @@
             this.txtIngrediente = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.btnCadastrar = new MaterialSkin.Controls.MaterialFlatButton();
             this.lsvIngredientes = new System.Windows.Forms.ListView();
-            this.ingrediente = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.quantidade = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Ingrediente = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.precoIngrediente = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.unidMedidaId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.quantidadeUnidade = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.txtQuantidade = new MaterialSkin.Controls.MaterialSingleLineTextField();
@@ -44,6 +46,7 @@
             this.txtPreco = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.btnCancelar = new MaterialSkin.Controls.MaterialFlatButton();
             this.btnLimpar = new MaterialSkin.Controls.MaterialFlatButton();
+            this.id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // txtIngrediente
@@ -80,28 +83,42 @@
             // lsvIngredientes
             // 
             this.lsvIngredientes.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ingrediente,
-            this.quantidade});
+            this.Ingrediente,
+            this.precoIngrediente,
+            this.unidMedidaId,
+            this.quantidadeUnidade,
+            this.id});
             this.lsvIngredientes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lsvIngredientes.FullRowSelect = true;
             this.lsvIngredientes.GridLines = true;
             this.lsvIngredientes.HideSelection = false;
             this.lsvIngredientes.Location = new System.Drawing.Point(435, 90);
             this.lsvIngredientes.Name = "lsvIngredientes";
-            this.lsvIngredientes.Size = new System.Drawing.Size(411, 362);
+            this.lsvIngredientes.Size = new System.Drawing.Size(641, 362);
             this.lsvIngredientes.TabIndex = 3;
             this.lsvIngredientes.UseCompatibleStateImageBehavior = false;
             this.lsvIngredientes.View = System.Windows.Forms.View.Details;
+            this.lsvIngredientes.SelectedIndexChanged += new System.EventHandler(this.lsvIngredientes_SelectedIndexChanged);
             // 
-            // ingrediente
+            // Ingrediente
             // 
-            this.ingrediente.Text = "Ingrediente";
-            this.ingrediente.Width = 244;
+            this.Ingrediente.Text = "Ingrediente";
+            this.Ingrediente.Width = 184;
             // 
-            // quantidade
+            // precoIngrediente
             // 
-            this.quantidade.Text = "Quantidade";
-            this.quantidade.Width = 163;
+            this.precoIngrediente.Text = "Preço Ingrediente";
+            this.precoIngrediente.Width = 164;
+            // 
+            // unidMedidaId
+            // 
+            this.unidMedidaId.Text = "Un. Medida";
+            this.unidMedidaId.Width = 126;
+            // 
+            // quantidadeUnidade
+            // 
+            this.quantidadeUnidade.Text = "Quantidade Un.";
+            this.quantidadeUnidade.Width = 162;
             // 
             // materialLabel1
             // 
@@ -173,6 +190,7 @@
             this.btnExcluir.TabIndex = 8;
             this.btnExcluir.Text = "Excluir";
             this.btnExcluir.UseVisualStyleBackColor = true;
+            this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
             // 
             // materialLabel3
             // 
@@ -191,10 +209,6 @@
             // 
             this.cbxUnidMedida.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxUnidMedida.FormattingEnabled = true;
-            this.cbxUnidMedida.Items.AddRange(new object[] {
-            "Quilos",
-            "Gramas",
-            "Litros"});
             this.cbxUnidMedida.Location = new System.Drawing.Point(27, 276);
             this.cbxUnidMedida.Name = "cbxUnidMedida";
             this.cbxUnidMedida.Size = new System.Drawing.Size(149, 21);
@@ -242,6 +256,7 @@
             this.btnCancelar.TabIndex = 15;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // btnLimpar
             // 
@@ -259,11 +274,16 @@
             this.btnLimpar.UseVisualStyleBackColor = true;
             this.btnLimpar.Click += new System.EventHandler(this.btnLimpar_Click);
             // 
+            // id
+            // 
+            this.id.Text = "Id";
+            this.id.Width = 0;
+            // 
             // FrmCadIngrediente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(858, 479);
+            this.ClientSize = new System.Drawing.Size(1088, 479);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnLimpar);
             this.Controls.Add(this.materialLabel4);
@@ -280,6 +300,7 @@
             this.Controls.Add(this.txtIngrediente);
             this.Name = "FrmCadIngrediente";
             this.Text = "Cadastro de Ingrediente";
+            this.Load += new System.EventHandler(this.FrmCadIngrediente_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -289,8 +310,7 @@
         private MaterialSkin.Controls.MaterialSingleLineTextField txtIngrediente;
         private MaterialSkin.Controls.MaterialFlatButton btnCadastrar;
         private System.Windows.Forms.ListView lsvIngredientes;
-        private System.Windows.Forms.ColumnHeader ingrediente;
-        private System.Windows.Forms.ColumnHeader quantidade;
+        private System.Windows.Forms.ColumnHeader Ingrediente;
         private MaterialSkin.Controls.MaterialLabel materialLabel1;
         private MaterialSkin.Controls.MaterialLabel materialLabel2;
         private MaterialSkin.Controls.MaterialSingleLineTextField txtQuantidade;
@@ -302,5 +322,9 @@
         private MaterialSkin.Controls.MaterialSingleLineTextField txtPreco;
         private MaterialSkin.Controls.MaterialFlatButton btnCancelar;
         private MaterialSkin.Controls.MaterialFlatButton btnLimpar;
+        private System.Windows.Forms.ColumnHeader precoIngrediente;
+        private System.Windows.Forms.ColumnHeader unidMedidaId;
+        private System.Windows.Forms.ColumnHeader quantidadeUnidade;
+        private System.Windows.Forms.ColumnHeader id;
     }
 }

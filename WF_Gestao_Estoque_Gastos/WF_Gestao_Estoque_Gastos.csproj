@@ -111,6 +111,7 @@
     <Compile Include="Cadastros\FrmCadEmpresa.Designer.cs">
       <DependentUpon>FrmCadEmpresa.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cadastros\UnidadeMedida.cs" />
     <Compile Include="FrmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
