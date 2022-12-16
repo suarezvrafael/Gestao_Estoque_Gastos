@@ -11,10 +11,6 @@ namespace WF_Gestao_Estoque_Gastos
             InitializeComponent();
         }
 
-        private void FrmPrincipal_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void empresaToolStripMenuItem_Click(object sender, EventArgs e)
         {
