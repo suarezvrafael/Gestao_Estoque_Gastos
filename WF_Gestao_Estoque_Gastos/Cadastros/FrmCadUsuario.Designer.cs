@@ -1,6 +1,6 @@
 ﻿namespace WF_Gestao_Estoque_Gastos.Cadastros
 {
-    partial class FrmCadEmpresa
+    partial class FrmCadUsuario
     {
         /// <summary>
         /// Required designer variable.
@@ -30,14 +30,14 @@
         {
             this.SuspendLayout();
             // 
-            // FrmCadEmpresa
+            // FrmCadUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.MaximizeBox = false;
-            this.Name = "FrmCadEmpresa";
-            this.Text = "Cadastro de Empresa";
+            this.MinimizeBox = false;
+            this.Name = "FrmCadUsuario";
+            this.Text = "Cadastro de Usuário";
             this.ResumeLayout(false);
 
         }

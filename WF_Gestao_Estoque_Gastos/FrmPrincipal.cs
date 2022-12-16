@@ -15,25 +15,26 @@ namespace WF_Gestao_Estoque_Gastos
         private void empresaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var telaCadastroEmpresa = new FrmCadEmpresa();
-            telaCadastroEmpresa.Show();
+            telaCadastroEmpresa.ShowDialog();
+           
         }
 
         private void usuárioToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var telaCadastroUsuario = new FrmCadUsuario();
-            telaCadastroUsuario.Show();
+            telaCadastroUsuario.ShowDialog();
         }
 
         private void ingredientesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var telaCadastroIngrediente = new FrmCadIngrediente();
-            telaCadastroIngrediente.Show();
+            telaCadastroIngrediente.ShowDialog();
         }
 
         private void unidadeDeMedidaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var telaCadstroUnidadeMedida = new FrmCadUnidadeMedida();
-            telaCadstroUnidadeMedida.Show();
+            telaCadstroUnidadeMedida.ShowDialog();
         }
     }
 }

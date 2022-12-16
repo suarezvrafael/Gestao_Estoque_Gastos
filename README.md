@@ -1,4 +1,15 @@
 # Gestao_Estoque_Gastos
+
+branchs:
+main - (NÃO FAZER COMMIT)
+feature/ajustesestrutura
+feature/frmcadempresa
+feature/frmcadunidademedida
+feature/frmcadingrediente
+feature/frmcadusuario
+feature/frmlogin
+feature/frmprincipal
+
 Gestão de Estoque e Gastos Interdisciplinar
 1. Nome do sistema: WF_
 
