@@ -20,6 +20,7 @@ namespace WF_Gestao_Estoque_Gastos
         {
             var telaCadastroEmpresa = new FrmCadEmpresa();
             telaCadastroEmpresa.Show();
+           
         }
 
         private void usuárioToolStripMenuItem_Click(object sender, EventArgs e)
