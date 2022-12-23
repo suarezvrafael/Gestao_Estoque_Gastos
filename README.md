@@ -42,3 +42,10 @@ Gestão de Estoque e Gastos Interdisciplinar
    - tblusuario
    - tblingrediente
    - unidademedida  
+
+6. FrmLogin
+    - Adicionar botão de deslogar
+    - Adicionar acesso a tela de cadastro de usuário na tela de login
+
+
+
