@@ -98,8 +98,10 @@
 
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tela Principal";
+            this.Load += new System.EventHandler(this.FrmPrincipal_Load);
+            this.Shown += new System.EventHandler(this.FrmPrincipal_Shown);
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-         
+
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
