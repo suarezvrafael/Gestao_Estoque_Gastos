@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 07-Dez-2022 às 01:20
--- Versão do servidor: 10.4.24-MariaDB
--- versão do PHP: 8.1.6
+-- Tempo de geração: 12-Jan-2023 às 04:00
+-- Versão do servidor: 10.4.20-MariaDB
+-- versão do PHP: 8.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,6 +41,13 @@ CREATE TABLE `tblempresa` (
   `cidade` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `tblempresa`
+--
+
+INSERT INTO `tblempresa` (`id`, `CNPJ`, `razaoSocial`, `rua`, `bairro`, `numeroEndereco`, `complemento`, `email`, `telefone`, `nomeFantasia`, `cidade`) VALUES
+(1, '9999999999', 'Confeitaria Senac', 'Venâncio Aires', 'Centro', 123, '2 and', 'escola@senac.com', '0', 'Senac Escola Técnica', 'Santa Cruz do Sul');
+
 -- --------------------------------------------------------
 
 --
@@ -63,11 +70,23 @@ CREATE TABLE `tblgastovariado` (
 CREATE TABLE `tblingrediente` (
   `id` int(11) NOT NULL,
   `nomeIngrediente` varchar(150) NOT NULL,
-  `precoIngrediente` decimal(10,0) NOT NULL,
+  `precoIngrediente` decimal(10,2) NOT NULL,
   `unidadeMedidaId` int(11) NOT NULL,
-  `quantidadeUnidade` decimal(10,0) NOT NULL,
   `empresaId` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `tblingrediente`
+--
+
+INSERT INTO `tblingrediente` (`id`, `nomeIngrediente`, `precoIngrediente`, `unidadeMedidaId`, `empresaId`) VALUES
+(3, 'Ovo (Unidade)', '0.10', 3, 1),
+(4, 'Chocolate em pó (Colher de sopa)', '0.30', 7, 1),
+(5, 'Manteiga (Colher de sopa)', '0.40', 7, 1),
+(6, 'Farinha de trigo (Xícara Chá)', '0.80', 4, 1),
+(7, 'Açúcar (Xícara Chá)', '0.50', 4, 1),
+(8, 'Fermento (Colher Sopa)', '0.20', 7, 1),
+(9, 'Leite (Xícara chá)', '0.40', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -76,8 +95,16 @@ CREATE TABLE `tblingrediente` (
 --
 
 CREATE TABLE `tblparametros` (
-  `percentualLucro` decimal(10,0) NOT NULL
+  `id` int(11) NOT NULL,
+  `percentualLucro` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `tblparametros`
+--
+
+INSERT INTO `tblparametros` (`id`, `percentualLucro`) VALUES
+(1, '0.30');
 
 -- --------------------------------------------------------
 
@@ -117,8 +144,16 @@ CREATE TABLE `tblpedidoreceita` (
 CREATE TABLE `tblreceita` (
   `id` int(11) NOT NULL,
   `nomeReceita` varchar(140) NOT NULL,
-  `idEmpresa` int(11) NOT NULL
+  `idEmpresa` int(11) NOT NULL,
+  `total_receita` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `tblreceita`
+--
+
+INSERT INTO `tblreceita` (`id`, `nomeReceita`, `idEmpresa`, `total_receita`) VALUES
+(2, 'Bolo de Chocolate', 1, '6.50');
 
 -- --------------------------------------------------------
 
@@ -134,6 +169,19 @@ CREATE TABLE `tblreceitaingrediente` (
   `idGastoVariado` int(11) NOT NULL,
   `quantidadeGastoVariado` decimal(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `tblreceitaingrediente`
+--
+
+INSERT INTO `tblreceitaingrediente` (`id`, `idIngrediente`, `idReceita`, `quantidadeIngrediente`, `idGastoVariado`, `quantidadeGastoVariado`) VALUES
+(1, 3, 2, 3, 0, '0'),
+(2, 4, 2, 4, 0, '0'),
+(3, 5, 2, 2, 0, '0'),
+(4, 6, 2, 3, 0, '0'),
+(5, 7, 2, 2, 0, '0'),
+(6, 8, 2, 2, 0, '0'),
+(7, 9, 2, 1, 0, '0');
 
 -- --------------------------------------------------------
 
@@ -159,6 +207,16 @@ CREATE TABLE `tblunidademedidaingrediente` (
   `sigla` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Extraindo dados da tabela `tblunidademedidaingrediente`
+--
+
+INSERT INTO `tblunidademedidaingrediente` (`id`, `descricaoUnidadeMedidaIngrediente`, `sigla`) VALUES
+(1, 'Kilo', 'KG'),
+(3, 'Unidade', 'UND'),
+(4, 'Xicara Chá', 'XICCH'),
+(7, 'Colher de sopa', 'CLHSO');
+
 -- --------------------------------------------------------
 
 --
@@ -177,6 +235,15 @@ CREATE TABLE `tblusuario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Extraindo dados da tabela `tblusuario`
+--
+
+INSERT INTO `tblusuario` (`id`, `nome`, `username`, `senha`, `acesso`, `manterLogado`, `empresaId`, `ativo`) VALUES
+(1, 'Rafael', 'rafael', '123', '1', 0, 1, 0),
+(2, 'Rafael', 'rafael', '123', '1', 0, 1, 0),
+(4, 'Rafael', 'rafael', '123', '1', 0, 1, 1);
+
+--
 -- Índices para tabelas despejadas
 --
 
@@ -190,6 +257,12 @@ ALTER TABLE `tblempresa`
 -- Índices para tabela `tblingrediente`
 --
 ALTER TABLE `tblingrediente`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices para tabela `tblparametros`
+--
+ALTER TABLE `tblparametros`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -242,13 +315,19 @@ ALTER TABLE `tblusuario`
 -- AUTO_INCREMENT de tabela `tblempresa`
 --
 ALTER TABLE `tblempresa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `tblingrediente`
 --
 ALTER TABLE `tblingrediente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de tabela `tblparametros`
+--
+ALTER TABLE `tblparametros`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `tblpedido`
@@ -263,10 +342,16 @@ ALTER TABLE `tblpedidoreceita`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `tblreceita`
+--
+ALTER TABLE `tblreceita`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de tabela `tblreceitaingrediente`
 --
 ALTER TABLE `tblreceitaingrediente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `tblunidademedidagastovariado`
@@ -278,13 +363,13 @@ ALTER TABLE `tblunidademedidagastovariado`
 -- AUTO_INCREMENT de tabela `tblunidademedidaingrediente`
 --
 ALTER TABLE `tblunidademedidaingrediente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `tblusuario`
 --
 ALTER TABLE `tblusuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
