@@ -125,8 +125,8 @@ namespace WF_Gestao_Estoque_Gastos
                     chxManterLogin.Checked = int.Parse(reader["manterlogado"].ToString()) == 1;
                     id = int.Parse(reader["empresaId"].ToString());
 
-                    sucesso = true;
                 }
+                    sucesso = true;
 
             }
             catch (Exception)
@@ -168,9 +168,9 @@ namespace WF_Gestao_Estoque_Gastos
                     cbxEmpresa.Items.Add(
                         reader["nomeFantasia"].ToString()
                     );
-                    sucesso = true;
+                    
                 }
-
+                sucesso = true;
             }
             catch (Exception)
             {

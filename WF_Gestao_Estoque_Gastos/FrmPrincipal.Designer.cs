@@ -35,6 +35,7 @@
             this.ingredientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unidadeDeMedidaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.receitasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,7 +46,7 @@
             this.cadastroToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(9, -1);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(74, 24);
+            this.menuStrip.Size = new System.Drawing.Size(194, 24);
             this.menuStrip.TabIndex = 2;
             this.menuStrip.Text = "Tela Principal";
             // 
@@ -55,7 +56,8 @@
             this.empresaToolStripMenuItem,
             this.usuárioToolStripMenuItem,
             this.ingredientesToolStripMenuItem,
-            this.unidadeDeMedidaToolStripMenuItem});
+            this.unidadeDeMedidaToolStripMenuItem,
+            this.receitasToolStripMenuItem});
             this.cadastroToolStripMenuItem.Name = "cadastroToolStripMenuItem";
             this.cadastroToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
             this.cadastroToolStripMenuItem.Text = "Cadastro";
@@ -63,28 +65,28 @@
             // empresaToolStripMenuItem
             // 
             this.empresaToolStripMenuItem.Name = "empresaToolStripMenuItem";
-            this.empresaToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.empresaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.empresaToolStripMenuItem.Text = "Empresa";
             this.empresaToolStripMenuItem.Click += new System.EventHandler(this.empresaToolStripMenuItem_Click);
             // 
             // usuárioToolStripMenuItem
             // 
             this.usuárioToolStripMenuItem.Name = "usuárioToolStripMenuItem";
-            this.usuárioToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.usuárioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.usuárioToolStripMenuItem.Text = "Usuário";
             this.usuárioToolStripMenuItem.Click += new System.EventHandler(this.usuárioToolStripMenuItem_Click);
             // 
             // ingredientesToolStripMenuItem
             // 
             this.ingredientesToolStripMenuItem.Name = "ingredientesToolStripMenuItem";
-            this.ingredientesToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.ingredientesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ingredientesToolStripMenuItem.Text = "Ingredientes";
             this.ingredientesToolStripMenuItem.Click += new System.EventHandler(this.ingredientesToolStripMenuItem_Click);
             // 
             // unidadeDeMedidaToolStripMenuItem
             // 
             this.unidadeDeMedidaToolStripMenuItem.Name = "unidadeDeMedidaToolStripMenuItem";
-            this.unidadeDeMedidaToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.unidadeDeMedidaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.unidadeDeMedidaToolStripMenuItem.Text = "Unidade de Medida";
             this.unidadeDeMedidaToolStripMenuItem.Click += new System.EventHandler(this.unidadeDeMedidaToolStripMenuItem_Click);
             // 
@@ -94,6 +96,13 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(801, 388);
             this.panel1.TabIndex = 3;
+            // 
+            // receitasToolStripMenuItem
+            // 
+            this.receitasToolStripMenuItem.Name = "receitasToolStripMenuItem";
+            this.receitasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.receitasToolStripMenuItem.Text = "Receitas";
+            this.receitasToolStripMenuItem.Click += new System.EventHandler(this.receitasToolStripMenuItem_Click);
             // 
             // FrmPrincipal
             // 
@@ -122,6 +131,7 @@
         private System.Windows.Forms.ToolStripMenuItem ingredientesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem unidadeDeMedidaToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStripMenuItem receitasToolStripMenuItem;
     }
 }
 

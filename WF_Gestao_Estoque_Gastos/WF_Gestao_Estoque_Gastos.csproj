@@ -97,6 +97,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cadastros\FrmCadReceita.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastros\FrmCadReceita.Designer.cs">
+      <DependentUpon>FrmCadReceita.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cadastros\FrmCadUnidadeMedida.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +148,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Cadastros\FrmCadIngrediente.resx">
       <DependentUpon>FrmCadIngrediente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastros\FrmCadReceita.resx">
+      <DependentUpon>FrmCadReceita.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Cadastros\FrmCadUnidadeMedida.resx">
       <DependentUpon>FrmCadUnidadeMedida.cs</DependentUpon>
