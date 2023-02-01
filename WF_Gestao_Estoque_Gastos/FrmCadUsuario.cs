@@ -7,10 +7,10 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WF_Gestao_Estoque_Gastos.Conexao;
-//using WF_Gestao_Estoque_Gastos.ConexaoBD ;
 
 
 namespace WF_Gestao_Estoque_Gastos.Cadastros
@@ -26,59 +26,22 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             InitializeComponent();
             checkBox.Checked = true;
             checkBox.Text = "Ativo";
+            BuscaDadosUsuario();
         }
 
-        private void btnEntrar_Click(object sender, EventArgs e)
-        {
-
-        }
         private void btnSalvar_Click_1(object sender, EventArgs e)
         {
-            if (VerificaInputs())
+            if (!VerificaInputs())
             {
-                try
-                {
-                    con.Open();
-
-                    var id = BuscarUltimoId();
-                    id += id;
-                    cmd.Connection = con;
-                    cmd.CommandText = ($@"INSERT INTO dbLogin.tblUsuario(
-                    Id, Nome, Username, Senha, Acesso, EmpresaId, ManterLogado, Ativo) VALUES
-                    ('{id}', '{txtNome.Text}','{txtUsuario.Text}', '{txtSenha.Text}','1', '1','0','True')");
-                    int retorno = cmd.ExecuteNonQuery();
-
-                    if (retorno < 1)
-                    {
-                        MessageBox.Show("Não foi possível inserir o usuário");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Usuário inserido com sucesso");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Houve um erro interno");
-                    Console.WriteLine(ex.Message);
-                    return;
-                }
-                finally
-                {
-                    LimparCampos();
-                    con.Close();
-                }
+                return;
+            }
+            if (listView.SelectedItems.Count > 0)
+            {
+                AtualizarUsuario();
             }
             else
             {
-                if (checkBox.Checked)
-                {
-                    MessageBox.Show("Preencha ambos os campos!");
-                }
-                else
-                {
-                    MessageBox.Show("Marque a caixa para cadastrar o usuário como ativo!");
-                }
+                CadastrarUsuario();
             }
         }
 
@@ -87,59 +50,161 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             checkBox.Checked = true;
         }
 
-        public bool VerificaInputs()
-        {
-            bool verifica = false;
-            if (txtUsuario.Text != "" & txtSenha.Text != "" && checkBox.Checked)
-            {
-                verifica = true;
-            }
-            else
-            {
-                verifica = false;
-            }
-
-            return verifica;
-        }
-
-        public void LimparCampos()
-        {
-            txtUsuario.Text = "";
-            txtSenha.Text = "";
-            txtNome.Text = "";
-            checkBox.Checked = true;
-        }
-
-        private void checkBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox.Checked)
-            {
-                checkBox.Text = "Ativo";
-            }
-            else
-            {
-                checkBox.Text = "Inativo";
-            }
-        }
-
-        public int BuscarUltimoId()
-        {
-            var retorno = 0;
-            cmd.CommandText = ("SELECT id FROM tblUsuario ORDER BY id");
-            cmd.Connection = con;
-            rd = cmd.ExecuteReader();
-
-            while (rd.Read())
-            {
-                retorno = int.Parse(rd["id"].ToString());
-            }
-            rd.Close();
-            return retorno;
-        }
         private void btnBuscar_Click_1(object sender, EventArgs e)
         {
+            this.BuscaDadosUsuario();
+        }
+
+        private void listView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var id = "";
+            var name = "";
+            var username = "";
+            var acesso = "";
+            var ativo = "";
+
+            if (listView.SelectedIndices.Count <= 0)
+            {
+                return;
+            }
+
+            var indiceItemSelecionado = Convert.ToInt32(listView.SelectedIndices[0]);
+            if (indiceItemSelecionado >= 0)
+            {
+
+                id = listView.Items[indiceItemSelecionado].Text;
+                name = listView.Items[indiceItemSelecionado].SubItems[1].Text;
+                username = listView.Items[indiceItemSelecionado].SubItems[2].Text;
+                acesso = listView.Items[indiceItemSelecionado].SubItems[3].Text;
+                ativo = listView.Items[indiceItemSelecionado].SubItems[4].Text;
+
+                txtNome.Text = name;
+                txtUsuario.Text = username;
+                lblid.Text = id;
+
+
+            }
+
+        }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            ExcluirUsuario();
+        }
+
+        private void CadastrarUsuario()
+        {
+            try
+            {
+                con.Open();
+
+                //var id = BuscarUltimoId();
+                //id += id;
+                cmd.Connection = con;
+                cmd.CommandText = ($@"INSERT INTO dbLogin.tblUsuario(
+                    Nome, Username, Senha, Acesso, EmpresaId, ManterLogado, Ativo) VALUES
+                    ('{txtNome.Text}','{txtUsuario.Text}', '{txtSenha.Text}','1', '1','0','True')");
+                int retorno = cmd.ExecuteNonQuery();
+
+                if (retorno < 1)
+                {
+                    MessageBox.Show("Não foi possível inserir o usuário");
+                }
+                else
+                {
+                    MessageBox.Show("Usuário inserido com sucesso");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Houve um erro interno");
+                Console.WriteLine(ex.Message);
+                return;
+            }
+            finally
+            {
+                LimparCampos();
+                con.Close();
+            }
+
+
+            if (!checkBox.Checked)
+            {
+                MessageBox.Show("Não é possível cadastrar usuário inativo!");
+            }
+            else
+
+            ///É aqui
+            this.BuscaDadosUsuario();
+        }
+
+        private void ExcluirUsuario()
+        {
+            try
+            {
+                if (listView.SelectedIndices.Count > -1)
+                {
+                    cmd.CommandText = ($"DELETE FROM tblUsuario WHERE id = {lblid.Text}");
+
+                    con.Open();
+                    cmd.Connection = con;
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Usuário excluído com sucesso!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Houve um erro interno");
+                Console.WriteLine(ex.Message);
+                return;
+            }
+            finally
+            {
+                con.Close();
+                BuscaDadosUsuario();
+                con.Close();
+            }
+        }
+
+        private void AtualizarUsuario()
+        {
+            try
+            {
+                if (listView.SelectedIndices.Count > -1)
+                {
+                    cmd.CommandText = ($@"UPDATE tblUsuario SET Nome = '{txtNome.Text}',
+                                       UserName = '{txtUsuario.Text}', 
+                                       Senha = '{txtSenha.Text}', 
+                                       Acesso = 1, 
+                                       ManterLogado = 1, 
+                                       EmpresaId = 1, 
+                                       Ativo = '{checkBox.Text}'    
+                                       WHERE id = {lblid.Text}");
+
+                    con.Open();
+                    cmd.Connection = con;
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Usuário atualizado com sucesso!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Houve um erro interno");
+                Console.WriteLine(ex.Message);
+                return;
+            }
+            finally
+            {
+                con.Close();
+                BuscaDadosUsuario();
+                con.Close();
+            }
+        }
+
+        private void BuscaDadosUsuario()
+        {
             List<Usr> usuarios = new List<Usr>();
-            cmd.CommandText = ("SELECT * FROM tblUsuario");
+            cmd.CommandText = ("SELECT * FROM tblUsuario ORDER BY Nome");
 
             con.Open();
             cmd.Connection = con;
@@ -179,6 +244,52 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             con.Close();
         }
 
+        //public int BuscarUltimoId()
+        //{
+        //    var retorno = 0;
+        //    cmd.CommandText = ("SELECT id FROM tblUsuario ORDER BY id");
+        //    cmd.Connection = con;
+        //    rd = cmd.ExecuteReader();
+
+        //    while (rd.Read())
+        //    {
+        //        retorno = int.Parse(rd["id"].ToString());
+        //    }
+        //    rd.Close();
+        //    return retorno;
+        //}
+
+        public void LimparCampos()
+        {
+            txtUsuario.Text = "";
+            txtSenha.Text = "";
+            txtNome.Text = "";
+            lblid.Text = "";
+            checkBox.Checked = true;
+            listView.SelectedItems.Clear();
+        }
+
+        public bool VerificaInputs()
+        {
+            bool verifica = false;
+            if (txtUsuario.Text != "" & txtSenha.Text != "" & txtNome.Text != "" & checkBox.Checked)
+            {
+                verifica = true;
+            }
+            else
+            {
+                verifica = false;
+                MessageBox.Show("Preencha todos os campos!");
+            }
+
+            return verifica;
+        }
+
+        private void btnNovoUsuario_Click(object sender, EventArgs e)
+        {
+            LimparCampos();
+        }
+
         class Usr
         {
             public int Id { get; set; }
@@ -188,36 +299,16 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             public string Ativo { get; set; }
         }
 
-        private void listView_SelectedIndexChanged(object sender, EventArgs e)
+        private void checkBox_Click(object sender, EventArgs e)
         {
-            var id = "";
-            var name = "";
-            var username = "";
-            var acesso = "";
-            var ativo = "";
-
-            if(listView.SelectedIndices.Count <= 0)
+            if (checkBox.Checked)
             {
-                return;
+                checkBox.Text = "Ativo";
             }
-
-            var indiceItemSelecionado = Convert.ToInt32(listView.SelectedIndices[0]);
-            if(indiceItemSelecionado >= 0)
+            else
             {
-
-                id = listView.Items[indiceItemSelecionado].Text;
-                name = listView.Items[indiceItemSelecionado].SubItems[1].Text;
-                username = listView.Items[indiceItemSelecionado].SubItems[2].Text;
-                acesso = listView.Items[indiceItemSelecionado].SubItems[3].Text;
-                ativo = listView.Items[indiceItemSelecionado].SubItems[4].Text;
-
-                txtNome.Text = name;
-                txtUsuario.Text = username;
-                lblid.Text = id;
-                
-
+                checkBox.Text = "Inativo";
             }
-            
         }
     }
 }

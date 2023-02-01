@@ -42,6 +42,7 @@
             this.btnSalvar = new MaterialSkin.Controls.MaterialRaisedButton();
             this.btnBuscar = new MaterialSkin.Controls.MaterialRaisedButton();
             this.btnExcluir = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.btnNovoUsuario = new MaterialSkin.Controls.MaterialRaisedButton();
             this.SuspendLayout();
             // 
             // listView
@@ -55,10 +56,10 @@
             this.listView.FullRowSelect = true;
             this.listView.GridLines = true;
             this.listView.HideSelection = false;
-            this.listView.Location = new System.Drawing.Point(12, 325);
+            this.listView.Location = new System.Drawing.Point(12, 288);
             this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(506, 240);
-            this.listView.TabIndex = 14;
+            this.listView.Size = new System.Drawing.Size(434, 240);
+            this.listView.TabIndex = 500;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.View = System.Windows.Forms.View.Details;
             this.listView.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
@@ -71,7 +72,7 @@
             // columnH
             // 
             this.columnH.Text = "Nome";
-            this.columnH.Width = 172;
+            this.columnH.Width = 120;
             // 
             // columnHeader3
             // 
@@ -90,40 +91,43 @@
             // lblid
             // 
             this.lblid.AutoSize = true;
-            this.lblid.Location = new System.Drawing.Point(422, 90);
+            this.lblid.Location = new System.Drawing.Point(421, 69);
             this.lblid.Name = "lblid";
             this.lblid.Size = new System.Drawing.Size(13, 13);
             this.lblid.TabIndex = 32;
             this.lblid.Text = "0";
+            this.lblid.Visible = false;
             // 
             // txtNome
             // 
             this.txtNome.Depth = 0;
             this.txtNome.Hint = "Nome";
-            this.txtNome.Location = new System.Drawing.Point(24, 90);
+            this.txtNome.Location = new System.Drawing.Point(12, 90);
             this.txtNome.MouseState = MaterialSkin.MouseState.HOVER;
             this.txtNome.Name = "txtNome";
             this.txtNome.PasswordChar = '\0';
             this.txtNome.SelectedText = "";
             this.txtNome.SelectionLength = 0;
             this.txtNome.SelectionStart = 0;
-            this.txtNome.Size = new System.Drawing.Size(374, 23);
-            this.txtNome.TabIndex = 31;
+            this.txtNome.Size = new System.Drawing.Size(434, 23);
+            this.txtNome.TabIndex = 0;
+            this.txtNome.TabStop = false;
             this.txtNome.UseSystemPasswordChar = false;
             // 
             // txtUsuario
             // 
             this.txtUsuario.Depth = 0;
             this.txtUsuario.Hint = "Usuário";
-            this.txtUsuario.Location = new System.Drawing.Point(24, 130);
+            this.txtUsuario.Location = new System.Drawing.Point(12, 130);
             this.txtUsuario.MouseState = MaterialSkin.MouseState.HOVER;
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.PasswordChar = '\0';
             this.txtUsuario.SelectedText = "";
             this.txtUsuario.SelectionLength = 0;
             this.txtUsuario.SelectionStart = 0;
-            this.txtUsuario.Size = new System.Drawing.Size(374, 23);
-            this.txtUsuario.TabIndex = 25;
+            this.txtUsuario.Size = new System.Drawing.Size(434, 23);
+            this.txtUsuario.TabIndex = 1;
+            this.txtUsuario.TabStop = false;
             this.txtUsuario.UseSystemPasswordChar = false;
             // 
             // checkBox
@@ -131,41 +135,45 @@
             this.checkBox.AutoSize = true;
             this.checkBox.Depth = 0;
             this.checkBox.Font = new System.Drawing.Font("Roboto", 10F);
-            this.checkBox.Location = new System.Drawing.Point(24, 208);
+            this.checkBox.Location = new System.Drawing.Point(12, 206);
             this.checkBox.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox.MouseLocation = new System.Drawing.Point(-1, -1);
             this.checkBox.MouseState = MaterialSkin.MouseState.HOVER;
             this.checkBox.Name = "checkBox";
             this.checkBox.Ripple = true;
             this.checkBox.Size = new System.Drawing.Size(118, 30);
-            this.checkBox.TabIndex = 30;
+            this.checkBox.TabIndex = 4;
+            this.checkBox.TabStop = false;
             this.checkBox.Text = "Ativar/Inativar";
             this.checkBox.UseVisualStyleBackColor = true;
+            this.checkBox.Click += new System.EventHandler(this.checkBox_Click);
             // 
             // txtSenha
             // 
             this.txtSenha.Depth = 0;
             this.txtSenha.Hint = "Senha";
-            this.txtSenha.Location = new System.Drawing.Point(24, 171);
+            this.txtSenha.Location = new System.Drawing.Point(12, 171);
             this.txtSenha.MouseState = MaterialSkin.MouseState.HOVER;
             this.txtSenha.Name = "txtSenha";
             this.txtSenha.PasswordChar = '\0';
             this.txtSenha.SelectedText = "";
             this.txtSenha.SelectionLength = 0;
             this.txtSenha.SelectionStart = 0;
-            this.txtSenha.Size = new System.Drawing.Size(374, 23);
-            this.txtSenha.TabIndex = 26;
+            this.txtSenha.Size = new System.Drawing.Size(434, 23);
+            this.txtSenha.TabIndex = 2;
+            this.txtSenha.TabStop = false;
             this.txtSenha.UseSystemPasswordChar = false;
             // 
             // btnSalvar
             // 
             this.btnSalvar.Depth = 0;
-            this.btnSalvar.Location = new System.Drawing.Point(167, 255);
+            this.btnSalvar.Location = new System.Drawing.Point(122, 251);
             this.btnSalvar.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnSalvar.Name = "btnSalvar";
             this.btnSalvar.Primary = true;
-            this.btnSalvar.Size = new System.Drawing.Size(141, 33);
-            this.btnSalvar.TabIndex = 29;
+            this.btnSalvar.Size = new System.Drawing.Size(104, 23);
+            this.btnSalvar.TabIndex = 6;
+            this.btnSalvar.TabStop = false;
             this.btnSalvar.Text = "Salvar";
             this.btnSalvar.UseVisualStyleBackColor = true;
             this.btnSalvar.Click += new System.EventHandler(this.btnSalvar_Click_1);
@@ -173,12 +181,13 @@
             // btnBuscar
             // 
             this.btnBuscar.Depth = 0;
-            this.btnBuscar.Location = new System.Drawing.Point(24, 255);
+            this.btnBuscar.Location = new System.Drawing.Point(12, 251);
             this.btnBuscar.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Primary = true;
-            this.btnBuscar.Size = new System.Drawing.Size(137, 33);
-            this.btnBuscar.TabIndex = 27;
+            this.btnBuscar.Size = new System.Drawing.Size(104, 22);
+            this.btnBuscar.TabIndex = 5;
+            this.btnBuscar.TabStop = false;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click_1);
@@ -187,20 +196,37 @@
             // 
             this.btnExcluir.Depth = 0;
             this.btnExcluir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExcluir.Location = new System.Drawing.Point(314, 255);
+            this.btnExcluir.Location = new System.Drawing.Point(342, 251);
             this.btnExcluir.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnExcluir.Name = "btnExcluir";
             this.btnExcluir.Primary = true;
-            this.btnExcluir.Size = new System.Drawing.Size(141, 33);
-            this.btnExcluir.TabIndex = 28;
+            this.btnExcluir.Size = new System.Drawing.Size(104, 23);
+            this.btnExcluir.TabIndex = 8;
+            this.btnExcluir.TabStop = false;
             this.btnExcluir.Text = "Excluir";
             this.btnExcluir.UseVisualStyleBackColor = true;
+            this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
+            // 
+            // btnNovoUsuario
+            // 
+            this.btnNovoUsuario.Depth = 0;
+            this.btnNovoUsuario.Location = new System.Drawing.Point(232, 251);
+            this.btnNovoUsuario.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnNovoUsuario.Name = "btnNovoUsuario";
+            this.btnNovoUsuario.Primary = true;
+            this.btnNovoUsuario.Size = new System.Drawing.Size(104, 23);
+            this.btnNovoUsuario.TabIndex = 7;
+            this.btnNovoUsuario.TabStop = false;
+            this.btnNovoUsuario.Text = "Novo";
+            this.btnNovoUsuario.UseVisualStyleBackColor = true;
+            this.btnNovoUsuario.Click += new System.EventHandler(this.btnNovoUsuario_Click);
             // 
             // FrmCadUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(566, 577);
+            this.ClientSize = new System.Drawing.Size(460, 540);
+            this.Controls.Add(this.btnNovoUsuario);
             this.Controls.Add(this.lblid);
             this.Controls.Add(this.txtNome);
             this.Controls.Add(this.txtUsuario);
@@ -232,5 +258,6 @@
         private MaterialSkin.Controls.MaterialRaisedButton btnSalvar;
         private MaterialSkin.Controls.MaterialRaisedButton btnBuscar;
         private MaterialSkin.Controls.MaterialRaisedButton btnExcluir;
+        private MaterialSkin.Controls.MaterialRaisedButton btnNovoUsuario;
     }
 }
