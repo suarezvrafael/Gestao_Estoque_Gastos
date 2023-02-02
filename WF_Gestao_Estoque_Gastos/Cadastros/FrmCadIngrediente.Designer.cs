@@ -35,6 +35,7 @@
             this.precoIngrediente = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.unidMedidaId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.quantidadeUnidade = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.txtQuantidade = new MaterialSkin.Controls.MaterialSingleLineTextField();
@@ -46,7 +47,7 @@
             this.txtPreco = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.btnCancelar = new MaterialSkin.Controls.MaterialFlatButton();
             this.btnLimpar = new MaterialSkin.Controls.MaterialFlatButton();
-            this.id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lblid = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtIngrediente
@@ -120,6 +121,11 @@
             this.quantidadeUnidade.Text = "Quantidade Un.";
             this.quantidadeUnidade.Width = 162;
             // 
+            // id
+            // 
+            this.id.Text = "Id";
+            this.id.Width = 0;
+            // 
             // materialLabel1
             // 
             this.materialLabel1.AutoSize = true;
@@ -175,6 +181,7 @@
             this.btnEditar.TabIndex = 7;
             this.btnEditar.Text = "Editar";
             this.btnEditar.UseVisualStyleBackColor = true;
+            this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
             // 
             // btnExcluir
             // 
@@ -274,16 +281,21 @@
             this.btnLimpar.UseVisualStyleBackColor = true;
             this.btnLimpar.Click += new System.EventHandler(this.btnLimpar_Click);
             // 
-            // id
+            // lblid
             // 
-            this.id.Text = "Id";
-            this.id.Width = 0;
+            this.lblid.AutoSize = true;
+            this.lblid.Location = new System.Drawing.Point(124, 90);
+            this.lblid.Name = "lblid";
+            this.lblid.Size = new System.Drawing.Size(0, 13);
+            this.lblid.TabIndex = 16;
+            this.lblid.Visible = false;
             // 
             // FrmCadIngrediente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1088, 479);
+            this.Controls.Add(this.lblid);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnLimpar);
             this.Controls.Add(this.materialLabel4);
@@ -299,7 +311,6 @@
             this.Controls.Add(this.btnCadastrar);
             this.Controls.Add(this.txtIngrediente);
             this.Name = "FrmCadIngrediente";
-            this.Text = "Cadastro de Ingrediente";
             this.Load += new System.EventHandler(this.FrmCadIngrediente_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -326,5 +337,6 @@
         private System.Windows.Forms.ColumnHeader unidMedidaId;
         private System.Windows.Forms.ColumnHeader quantidadeUnidade;
         private System.Windows.Forms.ColumnHeader id;
+        private System.Windows.Forms.Label lblid;
     }
 }
