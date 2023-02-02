@@ -94,6 +94,11 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         private void CadastrarUsuario()
         {
+            if (ConfirmarSenha())
+            {
+
+            }
+
             try
             {
                 con.Open();
@@ -134,8 +139,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             }
             else
 
-            ///É aqui
-            this.BuscaDadosUsuario();
+                ///É aqui
+                this.BuscaDadosUsuario();
         }
 
         private void ExcluirUsuario()
@@ -259,10 +264,16 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         //    return retorno;
         //}
 
+        // se for novo registro, ter 2 campos
+        // um para informar a senha
+        // no segundo campo, se a senha for válida, será feita a atualização
+        // 
+
         public void LimparCampos()
         {
             txtUsuario.Text = "";
             txtSenha.Text = "";
+            txtConfirmarSenha.Text = "";
             txtNome.Text = "";
             lblid.Text = "";
             checkBox.Checked = true;
@@ -309,6 +320,40 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             {
                 checkBox.Text = "Inativo";
             }
+        }
+
+        private void txtConfirmarSenha_Leave(object sender, EventArgs e)
+        {
+            ConfirmarSenha();
+        }
+
+        private bool ConfirmarSenha()
+        {
+            var retorno = false;
+
+            if (txtSenha.Text == txtConfirmarSenha.Text && !string.IsNullOrWhiteSpace(txtConfirmarSenha.Text) && !string.IsNullOrEmpty(txtConfirmarSenha.Text))
+            {
+                lblConfirmarSenha.BackColor = Color.Green;
+                lblConfirmarSenha.Text = "Senhas conferem.";
+                retorno = true;
+            }
+            else
+            {
+                lblConfirmarSenha.BackColor = Color.Red;
+                lblConfirmarSenha.Text = "Senhas devem ser iguais";
+            }
+
+            if (txtConfirmarSenha.Text == "" && txtSenha.Text == "")
+            {
+                lblConfirmarSenha.Text = "";
+                lblConfirmarSenha.BackColor = Color.White;
+            }
+            return retorno;
+        }
+
+        private void txtSenha_Leave(object sender, EventArgs e)
+        {
+            ConfirmarSenha();
         }
     }
 }

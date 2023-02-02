@@ -43,6 +43,8 @@
             this.btnBuscar = new MaterialSkin.Controls.MaterialRaisedButton();
             this.btnExcluir = new MaterialSkin.Controls.MaterialRaisedButton();
             this.btnNovoUsuario = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.txtConfirmarSenha = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.lblConfirmarSenha = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // listView
@@ -56,9 +58,9 @@
             this.listView.FullRowSelect = true;
             this.listView.GridLines = true;
             this.listView.HideSelection = false;
-            this.listView.Location = new System.Drawing.Point(12, 288);
+            this.listView.Location = new System.Drawing.Point(12, 292);
             this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(434, 240);
+            this.listView.Size = new System.Drawing.Size(436, 240);
             this.listView.TabIndex = 500;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.View = System.Windows.Forms.View.Details;
@@ -135,7 +137,7 @@
             this.checkBox.AutoSize = true;
             this.checkBox.Depth = 0;
             this.checkBox.Font = new System.Drawing.Font("Roboto", 10F);
-            this.checkBox.Location = new System.Drawing.Point(12, 206);
+            this.checkBox.Location = new System.Drawing.Point(12, 210);
             this.checkBox.Margin = new System.Windows.Forms.Padding(0);
             this.checkBox.MouseLocation = new System.Drawing.Point(-1, -1);
             this.checkBox.MouseState = MaterialSkin.MouseState.HOVER;
@@ -155,19 +157,20 @@
             this.txtSenha.Location = new System.Drawing.Point(12, 171);
             this.txtSenha.MouseState = MaterialSkin.MouseState.HOVER;
             this.txtSenha.Name = "txtSenha";
-            this.txtSenha.PasswordChar = '\0';
+            this.txtSenha.PasswordChar = '*';
             this.txtSenha.SelectedText = "";
             this.txtSenha.SelectionLength = 0;
             this.txtSenha.SelectionStart = 0;
-            this.txtSenha.Size = new System.Drawing.Size(434, 23);
-            this.txtSenha.TabIndex = 2;
+            this.txtSenha.Size = new System.Drawing.Size(213, 23);
+            this.txtSenha.TabIndex = 800;
             this.txtSenha.TabStop = false;
             this.txtSenha.UseSystemPasswordChar = false;
+            this.txtSenha.Leave += new System.EventHandler(this.txtSenha_Leave);
             // 
             // btnSalvar
             // 
             this.btnSalvar.Depth = 0;
-            this.btnSalvar.Location = new System.Drawing.Point(122, 251);
+            this.btnSalvar.Location = new System.Drawing.Point(122, 255);
             this.btnSalvar.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnSalvar.Name = "btnSalvar";
             this.btnSalvar.Primary = true;
@@ -181,7 +184,7 @@
             // btnBuscar
             // 
             this.btnBuscar.Depth = 0;
-            this.btnBuscar.Location = new System.Drawing.Point(12, 251);
+            this.btnBuscar.Location = new System.Drawing.Point(12, 255);
             this.btnBuscar.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Primary = true;
@@ -196,7 +199,7 @@
             // 
             this.btnExcluir.Depth = 0;
             this.btnExcluir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExcluir.Location = new System.Drawing.Point(342, 251);
+            this.btnExcluir.Location = new System.Drawing.Point(345, 255);
             this.btnExcluir.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnExcluir.Name = "btnExcluir";
             this.btnExcluir.Primary = true;
@@ -210,7 +213,7 @@
             // btnNovoUsuario
             // 
             this.btnNovoUsuario.Depth = 0;
-            this.btnNovoUsuario.Location = new System.Drawing.Point(232, 251);
+            this.btnNovoUsuario.Location = new System.Drawing.Point(232, 255);
             this.btnNovoUsuario.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnNovoUsuario.Name = "btnNovoUsuario";
             this.btnNovoUsuario.Primary = true;
@@ -221,11 +224,39 @@
             this.btnNovoUsuario.UseVisualStyleBackColor = true;
             this.btnNovoUsuario.Click += new System.EventHandler(this.btnNovoUsuario_Click);
             // 
+            // txtConfirmarSenha
+            // 
+            this.txtConfirmarSenha.Depth = 0;
+            this.txtConfirmarSenha.Hint = "Senha";
+            this.txtConfirmarSenha.Location = new System.Drawing.Point(231, 171);
+            this.txtConfirmarSenha.MouseState = MaterialSkin.MouseState.HOVER;
+            this.txtConfirmarSenha.Name = "txtConfirmarSenha";
+            this.txtConfirmarSenha.PasswordChar = '*';
+            this.txtConfirmarSenha.SelectedText = "";
+            this.txtConfirmarSenha.SelectionLength = 0;
+            this.txtConfirmarSenha.SelectionStart = 0;
+            this.txtConfirmarSenha.Size = new System.Drawing.Size(214, 23);
+            this.txtConfirmarSenha.TabIndex = 501;
+            this.txtConfirmarSenha.TabStop = false;
+            this.txtConfirmarSenha.UseSystemPasswordChar = false;
+            this.txtConfirmarSenha.Leave += new System.EventHandler(this.txtConfirmarSenha_Leave);
+            // 
+            // lblConfirmarSenha
+            // 
+            this.lblConfirmarSenha.AutoSize = true;
+            this.lblConfirmarSenha.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.lblConfirmarSenha.Location = new System.Drawing.Point(234, 210);
+            this.lblConfirmarSenha.Name = "lblConfirmarSenha";
+            this.lblConfirmarSenha.Size = new System.Drawing.Size(0, 20);
+            this.lblConfirmarSenha.TabIndex = 502;
+            // 
             // FrmCadUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(460, 540);
+            this.ClientSize = new System.Drawing.Size(460, 544);
+            this.Controls.Add(this.lblConfirmarSenha);
+            this.Controls.Add(this.txtConfirmarSenha);
             this.Controls.Add(this.btnNovoUsuario);
             this.Controls.Add(this.lblid);
             this.Controls.Add(this.txtNome);
@@ -259,5 +290,7 @@
         private MaterialSkin.Controls.MaterialRaisedButton btnBuscar;
         private MaterialSkin.Controls.MaterialRaisedButton btnExcluir;
         private MaterialSkin.Controls.MaterialRaisedButton btnNovoUsuario;
+        private MaterialSkin.Controls.MaterialSingleLineTextField txtConfirmarSenha;
+        private System.Windows.Forms.Label lblConfirmarSenha;
     }
 }
