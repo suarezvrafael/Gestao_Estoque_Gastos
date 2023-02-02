@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
             this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialDivider2 = new MaterialSkin.Controls.MaterialDivider();
@@ -55,13 +54,13 @@
             this.btnEditar = new MaterialSkin.Controls.MaterialRaisedButton();
             this.btnExcluir = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialDivider3 = new MaterialSkin.Controls.MaterialDivider();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
+            this.listViewEmpresa = new System.Windows.Forms.ListView();
             this.Id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
             this.SuspendLayout();
             // 
             // materialDivider1
@@ -417,41 +416,25 @@
             this.materialDivider3.TabIndex = 28;
             this.materialDivider3.Text = "materialDivider3";
             // 
-            // listView1
+            // listViewEmpresa
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listViewEmpresa.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Id,
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4});
-            this.listView1.Enabled = false;
-            listViewGroup1.Header = "ListViewGroup";
-            listViewGroup1.Name = "listViewGroup1";
-            this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1});
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(15, 490);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(779, 139);
-            this.listView1.TabIndex = 29;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged_1);
-            // 
-            // materialLabel11
-            // 
-            this.materialLabel11.AutoSize = true;
-            this.materialLabel11.Depth = 0;
-            this.materialLabel11.Font = new System.Drawing.Font("Roboto", 11F);
-            this.materialLabel11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel11.Location = new System.Drawing.Point(309, 463);
-            this.materialLabel11.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel11.Name = "materialLabel11";
-            this.materialLabel11.Size = new System.Drawing.Size(164, 19);
-            this.materialLabel11.TabIndex = 30;
-            this.materialLabel11.Text = "Empresas Cadastradas";
-            this.materialLabel11.Click += new System.EventHandler(this.materialLabel11_Click);
+            this.listViewEmpresa.FullRowSelect = true;
+            this.listViewEmpresa.HideSelection = false;
+            this.listViewEmpresa.Location = new System.Drawing.Point(15, 490);
+            this.listViewEmpresa.MultiSelect = false;
+            this.listViewEmpresa.Name = "listViewEmpresa";
+            this.listViewEmpresa.ShowGroups = false;
+            this.listViewEmpresa.Size = new System.Drawing.Size(779, 139);
+            this.listViewEmpresa.TabIndex = 29;
+            this.listViewEmpresa.UseCompatibleStateImageBehavior = false;
+            this.listViewEmpresa.View = System.Windows.Forms.View.Details;
+            this.listViewEmpresa.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged_1);
             // 
             // Id
             // 
@@ -477,13 +460,27 @@
             this.columnHeader4.Text = "E-mail";
             this.columnHeader4.Width = 198;
             // 
+            // materialLabel11
+            // 
+            this.materialLabel11.AutoSize = true;
+            this.materialLabel11.Depth = 0;
+            this.materialLabel11.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel11.Location = new System.Drawing.Point(309, 463);
+            this.materialLabel11.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel11.Name = "materialLabel11";
+            this.materialLabel11.Size = new System.Drawing.Size(164, 19);
+            this.materialLabel11.TabIndex = 30;
+            this.materialLabel11.Text = "Empresas Cadastradas";
+            this.materialLabel11.Click += new System.EventHandler(this.materialLabel11_Click);
+            // 
             // FrmCadEmpresa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(801, 641);
             this.Controls.Add(this.materialLabel11);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.listViewEmpresa);
             this.Controls.Add(this.materialDivider3);
             this.Controls.Add(this.btnExcluir);
             this.Controls.Add(this.btnEditar);
@@ -545,7 +542,7 @@
         private MaterialSkin.Controls.MaterialRaisedButton btnEditar;
         private MaterialSkin.Controls.MaterialRaisedButton btnExcluir;
         private MaterialSkin.Controls.MaterialDivider materialDivider3;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView listViewEmpresa;
         private MaterialSkin.Controls.MaterialLabel materialLabel11;
         private System.Windows.Forms.ColumnHeader Id;
         private System.Windows.Forms.ColumnHeader columnHeader1;

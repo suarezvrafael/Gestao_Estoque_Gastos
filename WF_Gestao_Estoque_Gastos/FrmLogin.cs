@@ -14,7 +14,7 @@ namespace WF_Gestao_Estoque_Gastos
         {
             InitializeComponent();
             this.CenterToScreen();
-            con = new MySqlConnection("server=localhost;database=gestao_estoque_gastos;uid=root;pwd=;");
+            con = new MySqlConnection("server=localhost;database=gestao_estoque_gasto;uid=root;pwd=;");
             cmd = new MySqlCommand();
             cmd.Connection = con;
         }
