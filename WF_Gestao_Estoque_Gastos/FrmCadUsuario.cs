@@ -10,14 +10,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WF_Gestao_Estoque_Gastos.Conexao;
-//using WF_Gestao_Estoque_Gastos.ConexaoBD ;
-
 
 namespace WF_Gestao_Estoque_Gastos.Cadastros
 {
     public partial class FrmCadUsuario : MaterialForm
     {
-        public MySqlConnection con = new MySqlConnection("server=localhost;database=dbLogin;uid=root;pwd=;sslmode=none");
+        public MySqlConnection con = new MySqlConnection("server=localhost;database=gestao_estoque_gasto;uid=root;pwd=;sslmode=none");
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlDataReader rd;
 
@@ -43,7 +41,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     var id = BuscarUltimoId();
                     id += id;
                     cmd.Connection = con;
-                    cmd.CommandText = ($@"INSERT INTO dbLogin.tblUsuario(
+                    cmd.CommandText = ($@"INSERT INTO tblUsuario(
                     Id, Nome, Username, Senha, Acesso, EmpresaId, ManterLogado, Ativo) VALUES
                     ('{id}', '{txtNome.Text}','{txtUsuario.Text}', '{txtSenha.Text}','1', '1','0','True')");
                     int retorno = cmd.ExecuteNonQuery();

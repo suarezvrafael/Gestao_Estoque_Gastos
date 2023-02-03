@@ -2,6 +2,9 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Windows.Forms;
+using WF_Gestao_Estoque_Gastos.Cadastros;
+using WF_Gestao_Estoque_Gastos.Servicos;
+using WF_Gestao_Estoque_Gastos.Servicos.Excecoes;
 
 namespace WF_Gestao_Estoque_Gastos
 {
@@ -14,7 +17,7 @@ namespace WF_Gestao_Estoque_Gastos
         {
             InitializeComponent();
             this.CenterToScreen();
-            con = new MySqlConnection("server=localhost;database=gestao_estoque_gastos;uid=root;pwd=;");
+            con = new MySqlConnection("server=localhost;database=gestao_estoque_gasto;uid=root;pwd=;");
             cmd = new MySqlCommand();
             cmd.Connection = con;
         }
@@ -39,7 +42,7 @@ namespace WF_Gestao_Estoque_Gastos
                 while (reader.Read())
                 {
                     var rdrUsuario = reader["username"].ToString();
-                    var rdrSenha = reader["senha"].ToString();
+                    var rdrSenha   = reader["senha"].ToString();
 
                     if (rdrUsuario == usuario && rdrSenha == senha)
                     {
@@ -59,7 +62,6 @@ namespace WF_Gestao_Estoque_Gastos
                 if (usuarioLogou)
                     this.Close();
                 else
-                    //string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon
                     MessageBox.Show("Usuário e/ou senha incorretos.","Erro",MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -105,8 +107,9 @@ namespace WF_Gestao_Estoque_Gastos
         }
         private void PreencheEmpresaDoUsuarioManterLogin(int id)
         {
-            var empresa = BuscaEmpresaPorId(id);
-            cbxEmpresa.SelectedIndex = cbxEmpresa.FindStringExact(empresa.NomeFantasia);
+            //var empresa = BuscaEmpresaPorId(id);
+            //if(empresa != null)
+            //    cbxEmpresa.SelectedIndex = cbxEmpresa.FindStringExact(empresa.NomeFantasia);
         }
         private bool PreencheUsuarioManterLogin()
         {
@@ -136,24 +139,37 @@ namespace WF_Gestao_Estoque_Gastos
             finally
             {
                 con.Close();
-                if(reader != null)
-                    reader.Close();
                 if (id != 0)
                     PreencheEmpresaDoUsuarioManterLogin(id);
             }
 
             return sucesso;
         }
+        private void DesabilitarCampos()
+        {
+            cbxEmpresa.Enabled = false;
+            txtUsuario.Enabled = false;
+            txtSenha.Enabled   = false;
+            btnEntrar.Enabled  = false;  
+            Mensagem.Informacao("Tenha certeza de ter empresa e usuário cadastrados");
+        }
+        private void HabilitarCampos()
+        {
+            cbxEmpresa.Enabled = true;
+            txtUsuario.Enabled = true;
+            txtSenha.Enabled   = true;
+            btnEntrar.Enabled  = true;
+        }
+
         private void FrmLogin_Load(object sender, EventArgs e)
         {
             var sucesso = PreencheComboEmpresa();
             if (sucesso == false)
-                Application.Exit();
+                DesabilitarCampos();
+            else
+                HabilitarCampos();
 
-            sucesso = PreencheUsuarioManterLogin();
-
-            if (sucesso == false)
-                Application.Exit();
+            PreencheUsuarioManterLogin();
         }
         private bool PreencheComboEmpresa()
         {
@@ -190,6 +206,16 @@ namespace WF_Gestao_Estoque_Gastos
         private void MensagemErroConexao()
         {
             MessageBox.Show("Falha na conexão.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void cadastrarUsuárioToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            GerenciarTela.AbrirTela(new FrmCadUsuario(), true);
+        }
+
+        private void cadastrarEmpresaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GerenciarTela.AbrirTela(new FrmCadEmpresa(), true);
         }
     }
 }

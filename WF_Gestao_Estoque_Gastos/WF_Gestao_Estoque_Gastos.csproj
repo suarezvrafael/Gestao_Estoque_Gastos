@@ -137,6 +137,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Servicos\Excecoes\DispararExecao.cs" />
+    <Compile Include="Servicos\GerenciarTela.cs" />
+    <Compile Include="Servicos\Validacoes\ValidarCampos.cs" />
     <Compile Include="Usuario.cs" />
     <EmbeddedResource Include="Cadastros\FrmCadEmpresa.resx">
       <DependentUpon>FrmCadEmpresa.cs</DependentUpon>
