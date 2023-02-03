@@ -39,7 +39,7 @@
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.txtQuantidade = new MaterialSkin.Controls.MaterialSingleLineTextField();
-            this.btnEditar = new MaterialSkin.Controls.MaterialFlatButton();
+            this.btnSalvar = new MaterialSkin.Controls.MaterialFlatButton();
             this.btnExcluir = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
             this.cbxUnidMedida = new System.Windows.Forms.ComboBox();
@@ -167,21 +167,21 @@
             this.txtQuantidade.TabIndex = 5;
             this.txtQuantidade.UseSystemPasswordChar = false;
             // 
-            // btnEditar
+            // btnSalvar
             // 
-            this.btnEditar.AutoSize = true;
-            this.btnEditar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnEditar.Depth = 0;
-            this.btnEditar.Location = new System.Drawing.Point(119, 416);
-            this.btnEditar.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btnEditar.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Primary = false;
-            this.btnEditar.Size = new System.Drawing.Size(59, 36);
-            this.btnEditar.TabIndex = 7;
-            this.btnEditar.Text = "Editar";
-            this.btnEditar.UseVisualStyleBackColor = true;
-            this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
+            this.btnSalvar.AutoSize = true;
+            this.btnSalvar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnSalvar.Depth = 0;
+            this.btnSalvar.Location = new System.Drawing.Point(119, 416);
+            this.btnSalvar.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnSalvar.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnSalvar.Name = "btnSalvar";
+            this.btnSalvar.Primary = false;
+            this.btnSalvar.Size = new System.Drawing.Size(63, 36);
+            this.btnSalvar.TabIndex = 7;
+            this.btnSalvar.Text = "Salvar";
+            this.btnSalvar.UseVisualStyleBackColor = true;
+            this.btnSalvar.Click += new System.EventHandler(this.btnSalvar_Click);
             // 
             // btnExcluir
             // 
@@ -303,7 +303,7 @@
             this.Controls.Add(this.cbxUnidMedida);
             this.Controls.Add(this.materialLabel3);
             this.Controls.Add(this.btnExcluir);
-            this.Controls.Add(this.btnEditar);
+            this.Controls.Add(this.btnSalvar);
             this.Controls.Add(this.materialLabel2);
             this.Controls.Add(this.txtQuantidade);
             this.Controls.Add(this.materialLabel1);
@@ -325,7 +325,7 @@
         private MaterialSkin.Controls.MaterialLabel materialLabel1;
         private MaterialSkin.Controls.MaterialLabel materialLabel2;
         private MaterialSkin.Controls.MaterialSingleLineTextField txtQuantidade;
-        private MaterialSkin.Controls.MaterialFlatButton btnEditar;
+        private MaterialSkin.Controls.MaterialFlatButton btnSalvar;
         private MaterialSkin.Controls.MaterialFlatButton btnExcluir;
         private MaterialSkin.Controls.MaterialLabel materialLabel3;
         private System.Windows.Forms.ComboBox cbxUnidMedida;
