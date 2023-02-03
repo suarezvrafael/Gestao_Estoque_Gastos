@@ -46,5 +46,10 @@ namespace WF_Gestao_Estoque_Gastos
             var frmLogin = new FrmLogin();
             frmLogin.ShowDialog();
         }
+
+        private void deslogarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new FrmLogin().Deslogar();
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using MaterialSkin.Controls;
 using MySql.Data.MySqlClient;
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using WF_Gestao_Estoque_Gastos.Cadastros;
 using WF_Gestao_Estoque_Gastos.Servicos;
@@ -30,13 +31,15 @@ namespace WF_Gestao_Estoque_Gastos
         private void btnEntrar_Click(object sender, EventArgs e)
         {
             var usuarioLogou = false;
+
+            DesmarcarUsuariosManterLogin();
+            var id = 0;
             try
             {
                 var usuario = txtUsuario.Text;
                 var senha = txtSenha.Text;
 
                 con.Open();
-                var id = 0;
                 cmd.CommandText = "select * from tblUsuario;";
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -60,11 +63,36 @@ namespace WF_Gestao_Estoque_Gastos
             {
                 con.Close();
                 if (usuarioLogou)
+                {
+                    if(chxManterLogin.Checked)
+                        LoginAutomatico(id);
                     this.Close();
+                }
                 else
                     MessageBox.Show("Usuário e/ou senha incorretos.","Erro",MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+        }
+
+        private void LoginAutomatico(int id = 0)
+        {
+            try
+            {
+                con.Open();
+                if(id == 0)
+                    cmd.CommandText = $"update tblusuario set manterlogado = 0";
+                else
+                    cmd.CommandText = $"update tblusuario set manterlogado = 1 where id = {id}";
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception errou)
+            {
+                Debug.WriteLine(errou.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
         }
 
         private Empresa BuscaEmpresaPorId(int id) 
@@ -107,14 +135,37 @@ namespace WF_Gestao_Estoque_Gastos
         }
         private void PreencheEmpresaDoUsuarioManterLogin(int id)
         {
-            //var empresa = BuscaEmpresaPorId(id);
-            //if(empresa != null)
-            //    cbxEmpresa.SelectedIndex = cbxEmpresa.FindStringExact(empresa.NomeFantasia);
+            var empresa = BuscaEmpresaPorId(id);
+            if (empresa != null)
+                cbxEmpresa.SelectedIndex = cbxEmpresa.FindStringExact(empresa.NomeFantasia);
+        }
+
+        private void DesmarcarUsuariosManterLogin()
+        {
+            try
+            {
+                con.Open();
+
+                cmd = con.CreateCommand();
+                cmd.CommandText = "UPDATE tblusuario SET manterlogado = 0";
+
+                int retornoDoUpdate = cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Ops. Erro: " + e.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
         }
         private bool PreencheUsuarioManterLogin()
         {
             var id = 0;
             var sucesso = false;
+
             try
             {
                 con.Open();
@@ -141,6 +192,11 @@ namespace WF_Gestao_Estoque_Gastos
                 con.Close();
                 if (id != 0)
                     PreencheEmpresaDoUsuarioManterLogin(id);
+                else
+                {
+                    if (cbxEmpresa.Items.Count > 0)
+                        cbxEmpresa.SelectedIndex = 0;
+                }
             }
 
             return sucesso;
@@ -216,6 +272,21 @@ namespace WF_Gestao_Estoque_Gastos
         private void cadastrarEmpresaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GerenciarTela.AbrirTela(new FrmCadEmpresa(), true);
+        }
+
+        private void deslogarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        public void Deslogar()
+        {
+            LoginAutomatico();
+            Application.Exit();
+        }
+
+        private void deslogarToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Deslogar();
         }
     }
 }
