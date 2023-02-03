@@ -14,7 +14,7 @@ namespace WF_Gestao_Estoque_Gastos
         {
             InitializeComponent();
             this.CenterToScreen();
-            con = new MySqlConnection("server=localhost;database=gestao_estoque_gastos;uid=root;pwd=;");
+            con = new MySqlConnection("server=localhost;database=gestao_estoque_gasto;uid=root;pwd=;");
             cmd = new MySqlCommand();
             cmd.Connection = con;
         }
@@ -38,7 +38,7 @@ namespace WF_Gestao_Estoque_Gastos
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    var rdrUsuario = reader["username"].ToString();
+                    var rdrUsuario = reader["nome"].ToString();
                     var rdrSenha = reader["senha"].ToString();
 
                     if (rdrUsuario == usuario && rdrSenha == senha)
@@ -106,7 +106,8 @@ namespace WF_Gestao_Estoque_Gastos
         private void PreencheEmpresaDoUsuarioManterLogin(int id)
         {
             var empresa = BuscaEmpresaPorId(id);
-            cbxEmpresa.SelectedIndex = cbxEmpresa.FindStringExact(empresa.NomeFantasia);
+            if (empresa != null)
+                cbxEmpresa.SelectedIndex = cbxEmpresa.FindStringExact(empresa.NomeFantasia);
         }
         private bool PreencheUsuarioManterLogin()
         {
@@ -119,11 +120,12 @@ namespace WF_Gestao_Estoque_Gastos
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    txtUsuario.Text = reader["username"].ToString();
+                    txtUsuario.Text = reader["nome"].ToString();
                     txtSenha.Text = reader["senha"].ToString();
                     //cbxEmpresa.SelectedValue = reader["nomeFantasia"].ToString();
-                    chxManterLogin.Checked = int.Parse(reader["manterlogado"].ToString()) == 1;
-                    id = int.Parse(reader["empresaId"].ToString());
+                    var testando = int.Parse(reader["manterlogado"].ToString());
+                    chxManterLogin.Checked =  testando == 1;
+                    id = int.Parse(reader["id"].ToString());
 
                     sucesso = true;
                 }
@@ -151,9 +153,6 @@ namespace WF_Gestao_Estoque_Gastos
                 Application.Exit();
 
             sucesso = PreencheUsuarioManterLogin();
-
-            if (sucesso == false)
-                Application.Exit();
         }
         private bool PreencheComboEmpresa()
         {
