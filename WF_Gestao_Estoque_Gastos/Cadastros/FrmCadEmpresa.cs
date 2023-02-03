@@ -56,6 +56,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         private void materialRaisedButton1_Click(object sender, EventArgs e) // btnSalvar
         {
+
+            var retornoCnpj = null;
+
             string razaoSocial = mtxtRazaoSocial.Text;
             string nomeFantasia = mtxtNomeFantasia.Text;
             decimal CNPJ = Convert.ToDecimal(mtxtCnpj.Text);
@@ -69,9 +72,26 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
 
             try
-            {
+            { 
+
+
                 con.Open();
                 cmd = con.CreateCommand();
+
+                cmd.CommandText = "SELECT CNPJ FROM tblempresa WHERE CNPJ = @CNPJ";
+                cmd.Parameters.AddWithValue("CNPJ", CNPJ);
+                reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                     retornoCnpj = Convert.ToDecimal(reader["CNPJ"].ToString());
+                };
+
+                if(retornoCnpj == CNPJ)
+                {
+
+                }
+
                 cmd.CommandText = "INSERT INTO tblempresa (CNPJ,razaoSocial,rua,bairro,numeroEndereco,complemento,email,telefone,nomeFantasia,cidade) VALUES (@CNPJ,@razaoSocial,@rua,@bairro,@numeroResidencia,@complemento,@email,@telefone,@nomeFantasia,@cidade)";
 
                 cmd.Parameters.AddWithValue("CNPJ", CNPJ);
@@ -105,26 +125,37 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         private void materialRaisedButton2_Click(object sender, EventArgs e) // btnExcluir
         {
+            Excluir_empresa();
+        }
+
+       
+
+        public void Excluir_empresa()
+        {
+            var CNPJEmpresa = Convert.ToDecimal(mtxtCnpj.Text);
+
+
             if (listViewEmpresa.SelectedIndices.Count <= 0)
             {
                 return;
             }
-        }
+            MySqlConnection con = new MySqlConnection("Server=localhost;Database=gestao_estoque_gasto;user=root;Pwd=;SslMode=none");
+            try
+            {
 
-        private void materialRaisedButton1_Click_1(object sender, EventArgs e)  //btnEditar
-        {
-            string razaoSocial = mtxtRazaoSocial.Text;
-            string nomeFantasia = mtxtNomeFantasia.Text;
-            decimal CNPJ = Convert.ToDecimal(mtxtCnpj.Text);
-            decimal telefone = Convert.ToDecimal(mtxtTelefone.Text);
-            string email = mtxtEmail.Text;
-            string cidade = mtxtCidade.Text;
-            string bairro = mtxtBairro.Text;
-            string complemento = mtxtComplemento.Text;
-            int numeroResidencia = Convert.ToInt32(mtxtNumero.Text);
-            string rua = mtxtRua.Text;
-
-
+                con.Open();
+                MySqlCommand cmd = con.CreateCommand();
+                cmd.CommandText = "DELETE FROM `tblempresa` WHERE CNPJ = @CNPJ";
+                cmd.Parameters.AddWithValue("@CNPJ",CNPJEmpresa);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Ops. Erro: " + e.Message);
+            }
+            atualizar_lista();
+            LimpaCampos();
         }
 
         public void atualizar_lista()
@@ -157,6 +188,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     complemento = reader["complemento"].ToString(),
                     cidade = reader["cidade"].ToString(),
                     rua = reader["rua"].ToString(),
+                    bairro = reader["bairro"].ToString(),
                     razaoSocial = reader["razaoSocial"].ToString(),
 
 
@@ -174,7 +206,12 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     empresa.CNPJ.ToString(),                   
                     empresa.telefone.ToString(),
                     empresa.email,
-
+                    empresa.razaoSocial,
+                    empresa.rua,
+                    empresa.bairro,
+                    empresa.numeroResidencia.ToString(),
+                    empresa.complemento,
+                    empresa.cidade,
                 }
                 ));
             }
@@ -184,19 +221,54 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         private void listView1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            var itemSelecionado = Convert.ToInt32(listViewEmpresa.SelectedIndices[0]);
-            var cnpj = Convert.ToDecimal(listViewEmpresa.Items[itemSelecionado].SubItems[0].Text);
 
-            mtxtRazaoSocial.Text = String.Empty;
-            mtxtNomeFantasia.Text = String.Empty;
+            if (listViewEmpresa.SelectedIndices.Count <= 0)
+            {
+                return;
+            }
+            else
+            {
+                btnCancelar.Visible = true;
+            }
+
+            var itemSelecionado = Convert.ToInt32(listViewEmpresa.SelectedIndices[0]);
+
+            var id = Convert.ToInt32(listViewEmpresa.Items[itemSelecionado].SubItems[0].Text);
+
+            var nomeFantasia = (listViewEmpresa.Items[itemSelecionado].SubItems[1].Text);
+
+            var cnpj = Convert.ToDecimal(listViewEmpresa.Items[itemSelecionado].SubItems[2].Text);
+
+            var telefone = Convert.ToDecimal(listViewEmpresa.Items[itemSelecionado].SubItems[3].Text);
+
+            var email = (listViewEmpresa.Items[itemSelecionado].SubItems[4].Text);
+
+            var razaoSocial = (listViewEmpresa.Items[itemSelecionado].SubItems[5].Text);
+
+            var rua = (listViewEmpresa.Items[itemSelecionado].SubItems[6].Text);
+
+            var bairro = (listViewEmpresa.Items[itemSelecionado].SubItems[7].Text);
+
+            var numeroEndereco = Convert.ToInt32(listViewEmpresa.Items[itemSelecionado].SubItems[8].Text);
+
+            var complemento = (listViewEmpresa.Items[itemSelecionado].SubItems[9].Text);
+                                 
+            var cidade = (listViewEmpresa.Items[itemSelecionado].SubItems[10].Text);
+
+
+
+
+
+            mtxtRazaoSocial.Text = razaoSocial.ToString();
+            mtxtNomeFantasia.Text = nomeFantasia.ToString();
             mtxtCnpj.Text = cnpj.ToString();
-            mtxtTelefone.Text = String.Empty;
-            mtxtEmail.Text = String.Empty;
-            mtxtCidade.Text = String.Empty;
-            mtxtBairro.Text = String.Empty;
-            mtxtComplemento.Text = String.Empty;
-            mtxtNumero.Text = String.Empty;
-            mtxtRua.Text = String.Empty;
+            mtxtTelefone.Text = telefone.ToString();
+            mtxtEmail.Text = email.ToString();
+            mtxtCidade.Text = cidade.ToString();
+            mtxtBairro.Text = bairro.ToString();
+            mtxtComplemento.Text = complemento.ToString();
+            mtxtNumero.Text = numeroEndereco.ToString();
+            mtxtRua.Text = rua.ToString();
 
 
         }
@@ -210,7 +282,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         {
             public int id { get; set; }
             public string razaoSocial { get; set; }
-
             public string rua { get; set; }
             public string nomeFantasia { get; set; }
             public decimal CNPJ  { get; set; }
@@ -222,6 +293,13 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
             public int numeroResidencia { get; set; }
 
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e) // cancelar
+        {
+            LimpaCampos();
+            btnCancelar.Visible = false;
+            atualizar_lista();
         }
     }
 }

@@ -51,7 +51,6 @@
             this.mtxtNumero = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.mtxtComplemento = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.btnSalvar = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.btnEditar = new MaterialSkin.Controls.MaterialRaisedButton();
             this.btnExcluir = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialDivider3 = new MaterialSkin.Controls.MaterialDivider();
             this.listViewEmpresa = new System.Windows.Forms.ListView();
@@ -61,6 +60,7 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
+            this.btnCancelar = new MaterialSkin.Controls.MaterialRaisedButton();
             this.SuspendLayout();
             // 
             // materialDivider1
@@ -379,23 +379,10 @@
             this.btnSalvar.UseVisualStyleBackColor = true;
             this.btnSalvar.Click += new System.EventHandler(this.materialRaisedButton1_Click);
             // 
-            // btnEditar
-            // 
-            this.btnEditar.Depth = 0;
-            this.btnEditar.Location = new System.Drawing.Point(540, 407);
-            this.btnEditar.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Primary = true;
-            this.btnEditar.Size = new System.Drawing.Size(124, 31);
-            this.btnEditar.TabIndex = 26;
-            this.btnEditar.Text = "Editar";
-            this.btnEditar.UseVisualStyleBackColor = true;
-            this.btnEditar.Click += new System.EventHandler(this.materialRaisedButton1_Click_1);
-            // 
             // btnExcluir
             // 
             this.btnExcluir.Depth = 0;
-            this.btnExcluir.Location = new System.Drawing.Point(410, 407);
+            this.btnExcluir.Location = new System.Drawing.Point(538, 407);
             this.btnExcluir.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnExcluir.Name = "btnExcluir";
             this.btnExcluir.Primary = true;
@@ -474,16 +461,30 @@
             this.materialLabel11.Text = "Empresas Cadastradas";
             this.materialLabel11.Click += new System.EventHandler(this.materialLabel11_Click);
             // 
+            // btnCancelar
+            // 
+            this.btnCancelar.Depth = 0;
+            this.btnCancelar.Location = new System.Drawing.Point(408, 407);
+            this.btnCancelar.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Primary = true;
+            this.btnCancelar.Size = new System.Drawing.Size(124, 31);
+            this.btnCancelar.TabIndex = 31;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Visible = false;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
             // FrmCadEmpresa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(801, 641);
+            this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.materialLabel11);
             this.Controls.Add(this.listViewEmpresa);
             this.Controls.Add(this.materialDivider3);
             this.Controls.Add(this.btnExcluir);
-            this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.btnSalvar);
             this.Controls.Add(this.mtxtComplemento);
             this.Controls.Add(this.mtxtNumero);
@@ -539,7 +540,6 @@
         private MaterialSkin.Controls.MaterialSingleLineTextField mtxtNumero;
         private MaterialSkin.Controls.MaterialSingleLineTextField mtxtComplemento;
         private MaterialSkin.Controls.MaterialRaisedButton btnSalvar;
-        private MaterialSkin.Controls.MaterialRaisedButton btnEditar;
         private MaterialSkin.Controls.MaterialRaisedButton btnExcluir;
         private MaterialSkin.Controls.MaterialDivider materialDivider3;
         private System.Windows.Forms.ListView listViewEmpresa;
@@ -549,5 +549,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
+        private MaterialSkin.Controls.MaterialRaisedButton btnCancelar;
     }
 }
