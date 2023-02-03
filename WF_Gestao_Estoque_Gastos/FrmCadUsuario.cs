@@ -31,17 +31,37 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         private void btnSalvar_Click_1(object sender, EventArgs e)
         {
-            if (!VerificaInputs())
+            if (!VerificaInputs() || !ConfirmarSenha())
             {
+                MessageBox.Show("Não foi possível cadastrar o usuário, por favor, verifique as informações!");
                 return;
             }
+
+            if (!VerificarNomeDeUsuario())
+            {
+                MessageBox.Show("Nome de usuário não pode conter espaços");
+                return;
+            }
+
+            if (!SegurancaDaSenha())
+            {
+                MessageBox.Show("Senha deve conter ao menos 8 caracteres, um caracter especial, um número e uma letra maiúscula!");
+            }
+
             if (listView.SelectedItems.Count > 0)
             {
                 AtualizarUsuario();
             }
             else
             {
-                CadastrarUsuario();
+                if (checkBox.Checked == false)
+                {
+                    MessageBox.Show("Não é possível cadastrar usuário inativo!");
+                }
+                else
+                {
+                    CadastrarUsuario();
+                }
             }
         }
 
@@ -81,8 +101,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 txtNome.Text = name;
                 txtUsuario.Text = username;
                 lblid.Text = id;
-
-
             }
 
         }
@@ -94,35 +112,29 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         private void CadastrarUsuario()
         {
-            if (ConfirmarSenha())
-            {
-
-            }
 
             try
             {
                 con.Open();
 
-                //var id = BuscarUltimoId();
-                //id += id;
                 cmd.Connection = con;
                 cmd.CommandText = ($@"INSERT INTO dbLogin.tblUsuario(
                     Nome, Username, Senha, Acesso, EmpresaId, ManterLogado, Ativo) VALUES
-                    ('{txtNome.Text}','{txtUsuario.Text}', '{txtSenha.Text}','1', '1','0','True')");
+                    ('{txtNome.Text}','{txtUsuario.Text}', '{txtSenha.Text}','1', '1','0','S')");
                 int retorno = cmd.ExecuteNonQuery();
 
                 if (retorno < 1)
                 {
-                    MessageBox.Show("Não foi possível inserir o usuário");
+                    MessageBox.Show("Não foi possível inserir o usuário!");
                 }
                 else
                 {
-                    MessageBox.Show("Usuário inserido com sucesso");
+                    MessageBox.Show("Usuário inserido com sucesso!");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Houve um erro interno");
+                MessageBox.Show("Houve um erro interno!");
                 Console.WriteLine(ex.Message);
                 return;
             }
@@ -131,7 +143,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 LimparCampos();
                 con.Close();
             }
-
 
             if (!checkBox.Checked)
             {
@@ -149,7 +160,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             {
                 if (listView.SelectedIndices.Count > -1)
                 {
-                    cmd.CommandText = ($"DELETE FROM tblUsuario WHERE id = {lblid.Text}");
+
+                    cmd.CommandText = ($"UPDATE dbLogin.tblUsuario SET Ativo = 'N' WHERE id = {lblid.Text}");
 
                     con.Open();
                     cmd.Connection = con;
@@ -173,17 +185,28 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         private void AtualizarUsuario()
         {
+            var inserirStatus = "";
+
             try
             {
                 if (listView.SelectedIndices.Count > -1)
                 {
+                    if (checkBox.Text == "Ativo")
+                    {
+                        inserirStatus = "S";
+                    }
+                    else
+                    {
+                        inserirStatus = "N";
+                    }
+
                     cmd.CommandText = ($@"UPDATE tblUsuario SET Nome = '{txtNome.Text}',
                                        UserName = '{txtUsuario.Text}', 
                                        Senha = '{txtSenha.Text}', 
                                        Acesso = 1, 
                                        ManterLogado = 1, 
                                        EmpresaId = 1, 
-                                       Ativo = '{checkBox.Text}'    
+                                       Ativo = '{inserirStatus}'    
                                        WHERE id = {lblid.Text}");
 
                     con.Open();
@@ -248,27 +271,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             rd.Close();
             con.Close();
         }
-
-        //public int BuscarUltimoId()
-        //{
-        //    var retorno = 0;
-        //    cmd.CommandText = ("SELECT id FROM tblUsuario ORDER BY id");
-        //    cmd.Connection = con;
-        //    rd = cmd.ExecuteReader();
-
-        //    while (rd.Read())
-        //    {
-        //        retorno = int.Parse(rd["id"].ToString());
-        //    }
-        //    rd.Close();
-        //    return retorno;
-        //}
-
-        // se for novo registro, ter 2 campos
-        // um para informar a senha
-        // no segundo campo, se a senha for válida, será feita a atualização
-        // 
-
         public void LimparCampos()
         {
             txtUsuario.Text = "";
@@ -283,14 +285,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         public bool VerificaInputs()
         {
             bool verifica = false;
-            if (txtUsuario.Text != "" & txtSenha.Text != "" & txtNome.Text != "" & checkBox.Checked)
+            if (txtUsuario.Text != "" & txtSenha.Text != "" & txtNome.Text != "")
             {
                 verifica = true;
-            }
-            else
-            {
-                verifica = false;
-                MessageBox.Show("Preencha todos os campos!");
             }
 
             return verifica;
@@ -331,16 +328,16 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         {
             var retorno = false;
 
-            if (txtSenha.Text == txtConfirmarSenha.Text && !string.IsNullOrWhiteSpace(txtConfirmarSenha.Text) && !string.IsNullOrEmpty(txtConfirmarSenha.Text))
+            if (txtSenha.Text == txtConfirmarSenha.Text && !string.IsNullOrWhiteSpace(txtConfirmarSenha.Text) && !string.IsNullOrEmpty(txtSenha.Text))
             {
                 lblConfirmarSenha.BackColor = Color.Green;
-                lblConfirmarSenha.Text = "Senhas conferem.";
+                lblConfirmarSenha.Text = "Senhas validadas";
                 retorno = true;
             }
             else
             {
                 lblConfirmarSenha.BackColor = Color.Red;
-                lblConfirmarSenha.Text = "Senhas devem ser iguais";
+                lblConfirmarSenha.Text = "Senhas diferentes";
             }
 
             if (txtConfirmarSenha.Text == "" && txtSenha.Text == "")
@@ -354,6 +351,43 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         private void txtSenha_Leave(object sender, EventArgs e)
         {
             ConfirmarSenha();
+        }
+
+        public bool VerificarNomeDeUsuario()
+        {
+            var retorno = true;
+
+            if (txtUsuario.Text.Contains(" "))
+            {
+                retorno = false;
+            }
+
+            return retorno;
+        }
+
+        public bool SegurancaDaSenha()
+        {
+            var regex = new Regex("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$");
+
+            var senha = regex.Match(txtSenha.Text);
+            var confirmarSenha = regex.Match(txtConfirmarSenha.Text);
+
+            return senha == confirmarSenha;
+
+        }
+
+        private void materialCheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxSenha.Checked)
+            {
+                txtSenha.PasswordChar = '\0';
+                txtConfirmarSenha.PasswordChar = '\0';
+            }
+            else
+            {
+                txtSenha.PasswordChar = '*';
+                txtConfirmarSenha.PasswordChar = '*';
+            }
         }
     }
 }
