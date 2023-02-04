@@ -57,7 +57,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         private void materialRaisedButton1_Click(object sender, EventArgs e) // btnSalvar
         {
 
-            var retornoCnpj = null;
+            decimal retornoCnpj = 0;
 
             string razaoSocial = mtxtRazaoSocial.Text;
             string nomeFantasia = mtxtNomeFantasia.Text;
@@ -82,38 +82,82 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 cmd.Parameters.AddWithValue("CNPJ", CNPJ);
                 reader = cmd.ExecuteReader();
 
+
+
+                /*Modificar validação pra usar ID e CNPJ criar campo na tela mostrando ID 
+                 * mascara de campos telefone e CNPJ
+                 * metodo para transformar os numeros em formatação CNPJ e TELEFONE
+                 * verificar documentaçao php my admin questoes de update tbl empresa
+                 * alterações no banco 
+                 * mexer no agrupamento das tabelas apenas a tblEmpresa esta certa
+                */
+
+
+
+
                 while (reader.Read())
                 {
                      retornoCnpj = Convert.ToDecimal(reader["CNPJ"].ToString());
                 };
-
-                if(retornoCnpj == CNPJ)
-                {
-
-                }
-
-                cmd.CommandText = "INSERT INTO tblempresa (CNPJ,razaoSocial,rua,bairro,numeroEndereco,complemento,email,telefone,nomeFantasia,cidade) VALUES (@CNPJ,@razaoSocial,@rua,@bairro,@numeroResidencia,@complemento,@email,@telefone,@nomeFantasia,@cidade)";
-
-                cmd.Parameters.AddWithValue("CNPJ", CNPJ);
-                cmd.Parameters.AddWithValue("razaoSocial", razaoSocial);
-                cmd.Parameters.AddWithValue("rua", rua);
-                cmd.Parameters.AddWithValue("bairro", bairro);
-                cmd.Parameters.AddWithValue("numeroResidencia", numeroResidencia);
-                cmd.Parameters.AddWithValue("complemento", complemento);
-                cmd.Parameters.AddWithValue("email",email);
-                cmd.Parameters.AddWithValue("telefone", telefone);
-                cmd.Parameters.AddWithValue("nomeFantasia",nomeFantasia);
-                cmd.Parameters.AddWithValue("cidade", cidade);
-
-                int retornoDoInsert = cmd.ExecuteNonQuery();
-
-                if (retornoDoInsert > 0)
-                {
-                    MessageBox.Show("Empresa cadastrada com sucesso!");
-                    LimpaCampos();
-                    atualizar_lista();
-                }
                 con.Close();
+                if (retornoCnpj == CNPJ)
+                {
+                    con.Open();
+
+                    cmd = con.CreateCommand();
+
+                    cmd.CommandText = "UPDATE tblempresa SET CNPJ = @CNPJ, razaoSocial = @razaoSocial, rua = @rua, bairro = @bairro, numeroEndereco = @numeroResidencia, complemento = @complemento, email = @email, telefone = @telefone, nomeFantasia = @nomeFantasia, cidade = @cidade WHERE CNPJ = @CNPJ";
+
+                    cmd.Parameters.AddWithValue("CNPJ", CNPJ);
+                    cmd.Parameters.AddWithValue("razaoSocial", razaoSocial);
+                    cmd.Parameters.AddWithValue("rua", rua);
+                    cmd.Parameters.AddWithValue("bairro", bairro);
+                    cmd.Parameters.AddWithValue("numeroResidencia", numeroResidencia);
+                    cmd.Parameters.AddWithValue("complemento", complemento);
+                    cmd.Parameters.AddWithValue("email", email);
+                    cmd.Parameters.AddWithValue("telefone", telefone);
+                    cmd.Parameters.AddWithValue("nomeFantasia", nomeFantasia);
+                    cmd.Parameters.AddWithValue("cidade", cidade);
+
+                    int retornoDoUpdate = cmd.ExecuteNonQuery();
+
+                    if (retornoDoUpdate > 0)
+                    {
+                        MessageBox.Show("Empresa alterada com sucesso!");
+                        LimpaCampos();
+                        atualizar_lista();
+                    }
+                    con.Close();
+                }
+                else
+                {
+                    con.Open();
+
+                    cmd = con.CreateCommand();
+
+                    cmd.CommandText = "INSERT INTO tblempresa (CNPJ,razaoSocial,rua,bairro,numeroEndereco,complemento,email,telefone,nomeFantasia,cidade) VALUES (@CNPJ,@razaoSocial,@rua,@bairro,@numeroResidencia,@complemento,@email,@telefone,@nomeFantasia,@cidade)";
+
+                    cmd.Parameters.AddWithValue("CNPJ", CNPJ);
+                    cmd.Parameters.AddWithValue("razaoSocial", razaoSocial);
+                    cmd.Parameters.AddWithValue("rua", rua);
+                    cmd.Parameters.AddWithValue("bairro", bairro);
+                    cmd.Parameters.AddWithValue("numeroResidencia", numeroResidencia);
+                    cmd.Parameters.AddWithValue("complemento", complemento);
+                    cmd.Parameters.AddWithValue("email", email);
+                    cmd.Parameters.AddWithValue("telefone", telefone);
+                    cmd.Parameters.AddWithValue("nomeFantasia", nomeFantasia);
+                    cmd.Parameters.AddWithValue("cidade", cidade);
+
+                    int retornoDoInsert = cmd.ExecuteNonQuery();
+
+                    if (retornoDoInsert > 0)
+                    {
+                        MessageBox.Show("Empresa cadastrada com sucesso!");
+                        LimpaCampos();
+                        atualizar_lista();
+                    }
+                    con.Close();
+                }                                
             }
             catch (Exception ex)
             {
