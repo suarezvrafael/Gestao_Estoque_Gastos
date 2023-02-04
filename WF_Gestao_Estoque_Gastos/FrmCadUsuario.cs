@@ -6,12 +6,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WF_Gestao_Estoque_Gastos.Conexao;
-
+using WF_Gestao_Estoque_Gastos.Validator;
 
 namespace WF_Gestao_Estoque_Gastos.Cadastros
 {
@@ -26,29 +27,24 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             InitializeComponent();
             checkBox.Checked = true;
             checkBox.Text = "Ativo";
-            BuscaDadosUsuario();
+            lblCaracterEspecial.BackColor = Color.Red;
+            lblOitoCaracteres.BackColor = Color.Red;
+            lblNumeros.BackColor = Color.Red;
+            lblMinusculas.BackColor = Color.Red;
+            lblMaiusculas.BackColor = Color.Red;
+
+            BuscarDadosUsuario();
         }
 
         private void btnSalvar_Click_1(object sender, EventArgs e)
         {
-            if (!VerificaInputs() || !ConfirmarSenha())
+            var valido = CamposValidos();
+            if (!valido)
             {
-                MessageBox.Show("Não foi possível cadastrar o usuário, por favor, verifique as informações!");
                 return;
             }
 
-            if (!VerificarNomeDeUsuario())
-            {
-                MessageBox.Show("Nome de usuário não pode conter espaços");
-                return;
-            }
-
-            if (!SegurancaDaSenha())
-            {
-                MessageBox.Show("Senha deve conter ao menos 8 caracteres, um caracter especial, um número e uma letra maiúscula!");
-            }
-
-            if (listView.SelectedItems.Count > 0)
+            if (ExisteItemSelecionado())
             {
                 AtualizarUsuario();
             }
@@ -56,7 +52,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             {
                 if (checkBox.Checked == false)
                 {
-                    MessageBox.Show("Não é possível cadastrar usuário inativo!");
+                    ExibirMensagem.Informacao("Não é possível cadastrar usuário inativo!");
                 }
                 else
                 {
@@ -65,23 +61,35 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             }
         }
 
-        private void btnNovo_Click(object sender, EventArgs e)
+        private void btnNovoUsuario_Click(object sender, EventArgs e)
         {
-            checkBox.Checked = true;
+            LimparCampos();
         }
 
-        private void btnBuscar_Click_1(object sender, EventArgs e)
+        private void btnExcluir_Click(object sender, EventArgs e)
         {
-            this.BuscaDadosUsuario();
+            DesativarUsuario();
+        }
+
+        private void checkBox_Click(object sender, EventArgs e)
+        {
+            if (checkBox.Checked)
+            {
+                checkBox.Text = "Ativo";
+            }
+            else
+            {
+                checkBox.Text = "Inativo";
+            }
         }
 
         private void listView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var id = "";
-            var name = "";
-            var username = "";
-            var acesso = "";
-            var ativo = "";
+            var id = String.Empty;
+            var name = String.Empty;
+            var username = String.Empty;
+            var acesso = String.Empty;
+            var ativo = String.Empty;
 
             if (listView.SelectedIndices.Count <= 0)
             {
@@ -105,9 +113,29 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         }
 
-        private void btnExcluir_Click(object sender, EventArgs e)
+        private void txtSenha_Leave(object sender, EventArgs e)
         {
-            ExcluirUsuario();
+            ConfirmarSenha();
+        }
+
+        private void txtConfirmarSenha_Leave(object sender, EventArgs e)
+        {
+            NivelDeSeguranca();
+            ConfirmarSenha();
+        }
+
+        private void materialCheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxSenha.Checked)
+            {
+                txtSenha.PasswordChar = '\0';
+                txtConfirmarSenha.PasswordChar = '\0';
+            }
+            else
+            {
+                txtSenha.PasswordChar = '*';
+                txtConfirmarSenha.PasswordChar = '*';
+            }
         }
 
         private void CadastrarUsuario()
@@ -150,11 +178,10 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             }
             else
 
-                ///É aqui
-                this.BuscaDadosUsuario();
+                this.BuscarDadosUsuario();
         }
 
-        private void ExcluirUsuario()
+        private void DesativarUsuario()
         {
             try
             {
@@ -166,7 +193,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     con.Open();
                     cmd.Connection = con;
                     cmd.ExecuteNonQuery();
-                    MessageBox.Show("Usuário excluído com sucesso!");
+                    MessageBox.Show("Usuário foi desativado!");
                 }
             }
             catch (Exception ex)
@@ -178,14 +205,14 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             finally
             {
                 con.Close();
-                BuscaDadosUsuario();
+                BuscarDadosUsuario();
                 con.Close();
             }
         }
 
         private void AtualizarUsuario()
         {
-            var inserirStatus = "";
+            var inserirStatus = String.Empty;
 
             try
             {
@@ -224,12 +251,12 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             finally
             {
                 con.Close();
-                BuscaDadosUsuario();
+                BuscarDadosUsuario();
                 con.Close();
             }
         }
 
-        private void BuscaDadosUsuario()
+        private void BuscarDadosUsuario()
         {
             List<Usr> usuarios = new List<Usr>();
             cmd.CommandText = ("SELECT * FROM tblUsuario ORDER BY Nome");
@@ -273,19 +300,19 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         }
         public void LimparCampos()
         {
-            txtUsuario.Text = "";
-            txtSenha.Text = "";
-            txtConfirmarSenha.Text = "";
-            txtNome.Text = "";
-            lblid.Text = "";
+            txtUsuario.Text = String.Empty;
+            txtSenha.Text = String.Empty;
+            txtConfirmarSenha.Text = String.Empty;
+            txtNome.Text = String.Empty;
+            lblid.Text = String.Empty;
             checkBox.Checked = true;
             listView.SelectedItems.Clear();
         }
 
-        public bool VerificaInputs()
+        public bool VerificarInputs()
         {
             bool verifica = false;
-            if (txtUsuario.Text != "" & txtSenha.Text != "" & txtNome.Text != "")
+            if (Validar.CampoPreenchido(txtUsuario.Text, txtNome.Text, txtSenha.Text, txtConfirmarSenha.Text))
             {
                 verifica = true;
             }
@@ -293,35 +320,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             return verifica;
         }
 
-        private void btnNovoUsuario_Click(object sender, EventArgs e)
+        private bool ExisteItemSelecionado()
         {
-            LimparCampos();
-        }
-
-        class Usr
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public string Username { get; set; }
-            public string Acesso { get; set; }
-            public string Ativo { get; set; }
-        }
-
-        private void checkBox_Click(object sender, EventArgs e)
-        {
-            if (checkBox.Checked)
-            {
-                checkBox.Text = "Ativo";
-            }
-            else
-            {
-                checkBox.Text = "Inativo";
-            }
-        }
-
-        private void txtConfirmarSenha_Leave(object sender, EventArgs e)
-        {
-            ConfirmarSenha();
+            return listView.SelectedItems.Count > 0;
         }
 
         private bool ConfirmarSenha()
@@ -340,17 +341,93 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 lblConfirmarSenha.Text = "Senhas diferentes";
             }
 
-            if (txtConfirmarSenha.Text == "" && txtSenha.Text == "")
+            if (txtConfirmarSenha.Text == String.Empty && txtSenha.Text == String.Empty)
             {
-                lblConfirmarSenha.Text = "";
+                lblConfirmarSenha.Text = String.Empty;
                 lblConfirmarSenha.BackColor = Color.White;
             }
             return retorno;
         }
 
-        private void txtSenha_Leave(object sender, EventArgs e)
+        private void NivelDeSeguranca()
         {
-            ConfirmarSenha();
+            if(ContemMaiusculas())
+            {
+                lblMaiusculas.BackColor = Color.Green;
+            } else
+            {
+                lblMaiusculas.BackColor = Color.Red;
+            }
+
+            if(ContemMinusculas())
+            {
+                lblMinusculas.BackColor = Color.Green;
+            } else
+            {
+                lblMinusculas.BackColor = Color.Red;
+            }
+
+            if (ContemNumeros())
+            {
+                lblNumeros.BackColor = Color.Green;
+            }
+            else
+            {
+                lblNumeros.BackColor = Color.Red;
+            }
+
+            if (MinimoCaracteres())
+            {
+                lblOitoCaracteres.BackColor = Color.Green;
+            } else
+            {
+                lblOitoCaracteres.BackColor = Color.Red;
+            }
+
+            if (ContemCaracteresEspeciais())
+            {
+                lblCaracterEspecial.BackColor = Color.Green;
+            } else
+            {
+                lblCaracterEspecial.BackColor = Color.Red;
+            }
+        }
+
+
+        public bool ContemMaiusculas()
+        {
+            var regex = new Regex("[A-Z]");
+            return regex.Match(txtSenha.Text).Success;
+        }
+
+        public bool ContemMinusculas()
+        {
+            var regex = new Regex("[a-z]");
+            return regex.Match(txtSenha.Text).Success;
+        }
+
+        public bool ContemNumeros()
+        {
+            var regex = new Regex("[0-9]");
+            return regex.Match(txtSenha.Text).Success;
+        }
+
+        public bool ContemCaracteresEspeciais()
+        {
+            var regex = new Regex("[^a-zA-Z 0-9]+");
+            return regex.Match(txtSenha.Text).Success;
+        }
+
+        public bool MinimoCaracteres()
+        {
+            if(txtSenha.Text.Length >= 8)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool VerificarNomeDeUsuario()
@@ -376,17 +453,74 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         }
 
-        private void materialCheckBox1_CheckedChanged(object sender, EventArgs e)
+        private bool CamposValidos()
         {
-            if (checkBoxSenha.Checked)
+            var valido = false;
+            if (!VerificarInputs() || !ConfirmarSenha())
             {
-                txtSenha.PasswordChar = '\0';
-                txtConfirmarSenha.PasswordChar = '\0';
+                ExibirMensagem.Informacao("Não foi possível cadastrar o usuário, por favor, verifique as informações!");
+                return valido;
             }
-            else
+
+            if (!VerificarNomeDeUsuario())
             {
-                txtSenha.PasswordChar = '*';
-                txtConfirmarSenha.PasswordChar = '*';
+                ExibirMensagem.Informacao("Nome de usuário não pode conter espaços!");
+                return valido;
+            }
+
+            if (!SegurancaDaSenha())
+            {
+                ExibirMensagem.Informacao("Senha deve conter ao menos 8 caracteres, um caracter especial, um número e uma letra maiúscula!");
+            }
+
+            return true;
+        }
+
+        class Usr
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Username { get; set; }
+            public string Acesso { get; set; }
+            public string Ativo { get; set; }
+        }
+
+        private void txtUsuario_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == (char)Keys.Space)
+            {
+                e.Handled = true;
+                SystemSounds.Beep.Play();
+            }
+        }
+
+        private void txtSenha_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            NivelDeSeguranca();
+
+            if (e.KeyChar == (char)Keys.Space)
+            {
+                e.Handled = true;
+                SystemSounds.Beep.Play();
+            }
+        }
+
+        private void txtSenha_KeyDown(object sender, KeyEventArgs e)
+        {
+            NivelDeSeguranca();
+        }
+
+        private void txtSenha_KeyUp(object sender, KeyEventArgs e)
+        {
+            NivelDeSeguranca();
+        }
+
+        private void txtConfirmarSenha_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Space)
+            {
+                e.Handled = true;
+                SystemSounds.Beep.Play();
             }
         }
     }
