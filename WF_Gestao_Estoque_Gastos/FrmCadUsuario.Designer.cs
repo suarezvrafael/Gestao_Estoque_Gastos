@@ -171,15 +171,13 @@
             this.txtSenha.TabIndex = 3;
             this.txtSenha.TabStop = false;
             this.txtSenha.UseSystemPasswordChar = false;
-            this.txtSenha.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSenha_KeyDown);
             this.txtSenha.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSenha_KeyPress);
-            this.txtSenha.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSenha_KeyUp);
             this.txtSenha.Leave += new System.EventHandler(this.txtSenha_Leave);
             // 
             // btnSalvar
             // 
             this.btnSalvar.Depth = 0;
-            this.btnSalvar.Location = new System.Drawing.Point(357, 272);
+            this.btnSalvar.Location = new System.Drawing.Point(12, 272);
             this.btnSalvar.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnSalvar.Name = "btnSalvar";
             this.btnSalvar.Primary = true;
@@ -194,7 +192,7 @@
             // 
             this.btnExcluir.Depth = 0;
             this.btnExcluir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExcluir.Location = new System.Drawing.Point(12, 272);
+            this.btnExcluir.Location = new System.Drawing.Point(361, 272);
             this.btnExcluir.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnExcluir.Name = "btnExcluir";
             this.btnExcluir.Primary = true;

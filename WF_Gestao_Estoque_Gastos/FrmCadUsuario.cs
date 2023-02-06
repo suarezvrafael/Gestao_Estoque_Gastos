@@ -124,6 +124,35 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             ConfirmarSenha();
         }
 
+        private void txtUsuario_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Space)
+            {
+                e.Handled = true;
+                SystemSounds.Beep.Play();
+            }
+        }
+
+        private void txtSenha_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            NivelDeSeguranca();
+
+            if (e.KeyChar == (char)Keys.Space)
+            {
+                e.Handled = true;
+                SystemSounds.Beep.Play();
+            }
+        }
+
+        private void txtConfirmarSenha_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Space)
+            {
+                e.Handled = true;
+                SystemSounds.Beep.Play();
+            }
+        }
+
         private void materialCheckBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxSenha.Checked)
@@ -252,7 +281,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             {
                 con.Close();
                 BuscarDadosUsuario();
-                con.Close();
             }
         }
 
@@ -437,25 +465,29 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             if (txtUsuario.Text.Contains(" "))
             {
                 retorno = false;
-            }
+            } 
 
             return retorno;
         }
 
-        public bool SegurancaDaSenha()
+        public bool VerificarNome()
         {
-            var regex = new Regex("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$");
+            var retorno = true;
+            var regex = new Regex("[A-Z a-z]");
 
-            var senha = regex.Match(txtSenha.Text);
-            var confirmarSenha = regex.Match(txtConfirmarSenha.Text);
+            if (!regex.Match(txtNome.Text).Success)
+            {
+                retorno = false;
+            }
 
-            return senha == confirmarSenha;
-
+            return retorno;
+            
         }
 
         private bool CamposValidos()
         {
             var valido = false;
+
             if (!VerificarInputs() || !ConfirmarSenha())
             {
                 ExibirMensagem.Informacao("Não foi possível cadastrar o usuário, por favor, verifique as informações!");
@@ -468,9 +500,10 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 return valido;
             }
 
-            if (!SegurancaDaSenha())
+            if(!VerificarNome())
             {
-                ExibirMensagem.Informacao("Senha deve conter ao menos 8 caracteres, um caracter especial, um número e uma letra maiúscula!");
+                ExibirMensagem.Informacao("Nome deve conter apenas letras e espaços!");
+                return valido;
             }
 
             return true;
@@ -485,43 +518,5 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             public string Ativo { get; set; }
         }
 
-        private void txtUsuario_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if(e.KeyChar == (char)Keys.Space)
-            {
-                e.Handled = true;
-                SystemSounds.Beep.Play();
-            }
-        }
-
-        private void txtSenha_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            NivelDeSeguranca();
-
-            if (e.KeyChar == (char)Keys.Space)
-            {
-                e.Handled = true;
-                SystemSounds.Beep.Play();
-            }
-        }
-
-        private void txtSenha_KeyDown(object sender, KeyEventArgs e)
-        {
-            NivelDeSeguranca();
-        }
-
-        private void txtSenha_KeyUp(object sender, KeyEventArgs e)
-        {
-            NivelDeSeguranca();
-        }
-
-        private void txtConfirmarSenha_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Space)
-            {
-                e.Handled = true;
-                SystemSounds.Beep.Play();
-            }
-        }
     }
 }
