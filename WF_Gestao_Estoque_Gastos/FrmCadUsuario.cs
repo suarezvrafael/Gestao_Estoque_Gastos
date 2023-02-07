@@ -461,8 +461,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         public bool VerificarNomeDeUsuario()
         {
             var retorno = true;
+            var regex = new Regex("[A-Z a-z]");
 
-            if (txtUsuario.Text.Contains(" "))
+            if (txtUsuario.Text.Contains(" ") || !regex.Match(txtUsuario.Text).Success)
             {
                 retorno = false;
             } 
@@ -496,7 +497,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
             if (!VerificarNomeDeUsuario())
             {
-                ExibirMensagem.Informacao("Nome de usuário não pode conter espaços!");
+                ExibirMensagem.Informacao("Nome de usuário só pode conter letras!");
                 return valido;
             }
 
