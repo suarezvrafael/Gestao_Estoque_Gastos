@@ -8,7 +8,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -19,7 +21,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
     public partial class FrmCadEmpresa : MaterialForm
     {
 
-      
+
 
 
         MySqlConnection con;
@@ -32,6 +34,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             InitializeComponent();
             atualizar_lista();
         }
+
+        
 
         private void LimpaCampos()
         {
@@ -61,8 +65,23 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
             string razaoSocial = mtxtRazaoSocial.Text;
             string nomeFantasia = mtxtNomeFantasia.Text;
-            decimal CNPJ = Convert.ToDecimal(mtxtCnpj.Text);
+
+            
+            string CNPJ = mtxtCnpj.Text;
+
+            if (!ContemNumeros(CNPJ))
+            {
+                MessageBox.Show("Digite apenas Numeros") ;
+                return;
+            }
+            else
+            {
+                 CNPJ = FormatCNPJ(mtxtCnpj.Text);
+            }
+
             decimal telefone = Convert.ToDecimal(mtxtTelefone.Text);
+
+
             string email = mtxtEmail.Text;
             string cidade = mtxtCidade.Text;
             string bairro = mtxtBairro.Text;
@@ -90,6 +109,15 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                  * verificar documentaçao php my admin questoes de update tbl empresa
                  * alterações no banco 
                  * mexer no agrupamento das tabelas apenas a tblEmpresa esta certa
+                 * 
+                 * 06/02/2023
+                 * 
+                 * rever os campos do banco pois foi modificado e o codigo precisa ser mudado
+                 * olhar regex 
+                 * metodos de mascara para material skin se nao achar pesquisar como fazer na mão 
+                 * as mascaras
+                 * 
+                 * 
                 */
 
 
@@ -100,7 +128,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                      retornoCnpj = Convert.ToDecimal(reader["CNPJ"].ToString());
                 };
                 con.Close();
-                if (retornoCnpj == CNPJ)
+                if (retornoCnpj == 1)
                 {
                     con.Open();
 
@@ -215,6 +243,14 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             cmd.Connection = con;
             cmd.CommandText = "SELECT `id`, `CNPJ`, `razaoSocial`, `rua`, `bairro`, `numeroEndereco`, `complemento`, `email`, `telefone`, `nomeFantasia`, `cidade` FROM `tblempresa`";
 
+
+            /*SELECT tblempresa.id, CNPJ, razaoSocial, rua, bairro, numeroEndereco, complemento, tblcidade.descricaoCidade, email, telefone, nomeFantasia, createEmpresa, updateEmpresa, idUsername
+              FROM tblempresa
+              INNER JOIN tblcidade ON tblempresa.idcidade = tblcidade.id
+              INNER JOIN tblestado ON tblcidade.id = tblestado.id
+              INNER JOIN tblpais ON tblestado.id = tblpais.id            
+            */
+
             //executa o comando
             reader = cmd.ExecuteReader();
 
@@ -273,6 +309,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             else
             {
                 btnCancelar.Visible = true;
+                mtxtId.Visible = true;
+                lblCodigo.Visible = true;
             }
 
             var itemSelecionado = Convert.ToInt32(listViewEmpresa.SelectedIndices[0]);
@@ -305,15 +343,15 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
             mtxtRazaoSocial.Text = razaoSocial.ToString();
             mtxtNomeFantasia.Text = nomeFantasia.ToString();
-            mtxtCnpj.Text = cnpj.ToString();
-            mtxtTelefone.Text = telefone.ToString();
+            mtxtCnpj.Text = FormatCNPJ(cnpj.ToString());
+            mtxtTelefone.Text = FormatTelefone(telefone.ToString());
             mtxtEmail.Text = email.ToString();
             mtxtCidade.Text = cidade.ToString();
             mtxtBairro.Text = bairro.ToString();
             mtxtComplemento.Text = complemento.ToString();
             mtxtNumero.Text = numeroEndereco.ToString();
             mtxtRua.Text = rua.ToString();
-
+            mtxtId.Text = id.ToString();    
 
         }
 
@@ -343,7 +381,30 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         {
             LimpaCampos();
             btnCancelar.Visible = false;
+            lblCodigo.Visible = false;
+            mtxtId.Visible = false;
             atualizar_lista();
+        }
+
+        private static string FormatCNPJ(string CNPJ)
+        {
+            return
+                Convert.ToUInt64(CNPJ).ToString(@"00\.000\.000\.\/0000\-00");
+        }
+
+        private static string FormatTelefone(string telefone)
+        {
+            return
+                Convert.ToUInt64(telefone).ToString(@"\(00\) 0000\-0000");
+        }
+
+        public bool ContemNumeros(string verifica)
+        {
+            bool ok = false;
+            Regex.IsMatch(verifica, "^[0-9]+$");
+            //var regex = new Regex(@"[^\d]");
+            //return regex.Match(verifica).Success;
+            return ok;
         }
     }
 }

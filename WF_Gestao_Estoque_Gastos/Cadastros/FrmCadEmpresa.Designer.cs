@@ -61,6 +61,8 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
             this.btnCancelar = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.lblCodigo = new MaterialSkin.Controls.MaterialLabel();
+            this.mtxtId = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.SuspendLayout();
             // 
             // materialDivider1
@@ -80,7 +82,7 @@
             this.materialLabel2.Depth = 0;
             this.materialLabel2.Font = new System.Drawing.Font("Roboto", 11F);
             this.materialLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel2.Location = new System.Drawing.Point(15, 93);
+            this.materialLabel2.Location = new System.Drawing.Point(15, 113);
             this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel2.Name = "materialLabel2";
             this.materialLabel2.Size = new System.Drawing.Size(96, 19);
@@ -220,14 +222,14 @@
             // 
             this.mtxtRazaoSocial.Depth = 0;
             this.mtxtRazaoSocial.Hint = "";
-            this.mtxtRazaoSocial.Location = new System.Drawing.Point(15, 115);
+            this.mtxtRazaoSocial.Location = new System.Drawing.Point(19, 135);
             this.mtxtRazaoSocial.MouseState = MaterialSkin.MouseState.HOVER;
             this.mtxtRazaoSocial.Name = "mtxtRazaoSocial";
             this.mtxtRazaoSocial.PasswordChar = '\0';
             this.mtxtRazaoSocial.SelectedText = "";
             this.mtxtRazaoSocial.SelectionLength = 0;
             this.mtxtRazaoSocial.SelectionStart = 0;
-            this.mtxtRazaoSocial.Size = new System.Drawing.Size(370, 23);
+            this.mtxtRazaoSocial.Size = new System.Drawing.Size(366, 23);
             this.mtxtRazaoSocial.TabIndex = 14;
             this.mtxtRazaoSocial.UseSystemPasswordChar = false;
             // 
@@ -475,11 +477,43 @@
             this.btnCancelar.Visible = false;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
+            // lblCodigo
+            // 
+            this.lblCodigo.AutoSize = true;
+            this.lblCodigo.Depth = 0;
+            this.lblCodigo.Font = new System.Drawing.Font("Roboto", 11F);
+            this.lblCodigo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblCodigo.Location = new System.Drawing.Point(15, 75);
+            this.lblCodigo.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblCodigo.Name = "lblCodigo";
+            this.lblCodigo.Size = new System.Drawing.Size(57, 19);
+            this.lblCodigo.TabIndex = 32;
+            this.lblCodigo.Text = "Código";
+            this.lblCodigo.Visible = false;
+            // 
+            // mtxtId
+            // 
+            this.mtxtId.Depth = 0;
+            this.mtxtId.Hint = "";
+            this.mtxtId.Location = new System.Drawing.Point(78, 73);
+            this.mtxtId.MouseState = MaterialSkin.MouseState.HOVER;
+            this.mtxtId.Name = "mtxtId";
+            this.mtxtId.PasswordChar = '\0';
+            this.mtxtId.SelectedText = "";
+            this.mtxtId.SelectionLength = 0;
+            this.mtxtId.SelectionStart = 0;
+            this.mtxtId.Size = new System.Drawing.Size(60, 23);
+            this.mtxtId.TabIndex = 33;
+            this.mtxtId.UseSystemPasswordChar = false;
+            this.mtxtId.Visible = false;
+            // 
             // FrmCadEmpresa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(801, 641);
+            this.Controls.Add(this.mtxtId);
+            this.Controls.Add(this.lblCodigo);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.materialLabel11);
             this.Controls.Add(this.listViewEmpresa);
@@ -550,5 +584,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private MaterialSkin.Controls.MaterialRaisedButton btnCancelar;
+        private MaterialSkin.Controls.MaterialLabel lblCodigo;
+        private MaterialSkin.Controls.MaterialSingleLineTextField mtxtId;
     }
 }
