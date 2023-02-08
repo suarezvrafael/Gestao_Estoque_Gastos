@@ -46,9 +46,9 @@ namespace WF_Gestao_Estoque_Gastos
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+
                     var rdrUsuario = reader["username"].ToString();
                     var rdrSenha   = reader["senha"].ToString();
-
                     if (rdrUsuario == usuario && rdrSenha == senha)
                     {
                         id = int.Parse(reader["id"].ToString());
@@ -179,11 +179,10 @@ namespace WF_Gestao_Estoque_Gastos
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    txtUsuario.Text = reader["username"].ToString();
+                    txtUsuario.Text = reader["nome"].ToString();
                     txtSenha.Text = reader["senha"].ToString();
                     chxManterLogin.Checked = int.Parse(reader["manterlogado"].ToString()) == 1;
                     id = int.Parse(reader["empresaId"].ToString());
-
                     sucesso = true;
                 }
 
