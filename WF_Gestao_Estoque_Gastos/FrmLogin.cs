@@ -1,7 +1,11 @@
 ﻿using MaterialSkin.Controls;
 using MySql.Data.MySqlClient;
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
+using WF_Gestao_Estoque_Gastos.Cadastros;
+using WF_Gestao_Estoque_Gastos.Servicos;
+using WF_Gestao_Estoque_Gastos.Servicos.Excecoes;
 
 namespace WF_Gestao_Estoque_Gastos
 {
@@ -10,11 +14,13 @@ namespace WF_Gestao_Estoque_Gastos
         MySqlConnection con;
         MySqlCommand cmd;
         MySqlDataReader reader;
+        FrmLogin form;
         public FrmLogin()
         {
+            form = this;
             InitializeComponent();
             this.CenterToScreen();
-            con = new MySqlConnection("server=localhost;database=gestao_estoque_gastos;uid=root;pwd=;");
+            con = new MySqlConnection("server=localhost;database=gestao_estoque_gasto;uid=root;pwd=;");
             cmd = new MySqlCommand();
             cmd.Connection = con;
         }
@@ -27,20 +33,22 @@ namespace WF_Gestao_Estoque_Gastos
         private void btnEntrar_Click(object sender, EventArgs e)
         {
             var usuarioLogou = false;
+
+            DesmarcarUsuariosManterLogin();
+            var id = 0;
             try
             {
                 var usuario = txtUsuario.Text;
                 var senha = txtSenha.Text;
 
                 con.Open();
-                var id = 0;
                 cmd.CommandText = "select * from tblUsuario;";
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    var rdrUsuario = reader["username"].ToString();
-                    var rdrSenha = reader["senha"].ToString();
 
+                    var rdrUsuario = reader["username"].ToString();
+                    var rdrSenha   = reader["senha"].ToString();
                     if (rdrUsuario == usuario && rdrSenha == senha)
                     {
                         id = int.Parse(reader["id"].ToString());
@@ -57,12 +65,39 @@ namespace WF_Gestao_Estoque_Gastos
             {
                 con.Close();
                 if (usuarioLogou)
-                    this.Close();
+                {
+                    if(chxManterLogin.Checked)
+                        LoginAutomatico(id);
+                    GerenciarTela.AbrirTelaEFecharAtual(new FrmPrincipal(id, form), form, true);
+                }
                 else
-                    //string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon
                     MessageBox.Show("Usuário e/ou senha incorretos.","Erro",MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+        }
+        private void AbrirTelaEFecharAtual()
+        {
+
+        }
+        public void LoginAutomatico(int id = 0)
+        {
+            try
+            {
+                con.Open();
+                if(id == 0)
+                    cmd.CommandText = $"update tblusuario set manterlogado = 0";
+                else
+                    cmd.CommandText = $"update tblusuario set manterlogado = 1 where id = {id}";
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception errou)
+            {
+                Debug.WriteLine(errou.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
         }
 
         private Empresa BuscaEmpresaPorId(int id) 
@@ -106,12 +141,37 @@ namespace WF_Gestao_Estoque_Gastos
         private void PreencheEmpresaDoUsuarioManterLogin(int id)
         {
             var empresa = BuscaEmpresaPorId(id);
-            cbxEmpresa.SelectedIndex = cbxEmpresa.FindStringExact(empresa.NomeFantasia);
+            if (empresa != null)
+            if (cbxEmpresa.Items.Count > 0)
+                cbxEmpresa.SelectedIndex = 0;
+        }
+
+        private void DesmarcarUsuariosManterLogin()
+        {
+            try
+            {
+                con.Open();
+
+                cmd = con.CreateCommand();
+                cmd.CommandText = "UPDATE tblusuario SET manterlogado = 0";
+
+                int retornoDoUpdate = cmd.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Ops. Erro: " + e.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
         }
         private bool PreencheUsuarioManterLogin()
         {
             var id = 0;
             var sucesso = false;
+
             try
             {
                 con.Open();
@@ -119,41 +179,60 @@ namespace WF_Gestao_Estoque_Gastos
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    txtUsuario.Text = reader["username"].ToString();
+                    txtUsuario.Text = reader["nome"].ToString();
                     txtSenha.Text = reader["senha"].ToString();
-                    //cbxEmpresa.SelectedValue = reader["nomeFantasia"].ToString();
                     chxManterLogin.Checked = int.Parse(reader["manterlogado"].ToString()) == 1;
                     id = int.Parse(reader["empresaId"].ToString());
-
                     sucesso = true;
                 }
 
             }
-            catch (Exception)
+            catch (Exception erro)
             {
+                Console.WriteLine(erro.Message);
                 MensagemErroConexao();
             }
             finally
             {
                 con.Close();
-                if(reader != null)
-                    reader.Close();
                 if (id != 0)
                     PreencheEmpresaDoUsuarioManterLogin(id);
+                else
+                {
+                    if (cbxEmpresa.Items.Count > 0)
+                        cbxEmpresa.SelectedIndex = 0;
+                }
             }
 
             return sucesso;
         }
+        private void DesabilitarCampos()
+        {
+            cbxEmpresa.Enabled = false;
+            txtUsuario.Enabled = false;
+            txtSenha.Enabled   = false;
+            btnEntrar.Enabled  = false;  
+            Mensagem.Informacao("Tenha certeza de ter empresa e usuário cadastrados");
+        }
+        private void HabilitarCampos()
+        {
+            cbxEmpresa.Enabled = true;
+            txtUsuario.Enabled = true;
+            txtSenha.Enabled   = true;
+            btnEntrar.Enabled  = true;
+        }
+
         private void FrmLogin_Load(object sender, EventArgs e)
         {
             var sucesso = PreencheComboEmpresa();
+            if (cbxEmpresa.Items.Count > 0)
+                cbxEmpresa.SelectedIndex = 0;
             if (sucesso == false)
-                Application.Exit();
+                DesabilitarCampos();
+            else
+                HabilitarCampos();
 
-            sucesso = PreencheUsuarioManterLogin();
-
-            if (sucesso == false)
-                Application.Exit();
+            PreencheUsuarioManterLogin();
         }
         private bool PreencheComboEmpresa()
         {
@@ -172,8 +251,9 @@ namespace WF_Gestao_Estoque_Gastos
                 }
 
             }
-            catch (Exception)
+            catch (Exception erro)
             {
+                Console.WriteLine(erro.Message);
                 MensagemErroConexao();
             }
             finally
@@ -190,6 +270,84 @@ namespace WF_Gestao_Estoque_Gastos
         private void MensagemErroConexao()
         {
             MessageBox.Show("Falha na conexão.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void cadastrarUsuárioToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            GerenciarTela.AbrirTela(new FrmCadUsuario(), true);
+        }
+
+        private void cadastrarEmpresaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GerenciarTela.AbrirTela(new FrmCadEmpresa(), true);
+        }
+
+        private void deslogarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        public Usuario RetornaUsuarioLogado(int id)
+        {
+            try
+            {
+                var usuario = txtUsuario.Text;
+                var senha = txtSenha.Text;
+
+                con.Open();
+                cmd.CommandText = "select * from tblUsuario where id = " + id;
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    var ativo = bool.Parse(reader["ativo"].ToString());
+                    var acesso = int.Parse(reader["acesso"].ToString());
+                    var logado   = int.Parse(reader["manterlogado"].ToString());
+                    return new Usuario()
+                    {
+                        Id = int.Parse(reader["id"].ToString()),
+                        Nome = reader["nome"].ToString(),
+                        Username = reader["username"].ToString(),
+                        Senha = reader["senha"].ToString(),
+                        Acesso = acesso,
+                        ManterLogado = logado == 1,
+                        Ativo = ativo,
+                        EmpresaId = int.Parse(reader["empresaid"].ToString())
+                    };
+                }
+
+            }
+            catch (Exception erro)
+            {
+                Console.WriteLine(erro.Message);
+                MensagemErroConexao();
+            }
+            finally
+            {
+                con.Close();
+            }
+            return null;
+            
+        }
+
+        public void Deslogar()
+        {
+            LoginAutomatico();
+            Application.Exit();
+        }
+        public void LimparCampos()
+        {
+            txtSenha.Text = "";
+            txtUsuario.Text = "";
+
+            if (cbxEmpresa.Items.Count > 0)
+                cbxEmpresa.SelectedIndex = 0;
+
+            chxManterLogin.Checked = false;
+        }
+        private void deslogarToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            LoginAutomatico();
+            LimparCampos(); 
+            Application.Exit();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using MaterialSkin.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WF_Gestao_Estoque_Gastos.Cadastros
 {
-    public partial class FrmCadUsuario : MaterialForm
+    public partial class FrmCadReceita : Form
     {
-        public FrmCadUsuario()
+        public FrmCadReceita()
         {
             InitializeComponent();
         }
