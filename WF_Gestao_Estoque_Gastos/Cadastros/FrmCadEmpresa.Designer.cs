@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
             this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialDivider2 = new MaterialSkin.Controls.MaterialDivider();
@@ -52,16 +51,18 @@
             this.mtxtNumero = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.mtxtComplemento = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.btnSalvar = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.btnEditar = new MaterialSkin.Controls.MaterialRaisedButton();
             this.btnExcluir = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialDivider3 = new MaterialSkin.Controls.MaterialDivider();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
+            this.listViewEmpresa = new System.Windows.Forms.ListView();
             this.Id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.materialLabel11 = new MaterialSkin.Controls.MaterialLabel();
+            this.btnCancelar = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.lblCodigo = new MaterialSkin.Controls.MaterialLabel();
+            this.mtxtId = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.SuspendLayout();
             // 
             // materialDivider1
@@ -81,7 +82,7 @@
             this.materialLabel2.Depth = 0;
             this.materialLabel2.Font = new System.Drawing.Font("Roboto", 11F);
             this.materialLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel2.Location = new System.Drawing.Point(15, 93);
+            this.materialLabel2.Location = new System.Drawing.Point(15, 113);
             this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel2.Name = "materialLabel2";
             this.materialLabel2.Size = new System.Drawing.Size(96, 19);
@@ -221,14 +222,14 @@
             // 
             this.mtxtRazaoSocial.Depth = 0;
             this.mtxtRazaoSocial.Hint = "";
-            this.mtxtRazaoSocial.Location = new System.Drawing.Point(15, 115);
+            this.mtxtRazaoSocial.Location = new System.Drawing.Point(19, 135);
             this.mtxtRazaoSocial.MouseState = MaterialSkin.MouseState.HOVER;
             this.mtxtRazaoSocial.Name = "mtxtRazaoSocial";
             this.mtxtRazaoSocial.PasswordChar = '\0';
             this.mtxtRazaoSocial.SelectedText = "";
             this.mtxtRazaoSocial.SelectionLength = 0;
             this.mtxtRazaoSocial.SelectionStart = 0;
-            this.mtxtRazaoSocial.Size = new System.Drawing.Size(370, 23);
+            this.mtxtRazaoSocial.Size = new System.Drawing.Size(366, 23);
             this.mtxtRazaoSocial.TabIndex = 14;
             this.mtxtRazaoSocial.UseSystemPasswordChar = false;
             // 
@@ -380,23 +381,10 @@
             this.btnSalvar.UseVisualStyleBackColor = true;
             this.btnSalvar.Click += new System.EventHandler(this.materialRaisedButton1_Click);
             // 
-            // btnEditar
-            // 
-            this.btnEditar.Depth = 0;
-            this.btnEditar.Location = new System.Drawing.Point(540, 407);
-            this.btnEditar.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Primary = true;
-            this.btnEditar.Size = new System.Drawing.Size(124, 31);
-            this.btnEditar.TabIndex = 26;
-            this.btnEditar.Text = "Editar";
-            this.btnEditar.UseVisualStyleBackColor = true;
-            this.btnEditar.Click += new System.EventHandler(this.materialRaisedButton1_Click_1);
-            // 
             // btnExcluir
             // 
             this.btnExcluir.Depth = 0;
-            this.btnExcluir.Location = new System.Drawing.Point(410, 407);
+            this.btnExcluir.Location = new System.Drawing.Point(538, 407);
             this.btnExcluir.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnExcluir.Name = "btnExcluir";
             this.btnExcluir.Primary = true;
@@ -417,41 +405,25 @@
             this.materialDivider3.TabIndex = 28;
             this.materialDivider3.Text = "materialDivider3";
             // 
-            // listView1
+            // listViewEmpresa
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listViewEmpresa.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Id,
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4});
-            this.listView1.Enabled = false;
-            listViewGroup1.Header = "ListViewGroup";
-            listViewGroup1.Name = "listViewGroup1";
-            this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1});
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(15, 490);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(779, 139);
-            this.listView1.TabIndex = 29;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged_1);
-            // 
-            // materialLabel11
-            // 
-            this.materialLabel11.AutoSize = true;
-            this.materialLabel11.Depth = 0;
-            this.materialLabel11.Font = new System.Drawing.Font("Roboto", 11F);
-            this.materialLabel11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel11.Location = new System.Drawing.Point(309, 463);
-            this.materialLabel11.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel11.Name = "materialLabel11";
-            this.materialLabel11.Size = new System.Drawing.Size(164, 19);
-            this.materialLabel11.TabIndex = 30;
-            this.materialLabel11.Text = "Empresas Cadastradas";
-            this.materialLabel11.Click += new System.EventHandler(this.materialLabel11_Click);
+            this.listViewEmpresa.FullRowSelect = true;
+            this.listViewEmpresa.HideSelection = false;
+            this.listViewEmpresa.Location = new System.Drawing.Point(15, 490);
+            this.listViewEmpresa.MultiSelect = false;
+            this.listViewEmpresa.Name = "listViewEmpresa";
+            this.listViewEmpresa.ShowGroups = false;
+            this.listViewEmpresa.Size = new System.Drawing.Size(779, 139);
+            this.listViewEmpresa.TabIndex = 29;
+            this.listViewEmpresa.UseCompatibleStateImageBehavior = false;
+            this.listViewEmpresa.View = System.Windows.Forms.View.Details;
+            this.listViewEmpresa.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged_1);
             // 
             // Id
             // 
@@ -477,16 +449,76 @@
             this.columnHeader4.Text = "E-mail";
             this.columnHeader4.Width = 198;
             // 
+            // materialLabel11
+            // 
+            this.materialLabel11.AutoSize = true;
+            this.materialLabel11.Depth = 0;
+            this.materialLabel11.Font = new System.Drawing.Font("Roboto", 11F);
+            this.materialLabel11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel11.Location = new System.Drawing.Point(309, 463);
+            this.materialLabel11.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel11.Name = "materialLabel11";
+            this.materialLabel11.Size = new System.Drawing.Size(164, 19);
+            this.materialLabel11.TabIndex = 30;
+            this.materialLabel11.Text = "Empresas Cadastradas";
+            this.materialLabel11.Click += new System.EventHandler(this.materialLabel11_Click);
+            // 
+            // btnCancelar
+            // 
+            this.btnCancelar.Depth = 0;
+            this.btnCancelar.Location = new System.Drawing.Point(408, 407);
+            this.btnCancelar.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Primary = true;
+            this.btnCancelar.Size = new System.Drawing.Size(124, 31);
+            this.btnCancelar.TabIndex = 31;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Visible = false;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
+            // lblCodigo
+            // 
+            this.lblCodigo.AutoSize = true;
+            this.lblCodigo.Depth = 0;
+            this.lblCodigo.Font = new System.Drawing.Font("Roboto", 11F);
+            this.lblCodigo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblCodigo.Location = new System.Drawing.Point(15, 75);
+            this.lblCodigo.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblCodigo.Name = "lblCodigo";
+            this.lblCodigo.Size = new System.Drawing.Size(57, 19);
+            this.lblCodigo.TabIndex = 32;
+            this.lblCodigo.Text = "Código";
+            this.lblCodigo.Visible = false;
+            // 
+            // mtxtId
+            // 
+            this.mtxtId.Depth = 0;
+            this.mtxtId.Hint = "";
+            this.mtxtId.Location = new System.Drawing.Point(78, 73);
+            this.mtxtId.MouseState = MaterialSkin.MouseState.HOVER;
+            this.mtxtId.Name = "mtxtId";
+            this.mtxtId.PasswordChar = '\0';
+            this.mtxtId.SelectedText = "";
+            this.mtxtId.SelectionLength = 0;
+            this.mtxtId.SelectionStart = 0;
+            this.mtxtId.Size = new System.Drawing.Size(60, 23);
+            this.mtxtId.TabIndex = 33;
+            this.mtxtId.UseSystemPasswordChar = false;
+            this.mtxtId.Visible = false;
+            // 
             // FrmCadEmpresa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(801, 641);
+            this.Controls.Add(this.mtxtId);
+            this.Controls.Add(this.lblCodigo);
+            this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.materialLabel11);
-            this.Controls.Add(this.listView1);
+            this.Controls.Add(this.listViewEmpresa);
             this.Controls.Add(this.materialDivider3);
             this.Controls.Add(this.btnExcluir);
-            this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.btnSalvar);
             this.Controls.Add(this.mtxtComplemento);
             this.Controls.Add(this.mtxtNumero);
@@ -542,15 +574,17 @@
         private MaterialSkin.Controls.MaterialSingleLineTextField mtxtNumero;
         private MaterialSkin.Controls.MaterialSingleLineTextField mtxtComplemento;
         private MaterialSkin.Controls.MaterialRaisedButton btnSalvar;
-        private MaterialSkin.Controls.MaterialRaisedButton btnEditar;
         private MaterialSkin.Controls.MaterialRaisedButton btnExcluir;
         private MaterialSkin.Controls.MaterialDivider materialDivider3;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView listViewEmpresa;
         private MaterialSkin.Controls.MaterialLabel materialLabel11;
         private System.Windows.Forms.ColumnHeader Id;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
+        private MaterialSkin.Controls.MaterialRaisedButton btnCancelar;
+        private MaterialSkin.Controls.MaterialLabel lblCodigo;
+        private MaterialSkin.Controls.MaterialSingleLineTextField mtxtId;
     }
 }
