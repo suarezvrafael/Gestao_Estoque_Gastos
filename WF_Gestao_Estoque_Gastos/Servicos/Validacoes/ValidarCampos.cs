@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using WF_Gestao_Estoque_Gastos.Servicos.Excecoes;
 
@@ -42,6 +43,16 @@ namespace WF_Gestao_Estoque_Gastos.Servicos.Validacoes
             if(ExisteItemSelecionadoCombo(combo))   
                 return combo.SelectedItem;
             return null;
+        }
+
+        public static bool CampoPreenchido(params string[] campos)
+        {
+            foreach (var campo in campos)
+            {
+                if (string.IsNullOrWhiteSpace(campo))
+                    return false;
+            }
+            return true;
         }
     }
 }

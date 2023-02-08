@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WF_Gestao_Estoque_Gastos.Conexao;
-using WF_Gestao_Estoque_Gastos.Validator;
+using WF_Gestao_Estoque_Gastos.Servicos.Validacoes;
 
 namespace WF_Gestao_Estoque_Gastos.Cadastros
 {
@@ -340,7 +340,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         public bool VerificarInputs()
         {
             bool verifica = false;
-            if (Validar.CampoPreenchido(txtUsuario.Text, txtNome.Text, txtSenha.Text, txtConfirmarSenha.Text))
+            if (ValidarCampos.CampoPreenchido(txtUsuario.Text, txtNome.Text, txtSenha.Text, txtConfirmarSenha.Text))
             {
                 verifica = true;
             }
