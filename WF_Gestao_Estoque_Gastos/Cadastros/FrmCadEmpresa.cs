@@ -72,12 +72,15 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             if (!ContemNumeros(CNPJ))
             {
                 MessageBox.Show("Digite apenas Numeros") ;
+                mtxtCnpj.Focus();
                 return;
             }
             else
             {
                  CNPJ = FormatCNPJ(mtxtCnpj.Text);
             }
+
+
 
             decimal telefone = Convert.ToDecimal(mtxtTelefone.Text);
 
@@ -116,6 +119,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                  * olhar regex 
                  * metodos de mascara para material skin se nao achar pesquisar como fazer na mão 
                  * as mascaras
+                 * 
+                 * 
                  * 
                  * 
                 */
