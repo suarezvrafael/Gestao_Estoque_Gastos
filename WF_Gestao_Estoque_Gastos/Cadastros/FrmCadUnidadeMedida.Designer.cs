@@ -41,7 +41,6 @@
             this.sigla = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnExcluir = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.btnNovo = new MaterialSkin.Controls.MaterialRaisedButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -58,7 +57,7 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 75);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(294, 440);
-            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabIndex = 99;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cadastro";
             // 
@@ -87,8 +86,10 @@
             this.txtSigla.SelectionLength = 0;
             this.txtSigla.SelectionStart = 0;
             this.txtSigla.Size = new System.Drawing.Size(218, 23);
-            this.txtSigla.TabIndex = 9;
+            this.txtSigla.TabIndex = 1;
+            this.txtSigla.TabStop = false;
             this.txtSigla.UseSystemPasswordChar = false;
+            this.txtSigla.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSigla_KeyPress);
             // 
             // txtDescricao
             // 
@@ -102,8 +103,10 @@
             this.txtDescricao.SelectionLength = 0;
             this.txtDescricao.SelectionStart = 0;
             this.txtDescricao.Size = new System.Drawing.Size(218, 23);
-            this.txtDescricao.TabIndex = 8;
+            this.txtDescricao.TabIndex = 0;
+            this.txtDescricao.TabStop = false;
             this.txtDescricao.UseSystemPasswordChar = false;
+            this.txtDescricao.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDescricao_KeyPress);
             // 
             // btnCancelar
             // 
@@ -113,7 +116,7 @@
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Primary = true;
             this.btnCancelar.Size = new System.Drawing.Size(91, 43);
-            this.btnCancelar.TabIndex = 7;
+            this.btnCancelar.TabIndex = 2;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
@@ -126,7 +129,7 @@
             this.btnSalvar.Name = "btnSalvar";
             this.btnSalvar.Primary = true;
             this.btnSalvar.Size = new System.Drawing.Size(91, 43);
-            this.btnSalvar.TabIndex = 6;
+            this.btnSalvar.TabIndex = 3;
             this.btnSalvar.Text = "Salvar";
             this.btnSalvar.UseVisualStyleBackColor = true;
             this.btnSalvar.Click += new System.EventHandler(this.btnConfirmar_Click);
@@ -186,7 +189,6 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btnExcluir);
-            this.groupBox2.Controls.Add(this.btnNovo);
             this.groupBox2.Controls.Add(this.listViewUnidade);
             this.groupBox2.Location = new System.Drawing.Point(312, 75);
             this.groupBox2.Name = "groupBox2";
@@ -208,19 +210,6 @@
             this.btnExcluir.UseVisualStyleBackColor = true;
             this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
             // 
-            // btnNovo
-            // 
-            this.btnNovo.Depth = 0;
-            this.btnNovo.Location = new System.Drawing.Point(185, 339);
-            this.btnNovo.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnNovo.Name = "btnNovo";
-            this.btnNovo.Primary = true;
-            this.btnNovo.Size = new System.Drawing.Size(91, 43);
-            this.btnNovo.TabIndex = 11;
-            this.btnNovo.Text = "Novo";
-            this.btnNovo.UseVisualStyleBackColor = true;
-            this.btnNovo.Click += new System.EventHandler(this.btnNovo_Click);
-            // 
             // FrmCadUnidadeMedida
             // 
             this.ClientSize = new System.Drawing.Size(627, 527);
@@ -228,7 +217,8 @@
             this.Controls.Add(this.groupBox1);
             this.MaximizeBox = false;
             this.Name = "FrmCadUnidadeMedida";
-            this.Text = "Cadastro de Unidade de Medida";
+            this.Text = "Unidade de Medida";
+            this.TopMost = true;
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -250,7 +240,6 @@
         private System.Windows.Forms.ColumnHeader sigla;
         private System.Windows.Forms.GroupBox groupBox2;
         private MaterialSkin.Controls.MaterialRaisedButton btnExcluir;
-        private MaterialSkin.Controls.MaterialRaisedButton btnNovo;
         private MaterialSkin.Controls.MaterialLabel lblId;
     }
 }
