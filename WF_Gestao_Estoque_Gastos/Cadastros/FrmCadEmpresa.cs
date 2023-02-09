@@ -256,22 +256,32 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
             while (reader.Read())
             {
+                var id = Convert.ToInt32(reader["id"].ToString());
+                var cpnj = Convert.ToDecimal(reader["CNPJ"].ToString());
+                var nomeFantasia = reader["nomeFantasia"].ToString();
+                var email = reader["email"].ToString();
+                var telefone = Convert.ToDecimal(reader["telefone"].ToString());
+                var numeroResidencia = Convert.ToInt32(reader["numeroEndereco"].ToString());
+
+                var complemento = reader["complemento"].ToString();
+                var cidade = reader["cidade"].ToString();
+                var rua = reader["rua"].ToString();
+                var bairro = reader["bairro"].ToString();
+                var razaoSocial = reader["razaoSocial"].ToString();
+
                 Empresa empresa = new Empresa()
-
                 {
-                    id = Convert.ToInt32(reader["id"].ToString()),
-                    CNPJ = Convert.ToDecimal(reader["CNPJ"].ToString()),
-                    nomeFantasia = reader["nomeFantasia"].ToString(),
-                    email = reader["email"].ToString(),
-                    telefone = Convert.ToDecimal(reader["telefone"].ToString()),
-                    numeroResidencia = Convert.ToInt32(reader["numeroEndereco"].ToString()),
-                    complemento = reader["complemento"].ToString(),
-                    cidade = reader["cidade"].ToString(),
-                    rua = reader["rua"].ToString(),
-                    bairro = reader["bairro"].ToString(),
-                    razaoSocial = reader["razaoSocial"].ToString(),
-
-
+                    id = id,
+                    CNPJ = cpnj,
+                    nomeFantasia = nomeFantasia,
+                    email = email,
+                    telefone = telefone,
+                    numeroResidencia = numeroResidencia,
+                    complemento = complemento,
+                    cidade = cidade,
+                    rua = rua,
+                    bairro = bairro,
+                    razaoSocial = razaoSocial,
                 };
                 listaEmpresas.Add(empresa);
             }
@@ -386,10 +396,46 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             atualizar_lista();
         }
 
+        private static string FormataIntParaStringCNPJ(int cnpj)
+        {
+            string cnpjAsString = cnpj.ToString();
+            var qtdCarcteres = cnpjAsString.Length;
+
+            if(qtdCarcteres < 13)
+                return cnpjAsString.PadLeft(13 - qtdCarcteres, '0');
+            return cnpjAsString.Substring(0, 13);
+        }
+
+        private static string AdicionaCaracteresMaskara(int i)
+        {
+            var ponto = ".";
+            var barra = "/";
+            var hifen = "-";
+            switch (i)
+            {
+                case 2 : return ponto;
+                case 5 : return ponto;
+                case 8 : return ponto + barra;
+                case 12: return hifen;
+                    
+                default: return "";
+            }
+        }
+        private static string AdicionaMascaraCNPJ(string cnpj)
+        {
+            var saida = "";
+            for(var i =0; i < cnpj.Length; i++)
+            {
+                saida += AdicionaCaracteresMaskara(i) + cnpj[i];
+            }
+
+            return saida;
+        }
         private static string FormatCNPJ(string CNPJ)
         {
-            return
-                Convert.ToUInt64(CNPJ).ToString(@"00\.000\.000\.\/0000\-00");
+            var cnpjFormatado = AdicionaMascaraCNPJ(CNPJ);
+
+            return cnpjFormatado;
         }
 
         private static string FormatTelefone(string telefone)
@@ -401,7 +447,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         public bool ContemNumeros(string verifica)
         {
             bool ok = false;
-            Regex.IsMatch(verifica, "^[0-9]+$");
+            ok = Regex.IsMatch(verifica, "^[0-9]+$");
             //var regex = new Regex(@"[^\d]");
             //return regex.Match(verifica).Success;
             return ok;
