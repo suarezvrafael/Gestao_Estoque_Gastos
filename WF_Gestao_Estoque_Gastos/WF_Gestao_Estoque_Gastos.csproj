@@ -111,6 +111,12 @@
     <Compile Include="Cadastros\FrmCadEmpresa.Designer.cs">
       <DependentUpon>FrmCadEmpresa.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cadastros\teste.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cadastros\teste.Designer.cs">
+      <DependentUpon>teste.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cadastros\UnidadeMedida.cs" />
     <Compile Include="FrmLogin.cs">
       <SubType>Form</SubType>
@@ -137,6 +143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Cadastros\FrmCadUsuario.resx">
       <DependentUpon>FrmCadUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cadastros\teste.resx">
+      <DependentUpon>teste.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>

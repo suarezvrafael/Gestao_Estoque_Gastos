@@ -2,10 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Data.Odbc;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows.Forms;
 using static MaterialSkin.Controls.MaterialForm;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -26,21 +23,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             cmd.Connection = con;
 
             AlterarNomeForm(true);
-        }
-
-        private void btnLimpar_Click(object sender, System.EventArgs e)
-        {
-            AlterarNomeForm(true);
-
-            txtIngrediente.Text = string.Empty;
-            txtQuantidade.Text = string.Empty;
-            txtPreco.Text = string.Empty;
-
-            cbxUnidMedida.SelectedIndex = 0;
-
-            btnCadastrar.Enabled = true;
-            btnSalvar.Enabled = false;
-
         }
 
         private bool ExcluirIngredientePorId(int id)
@@ -75,86 +57,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
             cbxUnidMedida.SelectedIndex = 0;
 
+            btnCadastrar.Enabled = true;
+
             return excluiu;
-        }
-
-        private void btnCadastrar_Click(object sender, System.EventArgs e)
-        {
-            var ingrediente = txtIngrediente.Text;
-            var quantidade = txtQuantidade.Text;
-            var preco = txtPreco.Text;
-            var unidadeMedida = cbxUnidMedida.SelectedIndex;
-
-
-            ValidarCampos(ingrediente, quantidade, preco, unidadeMedida);
-
-            try
-            {
-                con.Open();
-
-                cmd = con.CreateCommand();
-
-                var a = cmd.CommandText = $"SELECT nomeingrediente FROM tblingrediente WHERE nomeingrediente = '{ingrediente}'";
-
-                reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    // Remove os acento e o ç das strings
-                    var ingredienteBd = reader["nomeingrediente"].ToString();
-
-                    string comAcentos = "ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç";
-                    string semAcentos = "AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc";
-
-                    for (int i = 0; i < comAcentos.Length; i++)
-                    {
-                        ingrediente = ingrediente.Replace(comAcentos[i].ToString(), semAcentos[i].ToString());
-                        ingredienteBd = ingredienteBd.Replace(comAcentos[i].ToString(), semAcentos[i].ToString());
-                    }
-
-                    if (ingredienteBd.ToLower() == ingrediente.ToLower())
-                    {
-                        MessageBox.Show("O ingrediente já existe");
-                        con.Close();
-                        return;
-                    }
-                }
-
-                con.Close();
-
-
-                con.Open();
-
-                cmd = con.CreateCommand();
-
-                cmd.CommandText = "INSERT INTO tblingrediente (nomeingrediente, precoingrediente, unidademedidaid, quantidadeunidade, receitaid, pedidoid, empresaid) " +
-                        "VALUES (@nomeingrediente, @precoingrediente, @unidademedidaid, @quantidadeunidade, @receitaid, @pedidoid, @empresaid)";
-
-                cmd.Parameters.AddWithValue("nomeingrediente", ingrediente);
-                cmd.Parameters.AddWithValue("quantidadeunidade", quantidade);
-                cmd.Parameters.AddWithValue("precoingrediente", preco);
-                cmd.Parameters.AddWithValue("unidademedidaid", unidadeMedida);
-                cmd.Parameters.AddWithValue("receitaid", 2);
-                cmd.Parameters.AddWithValue("pedidoid", 2);
-                cmd.Parameters.AddWithValue("empresaid", 2);
-
-                var retornoInsert = cmd.ExecuteNonQuery();
-
-                if (retornoInsert > 0)
-                {
-                    MessageBox.Show("Ingrediente cadastrado com sucesso");
-                }
-
-                con.Close();
-                PreencherListViewIngredientes();
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-
-                MessageBox.Show("Ocorreu um erro no sistema // " + ex.Message);
-            }
         }
 
         private void FrmCadIngrediente_Load(object sender, EventArgs e)
@@ -208,7 +113,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         }
 
         private void PreencherListViewIngredientes()
-
         {
             try
             {
@@ -218,7 +122,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 con.Open();
                 cmd.Connection = con;
-                cmd.CommandText = @"SELECT i.id, i.NomeIngrediente, i.PrecoIngrediente, u.Descricao, i.QuantidadeUnidade, i.ReceitaId, i.PedidoId, i.EmpresaId FROM tblingrediente i, tblunidademedida u WHERE i.UnidadeMedidaId = u.Id";
+                cmd.CommandText = @"SELECT i.id, i.NomeIngrediente, i.PrecoIngrediente, u.Descricao, i.QuantidadeUnidade, i.ReceitaId, i.PedidoId, 
+                                    i.EmpresaId FROM tblingrediente i, tblunidademedida u WHERE i.UnidadeMedidaId = u.Id ORDER BY i.NomeIngrediente ASC";
                 reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -242,11 +147,11 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 {
                     lsvIngredientes.Items.Add(new ListViewItem(new string[]
                     {
-                         ingr.NomeIngrediente,
-                         ingr.PrecoIngrediente.ToString(),
-                         ingr.Descricao.ToString(),
-                         ingr.QuantidadeUnidade.ToString(),
-                         ingr.Id.ToString(),
+                        ingr.NomeIngrediente,
+                        ingr.QuantidadeUnidade.ToString(),
+                        ingr.Descricao.ToString(),
+                        ingr.PrecoIngrediente.ToString().Length >= 7 ? "R$ " + ingr.PrecoIngrediente.ToString().Insert(1, ".") : "R$ " + ingr.PrecoIngrediente.ToString(),
+                        ingr.Id.ToString(),
                     }));
                 }
 
@@ -267,7 +172,144 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             this.Text = edit ? "Cadastro de Ingrediente" : "Editar Ingrediente";
         }
 
-        private void lsvIngredientes_SelectedIndexChanged(object sender, EventArgs e)
+        private bool ValidarCampos(string ingrediente, string quantidade, string preco, int unidadeMedida)
+        {
+            var isOk = true;
+
+            if (ingrediente.Equals(string.Empty) || !Regex.IsMatch(ingrediente, @"^[a-zA-Z\s(ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç\-)]+$"))
+            {
+                MessageBox.Show("Digite um ingrediente válido.");
+                this.ActiveControl = txtIngrediente;
+                isOk = false;
+            }
+            else if (!Regex.IsMatch(quantidade, "^[0-9]+$") || quantidade.Length > 10)
+            {
+                MessageBox.Show("Digite uma quantidade válida com até 10 dígitos.");
+                txtQuantidade.Focus();
+                isOk = false;
+            }
+            else if (!Regex.IsMatch(preco, "^(\\d{1,3}(\\.\\d{3})*|\\d+)(\\,\\d{1,2})?$"))
+            {
+                MessageBox.Show("Digite um preço válido.");
+                txtPreco.Focus();
+                isOk = false;
+            }
+            else if (unidadeMedida <= 0)
+            {
+                MessageBox.Show("Selecione uma unidade de medida.");
+                cbxUnidMedida.Focus();
+                isOk = false;
+            }
+
+            return isOk;
+        }
+
+        private void btnCadastrar_Click_1(object sender, EventArgs e)
+        {
+            var ingrediente = txtIngrediente.Text.Trim();
+            var quantidade = txtQuantidade.Text;
+            var preco = txtPreco.Text;
+            var unidadeMedida = cbxUnidMedida.SelectedIndex;
+
+            var count = 0;
+
+            for (int i = 0; i < ingrediente.Length; i++)
+            {
+                if (ingrediente[i] == '-')
+                    count += 1;
+
+                if (count > 2)
+                {
+                    MessageBox.Show("Digite um ingrediente válido.");
+                    return;
+                }
+            }
+
+            var retornoValidacao = ValidarCampos(ingrediente, quantidade, preco, unidadeMedida);
+
+            preco = preco.Replace(".", "");
+            preco = preco.Replace(",", ".");
+
+            if (retornoValidacao == false)
+                return;
+
+            try
+            {
+                con.Open();
+
+                cmd = con.CreateCommand();
+
+                cmd.CommandText = $"SELECT nomeingrediente FROM tblingrediente WHERE nomeingrediente = '{ingrediente}'";
+
+                reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    // Remove os acento e o ç das strings
+                    var ingredienteBd = reader["nomeingrediente"].ToString();
+
+                    string comAcentos = "ÄÅÁÂÀÃäáâàãÉÊËÈéêëèÍÎÏÌíîïìÖÓÔÒÕöóôòõÜÚÛüúûùÇç";
+                    string semAcentos = "AAAAAAaaaaaEEEEeeeeIIIIiiiiOOOOOoooooUUUuuuuCc";
+
+                    for (int i = 0; i < comAcentos.Length; i++)
+                    {
+                        ingrediente = ingrediente.Replace(comAcentos[i].ToString(), semAcentos[i].ToString());
+                        ingredienteBd = ingredienteBd.Replace(comAcentos[i].ToString(), semAcentos[i].ToString());
+                    }
+
+                    if (ingredienteBd.ToLower() == ingrediente.ToLower())
+                    {
+                        MessageBox.Show("O ingrediente já existe");
+                        con.Close();
+                        return;
+                    }
+                }
+
+                con.Close();
+
+                // Se o cliente cadastra em kg converter para gramas no banco
+                //if (unidadeMedida == 1)
+                //{
+                //    quantidade = (Convert.ToInt32(quantidade) * 1000).ToString();
+                //    unidadeMedida = 2;
+                //}
+
+                con.Open();
+
+                cmd = con.CreateCommand();
+
+                cmd.CommandText = "INSERT INTO tblingrediente (nomeingrediente, precoingrediente, unidademedidaid, quantidadeunidade, receitaid, pedidoid, empresaid) " +
+                        "VALUES (@nomeingrediente, @precoingrediente, @unidademedidaid, @quantidadeunidade, @receitaid, @pedidoid, @empresaid)";
+
+                cmd.Parameters.AddWithValue("nomeingrediente", ingrediente);
+                cmd.Parameters.AddWithValue("quantidadeunidade", quantidade);
+                cmd.Parameters.AddWithValue("precoingrediente", preco);
+                cmd.Parameters.AddWithValue("unidademedidaid", unidadeMedida);
+                cmd.Parameters.AddWithValue("receitaid", 2);
+                cmd.Parameters.AddWithValue("pedidoid", 2);
+                cmd.Parameters.AddWithValue("empresaid", 2);
+
+                var retornoInsert = cmd.ExecuteNonQuery();
+
+                if (retornoInsert > 0)
+                {
+                    MessageBox.Show("Ingrediente cadastrado com sucesso");
+                    btnLimpar_Click(sender, e);
+                }
+
+                con.Close();
+                PreencherListViewIngredientes();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                MessageBox.Show("Ocorreu um erro no sistema // " + ex.Message);
+            }
+        }
+
+        private void lsvIngredientes_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             AlterarNomeForm(false);
 
@@ -281,9 +323,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 if (indiceItemSelecionado >= 0)
                 {
                     var ingrediente = lsvIngredientes.Items[indiceItemSelecionado].Text;
-                    var preco = lsvIngredientes.Items[indiceItemSelecionado].SubItems[1].Text;
+                    var quantUnidade = lsvIngredientes.Items[indiceItemSelecionado].SubItems[1].Text;
                     var uniMedida = lsvIngredientes.Items[indiceItemSelecionado].SubItems[2].Text;
-                    var quantUnidade = lsvIngredientes.Items[indiceItemSelecionado].SubItems[3].Text;
+                    var preco = lsvIngredientes.Items[indiceItemSelecionado].SubItems[3].Text;
                     var id = Convert.ToInt32(lsvIngredientes.Items[indiceItemSelecionado].SubItems[4].Text);
 
                     txtIngrediente.Text = ingrediente;
@@ -313,7 +355,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             }
         }
 
-        private void btnExcluir_Click(object sender, EventArgs e)
+        private void btnExcluir_Click_1(object sender, EventArgs e)
         {
             var itemId = Convert.ToInt32(lsvIngredientes.Items[lsvIngredientes.FocusedItem.Index].SubItems[4].Text);
             ExcluirIngredientePorId(itemId);
@@ -322,22 +364,34 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             btnExcluir.Enabled = false;
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
+        private void btnCancelar_Click_1(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void btnSalvar_Click(object sender, EventArgs e)
+        private void btnSalvar_Click_1(object sender, EventArgs e)
         {
             try
             {
                 var id = lblid.Text;
-                var ingrediente = txtIngrediente.Text;
-                var preco = txtPreco.Text.Replace(',', '.');
+                var ingrediente = txtIngrediente.Text.Trim();
+                var preco = txtPreco.Text;
                 var uniMedida = cbxUnidMedida.SelectedIndex;
                 var quantidade = txtQuantidade.Text;
 
-                ValidarCampos(ingrediente, quantidade, preco, uniMedida);
+                var retornoValidacao = ValidarCampos(ingrediente, quantidade, preco, uniMedida);
+
+                preco = preco.Replace(".", "");
+                preco = preco.Replace(",", ".");
+
+                if (retornoValidacao == false)
+                    return;
+
+                //if (uniMedida == 1)
+                //{
+                //    quantidade = (Convert.ToInt32(quantidade) * 1000).ToString();
+                //    uniMedida = 2;
+                //}
 
                 con.Open();
 
@@ -367,46 +421,72 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             }
         }
 
-        private void ValidarCampos(string ingrediente, string quantidade, string preco, int unidadeMedida)
+        private void txtBuscaIngrediente_KeyUp(object sender, KeyEventArgs e)
         {
-            if (!int.TryParse(quantidade, out var qtd))
+            try
             {
-                MessageBox.Show("Digite um número válido no campo da quantidade");
-                txtQuantidade.Focus();
-                return;
-            }
+                var nomeIngrediente = txtBuscaIngrediente.Text;
+                lsvIngredientes.Items.Clear();
 
-            if (!int.TryParse(preco, out var price))
-            {
-                MessageBox.Show("Digite um número válido no campo do preço");
-                txtQuantidade.Focus();
-                return;
-            }
 
-            if (ingrediente.Equals(string.Empty) || Regex.IsMatch(ingrediente, "^[a-zA-Z]+$"))
-            {
-                MessageBox.Show("Digite um ingrediente");
-                this.ActiveControl = txtIngrediente;
-                return;
+                List<Ingredientes> ingrediente = new List<Ingredientes>();
+
+                con.Open();
+                cmd.Connection = con;
+                cmd.CommandText = $@"SELECT i.id, i.NomeIngrediente, i.PrecoIngrediente, u.Descricao, i.QuantidadeUnidade, i.ReceitaId, i.PedidoId, i.EmpresaId FROM tblingrediente i, tblunidademedida u WHERE i.UnidadeMedidaId = u.Id AND i.NomeIngrediente LIKE '%{nomeIngrediente}%' ORDER BY i.NomeIngrediente ASC";
+                reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var ingredientes = new Ingredientes()
+                    {
+                        Id = Convert.ToInt32(reader["id"].ToString()),
+                        NomeIngrediente = reader["nomeingrediente"].ToString(),
+                        PrecoIngrediente = Convert.ToDecimal(reader["precoingrediente"].ToString()),
+                        Descricao = reader["descricao"].ToString(),
+                        QuantidadeUnidade = Convert.ToInt32(reader["quantidadeunidade"].ToString()),
+                        ReceitaId = Convert.ToInt32(reader["receitaid"].ToString()),
+                        PedidoId = Convert.ToInt32(reader["pedidoid"].ToString()),
+                        EmpresaId = Convert.ToInt32(reader["empresaid"].ToString()),
+                    };
+
+                    ingrediente.Add(ingredientes);
+                }
+
+                foreach (var ingr in ingrediente)
+                {
+                    lsvIngredientes.Items.Add(new ListViewItem(new string[]
+                    {
+                            ingr.NomeIngrediente,
+                            ingr.PrecoIngrediente.ToString().Length >= 7 ? ingr.PrecoIngrediente.ToString().Insert(1, ".") : ingr.PrecoIngrediente.ToString(),
+                            ingr.Descricao.ToString(),
+                            ingr.QuantidadeUnidade.ToString(),
+                            ingr.Id.ToString(),
+                    }));
+                }
+
+                con.Close();
             }
-            else if (qtd < 0)
+            catch (Exception ex)
             {
-                MessageBox.Show("Digite a quantidade");
-                txtQuantidade.Focus();
-                return;
+                Console.WriteLine(ex.Message);
+
+                MessageBox.Show("Ocorreu um erro no sistema");
             }
-            else if (price < 0)
-            {
-                MessageBox.Show("Digite o preço");
-                txtPreco.Focus();
-                return;
-            }
-            else if (unidadeMedida <= 0)
-            {
-                MessageBox.Show("Selecione a unidade de medida");
-                cbxUnidMedida.Focus();
-                return;
-            }
+        }
+
+        private void btnLimpar_Click(object sender, EventArgs e)
+        {
+            AlterarNomeForm(true);
+
+            txtIngrediente.Text = string.Empty;
+            txtQuantidade.Text = string.Empty;
+            txtPreco.Text = string.Empty;
+
+            cbxUnidMedida.SelectedIndex = 0;
+
+            btnCadastrar.Enabled = true;
+            btnSalvar.Enabled = false;
         }
     }
 
