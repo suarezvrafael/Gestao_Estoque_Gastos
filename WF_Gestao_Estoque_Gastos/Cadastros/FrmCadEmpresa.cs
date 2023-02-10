@@ -106,6 +106,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                  * as mascaras
                  * 
                  * 
+                 * 
+                 * 
                 */
 
                 while (reader.Read())
