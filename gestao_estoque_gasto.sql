@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 07-Fev-2023 às 01:14
+-- Tempo de geração: 10-Fev-2023 às 23:58
 -- Versão do servidor: 10.4.24-MariaDB
 -- versão do PHP: 8.1.6
 
@@ -48,7 +48,7 @@ CREATE TABLE `tblempresa` (
   `numeroEndereco` int(11) DEFAULT NULL,
   `complemento` varchar(200) DEFAULT NULL,
   `email` varchar(90) DEFAULT NULL,
-  `telefone` int(11) DEFAULT NULL,
+  `telefone` varchar(15) DEFAULT NULL,
   `nomeFantasia` varchar(150) NOT NULL,
   `idcidade` int(11) NOT NULL,
   `createEmpresa` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -61,12 +61,12 @@ CREATE TABLE `tblempresa` (
 --
 
 INSERT INTO `tblempresa` (`id`, `CNPJ`, `razaoSocial`, `rua`, `bairro`, `numeroEndereco`, `complemento`, `email`, `telefone`, `nomeFantasia`, `idcidade`, `createEmpresa`, `updateEmpresa`, `idUsername`) VALUES
-(7, '230233434', 'chocolandia', 'marechal', 'centro', 12, 'ao lado da sorveteria', 'choco@onion', 2147483647, 'choco deep898797', 0, '2023-02-04 00:02:07', NULL, 0),
-(9, '34234523', 'fvsddsfvsdf', 'dfvdfv', 'dfvfdvdfv', 2, 'sdvdfvdfv', 'sdfdfvfvsdvf', 3452345, 'sdfvsdfvsdf', 0, '2023-02-04 00:02:07', NULL, 0),
-(10, '99887799', 'vista real', 'pedro geromel', 'centro', 365, 'ao lado do kanemann', 'vistareal@gmail.com', 2147483647, 'vistoria', 0, '2023-02-04 00:02:07', NULL, 0),
-(11, '230233434', 'chocolandia', 'marechal', 'centro', 12, 'ao lado da sorveteria', 'choco@onion', 2147483647, 'choco deep898797', 0, '2023-02-04 00:02:07', NULL, 0),
-(12, '9999999999', 'chocolandia', 'marechal', 'centro', 12, 'ao lado da sorveteria', 'choco@onion', 2147483647, 'choco pelvico', 0, '2023-02-04 00:02:07', NULL, 0),
-(13, '99.862.0001/14', 'textos Express', 'av geromel', 'centro', 352, 'ao lado do kanemann', 'texto@hotmail.com', 9996557, 'Texto Facil', 7, '2023-02-04 00:04:09', NULL, 1);
+(7, '230233434', 'chocolandia', 'marechal', 'centro', 12, 'ao lado da sorveteria', 'choco@onion', '2147483647', 'choco deep898797', 0, '2023-02-04 00:02:07', NULL, 0),
+(9, '34234523', 'fvsddsfvsdf', 'dfvdfv', 'dfvfdvdfv', 2, 'sdvdfvdfv', 'sdfdfvfvsdvf', '3452345', 'sdfvsdfvsdf', 0, '2023-02-04 00:02:07', NULL, 0),
+(10, '99887799', 'vista real', 'pedro geromel', 'centro', 365, 'ao lado do kanemann', 'vistareal@gmail.com', '2147483647', 'vistoria', 0, '2023-02-04 00:02:07', NULL, 0),
+(11, '230233434', 'chocolandia', 'marechal', 'centro', 12, 'ao lado da sorveteria', 'choco@onion', '2147483647', 'choco deep898797', 0, '2023-02-04 00:02:07', NULL, 0),
+(12, '9999999999', 'chocolandia', 'marechal', 'centro', 12, 'ao lado da sorveteria', 'choco@onion', '2147483647', 'choco pelvico', 0, '2023-02-04 00:02:07', NULL, 0),
+(13, '99.862.0001/14', 'textos Express', 'av geromel', 'centro', 352, 'ao lado do kanemann', 'texto@hotmail.com', '9996557', 'Texto Facil', 7, '2023-02-04 00:04:09', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -167,7 +167,8 @@ CREATE TABLE `tblpedidoreceita` (
 CREATE TABLE `tblreceita` (
   `id` int(11) NOT NULL,
   `nomeReceita` varchar(140) CHARACTER SET utf8 NOT NULL,
-  `idEmpresa` int(11) NOT NULL
+  `idEmpresa` int(11) NOT NULL,
+  `valorTotalReceita` float(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
