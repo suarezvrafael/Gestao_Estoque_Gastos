@@ -71,7 +71,7 @@ namespace WF_Gestao_Estoque_Gastos
                     GerenciarTela.AbrirTelaEFecharAtual(new FrmPrincipal(id, form), form, true);
                 }
                 else
-                    MessageBox.Show("Usuário e/ou senha incorretos.","Erro",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ExibirMensagem.Aviso("Usuário e/ou senha incorretos.");
             }
 
         }
@@ -160,7 +160,7 @@ namespace WF_Gestao_Estoque_Gastos
             }
             catch (Exception e)
             {
-                MessageBox.Show("Ops. Erro: " + e.Message);
+                ExibirMensagem.Informacao("Ops. Erro: " + e.Message);
             }
             finally
             {
@@ -269,7 +269,7 @@ namespace WF_Gestao_Estoque_Gastos
 
         private void MensagemErroConexao()
         {
-            MessageBox.Show("Falha na conexão.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            ExibirMensagem.Erro("Falha na conexão.");
         }
 
         private void cadastrarUsuárioToolStripMenuItem1_Click(object sender, EventArgs e)

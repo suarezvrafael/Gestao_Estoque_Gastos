@@ -13,5 +13,13 @@ namespace WF_Gestao_Estoque_Gastos
         {
             MessageBox.Show(mensagem, "Informação", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+        public static void Aviso(string mensagem)
+        {
+            MessageBox.Show(mensagem, "Alerta!!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+        public static void Erro(string mensagem)
+        {
+            MessageBox.Show(mensagem, "Erro!!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 }

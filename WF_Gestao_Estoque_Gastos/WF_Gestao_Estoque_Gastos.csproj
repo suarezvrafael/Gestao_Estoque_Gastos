@@ -113,7 +113,9 @@
       <DependentUpon>FrmCadIngrediente.cs</DependentUpon>
     </Compile>
     <Compile Include="Conexao\ConexaoBD.cs" />
-    <Compile Include="ExibirMensagem.cs" />
+    <Compile Include="Servicos\ComboBoxManager\GerenciarComboBox.cs" />
+    <Compile Include="Servicos\ListViewManager\ListViewManager.cs" />
+    <Compile Include="Servicos\Mensagens\ExibirMensagem.cs" />
     <Compile Include="FrmCadUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,7 +128,7 @@
     <Compile Include="Cadastros\FrmCadEmpresa.Designer.cs">
       <DependentUpon>FrmCadEmpresa.cs</DependentUpon>
     </Compile>
-    <Compile Include="Empresa.cs" />
+    <Compile Include="Models\Empresa.cs" />
     <Compile Include="FrmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,7 +147,8 @@
     <Compile Include="Servicos\Excecoes\DispararExecao.cs" />
     <Compile Include="Servicos\GerenciarTela.cs" />
     <Compile Include="Servicos\Validacoes\ValidarCampos.cs" />
-    <Compile Include="Usuario.cs" />
+    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Servicos\Validacoes\ValidarString.cs" />
     <EmbeddedResource Include="Cadastros\FrmCadEmpresa.resx">
       <DependentUpon>FrmCadEmpresa.cs</DependentUpon>
     </EmbeddedResource>

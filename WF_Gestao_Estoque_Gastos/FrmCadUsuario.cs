@@ -340,7 +340,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         public bool VerificarInputs()
         {
             bool verifica = false;
-            if (ValidarCampos.CampoPreenchido(txtUsuario.Text, txtNome.Text, txtSenha.Text, txtConfirmarSenha.Text))
+            if (ValidarString.CamposPreenchido(txtUsuario.Text, txtNome.Text, txtSenha.Text, txtConfirmarSenha.Text))
             {
                 verifica = true;
             }

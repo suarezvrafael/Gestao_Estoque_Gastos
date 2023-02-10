@@ -262,6 +262,11 @@
             this.mtxtCnpj.Size = new System.Drawing.Size(159, 23);
             this.mtxtCnpj.TabIndex = 16;
             this.mtxtCnpj.UseSystemPasswordChar = false;
+            this.mtxtCnpj.Click += new System.EventHandler(this.mtxtCnpj_Click);
+            this.mtxtCnpj.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtCnpj_KeyDown);
+            this.mtxtCnpj.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mtxtCnpj_KeyPress);
+            this.mtxtCnpj.KeyUp += new System.Windows.Forms.KeyEventHandler(this.mtxtCnpj_KeyUp);
+            this.mtxtCnpj.TextChanged += new System.EventHandler(this.mtxtCnpj_TextChanged);
             // 
             // mtxtEmail
             // 
