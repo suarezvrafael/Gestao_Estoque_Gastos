@@ -1,18 +1,9 @@
 ﻿using MaterialSkin.Controls;
 using MySql.Data.MySqlClient;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using WF_Gestao_Estoque_Gastos.Servicos.Validacoes;
 
 namespace WF_Gestao_Estoque_Gastos.Cadastros
 {
@@ -20,10 +11,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
     public partial class FrmCadEmpresa : MaterialForm
     {
-
-
-
-
         MySqlConnection con;
         MySqlCommand cmd;
         MySqlDataReader reader;
@@ -34,8 +21,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             InitializeComponent();
             atualizar_lista();
         }
-
-        
 
         private void LimpaCampos()
         {
@@ -50,7 +35,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             mtxtNumero.Text = String.Empty;
             mtxtRua.Text = String.Empty;
 
-
         }
 
         private void materialLabel9_Click(object sender, EventArgs e)
@@ -61,47 +45,51 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         private void materialRaisedButton1_Click(object sender, EventArgs e) // btnSalvar
         {
 
-            decimal retornoCnpj = 0;
+            string retornoCnpj = null;
 
             string razaoSocial = mtxtRazaoSocial.Text;
             string nomeFantasia = mtxtNomeFantasia.Text;
 
             
             string CNPJ = mtxtCnpj.Text;
-
-            if (!ContemNumeros(CNPJ))
+            CNPJ = ValidarCampos.RemoveMaskaraCnpj(CNPJ);
+            if (!ValidarString.CampoApenasNumerico(CNPJ) && CNPJ.Length == 14)
             {
-                MessageBox.Show("Digite apenas Numeros") ;
+                ExibirMensagem.Aviso("Digite apenas Numeros, e apenas 14") ;
                 return;
             }
-            else
-            {
-                 CNPJ = FormatCNPJ(mtxtCnpj.Text);
+            CNPJ = ValidarCampos.FormatCNPJ(CNPJ); // trata cnpj
+
+            CNPJ = ValidarCampos.RemoverPontosHifensEBarra(CNPJ);
+            string telefone = "";
+            telefone = ValidarCampos.RemoveMaskaraTelefone(mtxtTelefone.Text);
+            if (!ValidarString.CampoApenasNumerico(telefone)){
+                ExibirMensagem.Erro("Preencha o telefone apenas com números!");
+                return;
             }
-
-            decimal telefone = Convert.ToDecimal(mtxtTelefone.Text);
-
 
             string email = mtxtEmail.Text;
             string cidade = mtxtCidade.Text;
             string bairro = mtxtBairro.Text;
             string complemento = mtxtComplemento.Text;
-            int numeroResidencia = Convert.ToInt32(mtxtNumero.Text);
+            int numeroResidencia = 0;
+            if (ValidarString.CampoApenasNumerico(mtxtNumero.Text))
+                numeroResidencia = ValidarCampos.RetornaZeroCasoVazio(mtxtNumero.Text);
+            else
+            {
+                ExibirMensagem.Erro("Preencha Numero com apenas números");
+                return;
+            }
             string rua = mtxtRua.Text;
-
 
             try
             { 
-
-
                 con.Open();
                 cmd = con.CreateCommand();
 
                 cmd.CommandText = "SELECT CNPJ FROM tblempresa WHERE CNPJ = @CNPJ";
                 cmd.Parameters.AddWithValue("CNPJ", CNPJ);
                 reader = cmd.ExecuteReader();
-
-
 
                 /*Modificar validação pra usar ID e CNPJ criar campo na tela mostrando ID 
                  * mascara de campos telefone e CNPJ
@@ -120,15 +108,12 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                  * 
                 */
 
-
-
-
                 while (reader.Read())
                 {
-                     retornoCnpj = Convert.ToDecimal(reader["CNPJ"].ToString());
+                     retornoCnpj = reader["CNPJ"].ToString();
                 };
                 con.Close();
-                if (retornoCnpj == 1)
+                if (retornoCnpj != null)
                 {
                     con.Open();
 
@@ -151,7 +136,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                     if (retornoDoUpdate > 0)
                     {
-                        MessageBox.Show("Empresa alterada com sucesso!");
+                        ExibirMensagem.Informacao("Empresa alterada com sucesso!");
                         LimpaCampos();
                         atualizar_lista();
                     }
@@ -180,7 +165,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                     if (retornoDoInsert > 0)
                     {
-                        MessageBox.Show("Empresa cadastrada com sucesso!");
+                        ExibirMensagem.Informacao("Empresa cadastrada com sucesso!");
                         LimpaCampos();
                         atualizar_lista();
                     }
@@ -189,7 +174,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro, contate o suporte técnico para verificar!");
+                ExibirMensagem.Erro("Erro, contate o suporte técnico para verificar!\n"+ ex.Message);
             }
 
 
@@ -224,7 +209,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             }
             catch (Exception e)
             {
-                MessageBox.Show("Ops. Erro: " + e.Message);
+                ExibirMensagem.Erro("Ops. Erro: " + e.Message);
             }
             atualizar_lista();
             LimpaCampos();
@@ -257,10 +242,10 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             while (reader.Read())
             {
                 var id = Convert.ToInt32(reader["id"].ToString());
-                var cpnj = Convert.ToDecimal(reader["CNPJ"].ToString());
+                var cpnj = reader["CNPJ"].ToString();
                 var nomeFantasia = reader["nomeFantasia"].ToString();
                 var email = reader["email"].ToString();
-                var telefone = Convert.ToDecimal(reader["telefone"].ToString());
+                var telefone = reader["telefone"].ToString();
                 var numeroResidencia = Convert.ToInt32(reader["numeroEndereco"].ToString());
 
                 var complemento = reader["complemento"].ToString();
@@ -329,9 +314,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
             var nomeFantasia = (listViewEmpresa.Items[itemSelecionado].SubItems[1].Text);
 
-            var cnpj = Convert.ToDecimal(listViewEmpresa.Items[itemSelecionado].SubItems[2].Text);
+            var cnpj = (listViewEmpresa.Items[itemSelecionado].SubItems[2].Text).ToString();
 
-            var telefone = Convert.ToDecimal(listViewEmpresa.Items[itemSelecionado].SubItems[3].Text);
+            var telefone = (listViewEmpresa.Items[itemSelecionado].SubItems[3].Text).ToString();
 
             var email = (listViewEmpresa.Items[itemSelecionado].SubItems[4].Text);
 
@@ -347,14 +332,10 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                                  
             var cidade = (listViewEmpresa.Items[itemSelecionado].SubItems[10].Text);
 
-
-
-
-
             mtxtRazaoSocial.Text = razaoSocial.ToString();
             mtxtNomeFantasia.Text = nomeFantasia.ToString();
-            mtxtCnpj.Text = FormatCNPJ(cnpj.ToString());
-            mtxtTelefone.Text = FormatTelefone(telefone.ToString());
+            mtxtCnpj.Text = ValidarCampos.FormatCNPJ(cnpj.ToString());
+            mtxtTelefone.Text = ValidarCampos.FormatarTelefone(telefone.ToString());
             mtxtEmail.Text = email.ToString();
             mtxtCidade.Text = cidade.ToString();
             mtxtBairro.Text = bairro.ToString();
@@ -362,7 +343,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             mtxtNumero.Text = numeroEndereco.ToString();
             mtxtRua.Text = rua.ToString();
             mtxtId.Text = id.ToString();    
-
         }
 
         private void materialLabel11_Click(object sender, EventArgs e)
@@ -376,13 +356,12 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             public string razaoSocial { get; set; }
             public string rua { get; set; }
             public string nomeFantasia { get; set; }
-            public decimal CNPJ  { get; set; }
-            public decimal telefone { get; set; }
+            public string CNPJ  { get; set; }
+            public string telefone { get; set; }
             public string email { get; set; }
             public string cidade { get; set; }
             public string bairro { get; set; }
             public string complemento { get; set; }
-
             public int numeroResidencia { get; set; }
 
         }
@@ -396,61 +375,33 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             atualizar_lista();
         }
 
-        private static string FormataIntParaStringCNPJ(int cnpj)
+        private void mtxtCnpj_KeyDown(object sender, KeyEventArgs e)
         {
-            string cnpjAsString = cnpj.ToString();
-            var qtdCarcteres = cnpjAsString.Length;
-
-            if(qtdCarcteres < 13)
-                return cnpjAsString.PadLeft(13 - qtdCarcteres, '0');
-            return cnpjAsString.Substring(0, 13);
         }
 
-        private static string AdicionaCaracteresMaskara(int i)
+        private void mtxtCnpj_KeyPress(object sender, KeyPressEventArgs e)
         {
-            var ponto = ".";
-            var barra = "/";
-            var hifen = "-";
-            switch (i)
-            {
-                case 2 : return ponto;
-                case 5 : return ponto;
-                case 8 : return ponto + barra;
-                case 12: return hifen;
-                    
-                default: return "";
-            }
-        }
-        private static string AdicionaMascaraCNPJ(string cnpj)
-        {
-            var saida = "";
-            for(var i =0; i < cnpj.Length; i++)
-            {
-                saida += AdicionaCaracteresMaskara(i) + cnpj[i];
-            }
 
-            return saida;
-        }
-        private static string FormatCNPJ(string CNPJ)
-        {
-            var cnpjFormatado = AdicionaMascaraCNPJ(CNPJ);
-
-            return cnpjFormatado;
         }
 
-        private static string FormatTelefone(string telefone)
+        private void mtxtCnpj_KeyUp(object sender, KeyEventArgs e)
         {
-            return
-                Convert.ToUInt64(telefone).ToString(@"\(00\) 0000\-0000");
+            
         }
 
-        public bool ContemNumeros(string verifica)
+        private void mtxtCnpj_Click(object sender, EventArgs e)
         {
-            bool ok = false;
-            ok = Regex.IsMatch(verifica, "^[0-9]+$");
-            //var regex = new Regex(@"[^\d]");
-            //return regex.Match(verifica).Success;
-            return ok;
+            //inutil, evento de click do input cnpj
+        }
+
+        private void mtxtCnpj_TextChanged(object sender, EventArgs e)
+        {
+
+            //string caractere = ValidarCampos.AdicionaCaracteresMaskara(mtxtCnpj.Text.Length);
+
+            //if (caractere != "")
+            //    mtxtCnpj.Text += caractere;
+            
         }
     }
 }
