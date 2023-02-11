@@ -2,8 +2,10 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
 using WF_Gestao_Estoque_Gastos.Cadastros;
+using WF_Gestao_Estoque_Gastos.Conexao.Cidade;
 using WF_Gestao_Estoque_Gastos.Servicos;
 using WF_Gestao_Estoque_Gastos.Servicos.Excecoes;
 
@@ -102,6 +104,7 @@ namespace WF_Gestao_Estoque_Gastos
 
         private Empresa BuscaEmpresaPorId(int id) 
         {
+            var listaCidades = MetodosTblCidade.RetornaTodasCidades();
             try
             {
                 con.Open();
@@ -109,19 +112,23 @@ namespace WF_Gestao_Estoque_Gastos
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+
+                    var idCidade = Convert.ToInt32(reader["idCidade"].ToString());
+                    var nomeCidade = listaCidades.FirstOrDefault(e => e.Id == idCidade).DescricaoCidade;
+
                     var empresa = new Empresa()
                     {
                         Id = int.Parse(reader["id"].ToString()),
-                        Bairro = reader["bairro"].ToString(),
-                        Cidade = reader["cidade"].ToString(),
-                        Complemento = reader["Complemento"].ToString(),
                         CNPJ = reader["CNPJ"].ToString(),
-                        Email = reader["Email"].ToString(),
-                        NomeFantasia = reader["NomeFantasia"].ToString(),
-                        NumeroEndereco = int.Parse(reader["NumeroEndereco"].ToString()),
                         RazaoSocial = reader["RazaoSocial"].ToString(),
                         Rua = reader["Rua"].ToString(),
-                        Telefone = reader["Telefone"].ToString()
+                        Bairro = reader["bairro"].ToString(),
+                        NumeroEndereco = int.Parse(reader["NumeroEndereco"].ToString()),
+                        Complemento = reader["Complemento"].ToString(),
+                        Email = reader["Email"].ToString(),
+                        Telefone = reader["Telefone"].ToString(),
+                        Cidade = nomeCidade,
+                        NomeFantasia = reader["NomeFantasia"].ToString(),
                     };
 
                     return empresa;

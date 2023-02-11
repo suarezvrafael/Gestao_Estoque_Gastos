@@ -111,7 +111,7 @@ namespace WF_Gestao_Estoque_Gastos.Servicos.Validacoes
 
         public static string RemoveMaskaraTelefone(string text)
         {
-            return text.Replace("(", "").Replace(")", "").Replace("-", "");
+            return text.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "");
         }
     }
 }
