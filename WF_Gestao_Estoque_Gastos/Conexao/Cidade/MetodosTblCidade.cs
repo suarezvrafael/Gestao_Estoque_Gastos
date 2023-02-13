@@ -24,6 +24,7 @@ namespace WF_Gestao_Estoque_Gastos.Conexao.Cidade
             con = new MySqlConnection("server=localhost;database=gestao_estoque_gasto;uid=root;pwd=;");
             cmd = new MySqlCommand();
             cmd.Connection = con;
+            con.Open();
         }
 
         private static void FecharConexao()
@@ -38,7 +39,7 @@ namespace WF_Gestao_Estoque_Gastos.Conexao.Cidade
             var queryNomeEmpresa = $"select id , descricaoCidade, idEstado from tblcidade";
 
             cmd.CommandText = queryNomeEmpresa;
-            var reader = cmd.ExecuteReader();
+            reader = cmd.ExecuteReader();
 
             while (reader.Read())
             {

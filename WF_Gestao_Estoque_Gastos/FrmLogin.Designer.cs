@@ -111,6 +111,7 @@
             this.cbxEmpresa.Name = "cbxEmpresa";
             this.cbxEmpresa.Size = new System.Drawing.Size(281, 21);
             this.cbxEmpresa.TabIndex = 2;
+            this.cbxEmpresa.SelectedIndexChanged += new System.EventHandler(this.cbxEmpresa_SelectedIndexChanged);
             // 
             // materialLabel1
             // 
@@ -185,7 +186,7 @@
             // deslogarToolStripMenuItem1
             // 
             this.deslogarToolStripMenuItem1.Name = "deslogarToolStripMenuItem1";
-            this.deslogarToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.deslogarToolStripMenuItem1.Size = new System.Drawing.Size(93, 22);
             this.deslogarToolStripMenuItem1.Text = "Sair";
             this.deslogarToolStripMenuItem1.Click += new System.EventHandler(this.deslogarToolStripMenuItem1_Click);
             // 

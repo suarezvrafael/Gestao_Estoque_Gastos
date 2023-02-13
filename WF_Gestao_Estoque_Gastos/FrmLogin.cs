@@ -1,6 +1,7 @@
 ﻿using MaterialSkin.Controls;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
@@ -17,6 +18,9 @@ namespace WF_Gestao_Estoque_Gastos
         MySqlCommand cmd;
         MySqlDataReader reader;
         FrmLogin form;
+
+        public Usuario usuarioLogado;
+
         public FrmLogin()
         {
             form = this;
@@ -38,6 +42,8 @@ namespace WF_Gestao_Estoque_Gastos
 
             DesmarcarUsuariosManterLogin();
             var id = 0;
+
+            Empresa empresa = (Empresa) cbxEmpresa.SelectedItem;
             try
             {
                 var usuario = txtUsuario.Text;
@@ -68,8 +74,10 @@ namespace WF_Gestao_Estoque_Gastos
                 con.Close();
                 if (usuarioLogou)
                 {
-                    if(chxManterLogin.Checked)
-                        LoginAutomatico(id);
+                    if (chxManterLogin.Checked)
+                        LoginAutomatico(empresa.Id, id);
+                    else
+                        LoginAutomatico(empresa.Id);
                     GerenciarTela.AbrirTelaEFecharAtual(new FrmPrincipal(id, form), form, true);
                 }
                 else
@@ -81,15 +89,16 @@ namespace WF_Gestao_Estoque_Gastos
         {
 
         }
-        public void LoginAutomatico(int id = 0)
+        public void LoginAutomatico(int empresaId, int id = 0)
         {
             try
             {
                 con.Open();
+                cmd.Connection = con;
                 if(id == 0)
-                    cmd.CommandText = $"update tblusuario set manterlogado = 0";
+                    cmd.CommandText = $"update tblusuario set manterlogado = 0 , set empresaid = {empresaId} ";
                 else
-                    cmd.CommandText = $"update tblusuario set manterlogado = 1 where id = {id}";
+                    cmd.CommandText = $"update tblusuario set manterlogado = 1, empresaid = {empresaId} where id = {id}";
                 cmd.ExecuteNonQuery();
             }
             catch (Exception errou)
@@ -112,9 +121,7 @@ namespace WF_Gestao_Estoque_Gastos
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-
                     var idCidade = Convert.ToInt32(reader["idCidade"].ToString());
-                    var nomeCidade = listaCidades.FirstOrDefault(e => e.Id == idCidade).DescricaoCidade;
 
                     var empresa = new Empresa()
                     {
@@ -127,7 +134,7 @@ namespace WF_Gestao_Estoque_Gastos
                         Complemento = reader["Complemento"].ToString(),
                         Email = reader["Email"].ToString(),
                         Telefone = reader["Telefone"].ToString(),
-                        Cidade = nomeCidade,
+                        CidadeId = idCidade,
                         NomeFantasia = reader["NomeFantasia"].ToString(),
                     };
 
@@ -149,6 +156,9 @@ namespace WF_Gestao_Estoque_Gastos
         {
             var empresa = BuscaEmpresaPorId(id);
             if (empresa != null)
+            {
+                cbxEmpresa.SelectedValue = empresa.Id;
+            }else
             if (cbxEmpresa.Items.Count > 0)
                 cbxEmpresa.SelectedIndex = 0;
         }
@@ -178,7 +188,7 @@ namespace WF_Gestao_Estoque_Gastos
         {
             var id = 0;
             var sucesso = false;
-
+            var empresaId = 0;
             try
             {
                 con.Open();
@@ -186,11 +196,12 @@ namespace WF_Gestao_Estoque_Gastos
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    txtUsuario.Text = reader["nome"].ToString();
-                    txtSenha.Text = reader["senha"].ToString();
-                    chxManterLogin.Checked = int.Parse(reader["manterlogado"].ToString()) == 1;
-                    id = int.Parse(reader["empresaId"].ToString());
-                    sucesso = true;
+                    id                      = int.Parse(reader["id"].ToString());
+                    txtUsuario.Text         = reader["nome"].ToString();
+                    txtSenha.Text           = reader["senha"].ToString();
+                    chxManterLogin.Checked  = int.Parse(reader["manterlogado"].ToString()) == 1;
+                    empresaId               = int.Parse(reader["empresaId"].ToString());
+                    sucesso                 = true;
                 }
 
             }
@@ -203,11 +214,10 @@ namespace WF_Gestao_Estoque_Gastos
             {
                 con.Close();
                 if (id != 0)
-                    PreencheEmpresaDoUsuarioManterLogin(id);
-                else
                 {
-                    if (cbxEmpresa.Items.Count > 0)
-                        cbxEmpresa.SelectedIndex = 0;
+                    usuarioLogado =  RetornaUsuarioLogado(id);
+                    if(empresaId != 0)  
+                        PreencheEmpresaDoUsuarioManterLogin(empresaId);
                 }
             }
 
@@ -246,16 +256,32 @@ namespace WF_Gestao_Estoque_Gastos
             var sucesso = false;
             try
             {
+                var listaEmpresas = new List<Empresa>();
                 con.Open();
                 cmd.CommandText = $"select * from tblempresa";
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    cbxEmpresa.Items.Add(
-                        reader["nomeFantasia"].ToString()
-                    );
-                    sucesso = true;
+                    listaEmpresas.Add(new Empresa()
+                    {
+                        Id              = int.Parse(reader["id"].ToString()),
+                        CNPJ            = reader["cnpj"].ToString(),
+                        NomeFantasia    = reader["NomeFantasia"].ToString(),
+                        Bairro          = reader["Bairro"].ToString(),
+                        CidadeId        = int.Parse(reader["idCidade"].ToString()),
+                        Complemento     = reader["Complemento"].ToString(),
+                        Email           = reader["Email"].ToString(),
+                        NumeroEndereco  = int.Parse(reader["NumeroEndereco"].ToString()),
+                        RazaoSocial     = reader["RazaoSocial"].ToString(),
+                        Rua             = reader["Rua"].ToString(),
+                        Telefone        = reader["Telefone"].ToString(),
+                    });
+
                 }
+                cbxEmpresa.DataSource = listaEmpresas;
+                cbxEmpresa.DisplayMember = "NomeFantasia";
+                cbxEmpresa.ValueMember   = "Id";
+                sucesso = true;
 
             }
             catch (Exception erro)
@@ -305,7 +331,7 @@ namespace WF_Gestao_Estoque_Gastos
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    var ativo = bool.Parse(reader["ativo"].ToString());
+                    var ativo = Int16.Parse( reader["ativo"].ToString() );
                     var acesso = int.Parse(reader["acesso"].ToString());
                     var logado   = int.Parse(reader["manterlogado"].ToString());
                     return new Usuario()
@@ -316,7 +342,7 @@ namespace WF_Gestao_Estoque_Gastos
                         Senha = reader["senha"].ToString(),
                         Acesso = acesso,
                         ManterLogado = logado == 1,
-                        Ativo = ativo,
+                        Ativo = ativo == 1,
                         EmpresaId = int.Parse(reader["empresaid"].ToString())
                     };
                 }
@@ -337,7 +363,7 @@ namespace WF_Gestao_Estoque_Gastos
 
         public void Deslogar()
         {
-            LoginAutomatico();
+            LoginAutomatico(usuarioLogado.EmpresaId);
             Application.Exit();
         }
         public void LimparCampos()
@@ -352,9 +378,14 @@ namespace WF_Gestao_Estoque_Gastos
         }
         private void deslogarToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            LoginAutomatico();
+            LoginAutomatico(usuarioLogado.EmpresaId);
             LimparCampos(); 
             Application.Exit();
+        }
+
+        private void cbxEmpresa_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
         }
     }
 }

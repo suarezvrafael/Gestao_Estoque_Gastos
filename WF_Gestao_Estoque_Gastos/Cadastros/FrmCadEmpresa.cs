@@ -46,10 +46,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         {
 
             string retornoCnpj = null;
-
             string razaoSocial = mtxtRazaoSocial.Text;
             string nomeFantasia = mtxtNomeFantasia.Text;
-
             
             string CNPJ = mtxtCnpj.Text;
             CNPJ = ValidarCampos.RemoveMaskaraCnpj(CNPJ);
