@@ -7,13 +7,13 @@ using WF_Gestao_Estoque_Gastos.Servicos.Validacoes;
 
 namespace WF_Gestao_Estoque_Gastos.Cadastros
 {
-
-
     public partial class FrmCadEmpresa : MaterialForm
     {
         MySqlConnection con;
         MySqlCommand cmd;
         MySqlDataReader reader;
+
+        private string _colunaIdCidade = "idcidade";
         public FrmCadEmpresa()
         {
             con = new MySqlConnection("server=localhost;database=gestao_estoque_gasto;pwd=;uid=root;");
@@ -67,7 +67,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             }
 
             string email = mtxtEmail.Text;
-            string cidade = mtxtCidade.Text;
+            string idcidade = mtxtCidade.Text; // capturar cidade id
             string bairro = mtxtBairro.Text;
             string complemento = mtxtComplemento.Text;
             int numeroResidencia = 0;
@@ -89,25 +89,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 cmd.Parameters.AddWithValue("CNPJ", CNPJ);
                 reader = cmd.ExecuteReader();
 
-                /*Modificar validação pra usar ID e CNPJ criar campo na tela mostrando ID 
-                 * mascara de campos telefone e CNPJ
-                 * metodo para transformar os numeros em formatação CNPJ e TELEFONE
-                 * verificar documentaçao php my admin questoes de update tbl empresa
-                 * alterações no banco 
-                 * mexer no agrupamento das tabelas apenas a tblEmpresa esta certa
-                 * 
-                 * 06/02/2023
-                 * 
-                 * rever os campos do banco pois foi modificado e o codigo precisa ser mudado
-                 * olhar regex 
-                 * metodos de mascara para material skin se nao achar pesquisar como fazer na mão 
-                 * as mascaras
-                 * 
-                 * 
-                 * 
-                 * 
-                */
-
                 while (reader.Read())
                 {
                      retornoCnpj = reader["CNPJ"].ToString();
@@ -119,7 +100,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                     cmd = con.CreateCommand();
 
-                    cmd.CommandText = "UPDATE tblempresa SET CNPJ = @CNPJ, razaoSocial = @razaoSocial, rua = @rua, bairro = @bairro, numeroEndereco = @numeroResidencia, complemento = @complemento, email = @email, telefone = @telefone, nomeFantasia = @nomeFantasia, cidade = @cidade WHERE CNPJ = @CNPJ";
+                    cmd.CommandText = $"UPDATE tblempresa SET CNPJ = @CNPJ, razaoSocial = @razaoSocial, rua = @rua, bairro = @bairro, numeroEndereco = @numeroResidencia, complemento = @complemento, email = @email, telefone = @telefone, nomeFantasia = @nomeFantasia, {_colunaIdCidade} = @idcidade WHERE CNPJ = @CNPJ";
 
                     cmd.Parameters.AddWithValue("CNPJ", CNPJ);
                     cmd.Parameters.AddWithValue("razaoSocial", razaoSocial);
@@ -130,7 +111,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     cmd.Parameters.AddWithValue("email", email);
                     cmd.Parameters.AddWithValue("telefone", telefone);
                     cmd.Parameters.AddWithValue("nomeFantasia", nomeFantasia);
-                    cmd.Parameters.AddWithValue("cidade", cidade);
+                    cmd.Parameters.AddWithValue(_colunaIdCidade, idcidade);
 
                     int retornoDoUpdate = cmd.ExecuteNonQuery();
 
@@ -148,7 +129,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                     cmd = con.CreateCommand();
 
-                    cmd.CommandText = "INSERT INTO tblempresa (CNPJ,razaoSocial,rua,bairro,numeroEndereco,complemento,email,telefone,nomeFantasia,cidade) VALUES (@CNPJ,@razaoSocial,@rua,@bairro,@numeroResidencia,@complemento,@email,@telefone,@nomeFantasia,@cidade)";
+                    cmd.CommandText = $"INSERT INTO tblempresa (CNPJ,razaoSocial,rua,bairro,numeroEndereco,complemento,email,telefone,nomeFantasia,{_colunaIdCidade}) VALUES (@CNPJ,@razaoSocial,@rua,@bairro,@numeroResidencia,@complemento,@email,@telefone,@nomeFantasia,@idcidade)";
 
                     cmd.Parameters.AddWithValue("CNPJ", CNPJ);
                     cmd.Parameters.AddWithValue("razaoSocial", razaoSocial);
@@ -159,7 +140,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     cmd.Parameters.AddWithValue("email", email);
                     cmd.Parameters.AddWithValue("telefone", telefone);
                     cmd.Parameters.AddWithValue("nomeFantasia", nomeFantasia);
-                    cmd.Parameters.AddWithValue("cidade", cidade);
+                    cmd.Parameters.AddWithValue(_colunaIdCidade, idcidade);
 
                     int retornoDoInsert = cmd.ExecuteNonQuery();
 
@@ -226,7 +207,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             //seta a conexão para o comando
             cmd = new MySqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "SELECT `id`, `CNPJ`, `razaoSocial`, `rua`, `bairro`, `numeroEndereco`, `complemento`, `email`, `telefone`, `nomeFantasia`, `cidade` FROM `tblempresa`";
+            cmd.CommandText = $"SELECT `id`, `CNPJ`, `razaoSocial`, `rua`, `bairro`, `numeroEndereco`, `complemento`, `email`, `telefone`, `nomeFantasia`, `{_colunaIdCidade}` FROM `tblempresa`";
 
 
             /*SELECT tblempresa.id, CNPJ, razaoSocial, rua, bairro, numeroEndereco, complemento, tblcidade.descricaoCidade, email, telefone, nomeFantasia, createEmpresa, updateEmpresa, idUsername
@@ -249,7 +230,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 var numeroResidencia = Convert.ToInt32(reader["numeroEndereco"].ToString());
 
                 var complemento = reader["complemento"].ToString();
-                var cidade = reader["cidade"].ToString();
+                var cidade = reader[$"{_colunaIdCidade}"].ToString();
                 var rua = reader["rua"].ToString();
                 var bairro = reader["bairro"].ToString();
                 var razaoSocial = reader["razaoSocial"].ToString();

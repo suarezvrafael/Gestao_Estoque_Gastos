@@ -30,7 +30,7 @@ namespace WF_Gestao_Estoque_Gastos.Servicos.Validacoes
             if (cnpj.Length > 14)
                 cnpj = cnpj.Substring(0, 14);
 
-            return Convert.ToInt64(cnpj).ToString(@"00\.000\.000\.\/0000-00");
+            return Convert.ToInt64(RemoveMaskaraCnpj(cnpj)).ToString(@"00\.000\.000\.\/0000-00");
         }
         public static bool IsCPNJComMaskara(string cnpj)
         {
