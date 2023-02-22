@@ -35,6 +35,13 @@
             this.cbxEmpresa = new System.Windows.Forms.ComboBox();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.chxManterLogin = new System.Windows.Forms.CheckBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.cadastrarUsuárioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cadastrarUsuárioToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.cadastrarEmpresaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deslogarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deslogarToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtUsuario
@@ -104,6 +111,7 @@
             this.cbxEmpresa.Name = "cbxEmpresa";
             this.cbxEmpresa.Size = new System.Drawing.Size(281, 21);
             this.cbxEmpresa.TabIndex = 2;
+            this.cbxEmpresa.SelectedIndexChanged += new System.EventHandler(this.cbxEmpresa_SelectedIndexChanged);
             // 
             // materialLabel1
             // 
@@ -132,6 +140,56 @@
             this.chxManterLogin.UseVisualStyleBackColor = false;
             this.chxManterLogin.CheckedChanged += new System.EventHandler(this.chxManterLogin_CheckedChanged);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cadastrarUsuárioToolStripMenuItem,
+            this.deslogarToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(309, 24);
+            this.menuStrip1.TabIndex = 7;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // cadastrarUsuárioToolStripMenuItem
+            // 
+            this.cadastrarUsuárioToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cadastrarUsuárioToolStripMenuItem1,
+            this.cadastrarEmpresaToolStripMenuItem});
+            this.cadastrarUsuárioToolStripMenuItem.Name = "cadastrarUsuárioToolStripMenuItem";
+            this.cadastrarUsuárioToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.cadastrarUsuárioToolStripMenuItem.Text = "Menu";
+            // 
+            // cadastrarUsuárioToolStripMenuItem1
+            // 
+            this.cadastrarUsuárioToolStripMenuItem1.Name = "cadastrarUsuárioToolStripMenuItem1";
+            this.cadastrarUsuárioToolStripMenuItem1.Size = new System.Drawing.Size(172, 22);
+            this.cadastrarUsuárioToolStripMenuItem1.Text = "Cadastrar Usuário";
+            this.cadastrarUsuárioToolStripMenuItem1.Click += new System.EventHandler(this.cadastrarUsuárioToolStripMenuItem1_Click);
+            // 
+            // cadastrarEmpresaToolStripMenuItem
+            // 
+            this.cadastrarEmpresaToolStripMenuItem.Name = "cadastrarEmpresaToolStripMenuItem";
+            this.cadastrarEmpresaToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.cadastrarEmpresaToolStripMenuItem.Text = "Cadastrar Empresa";
+            this.cadastrarEmpresaToolStripMenuItem.Click += new System.EventHandler(this.cadastrarEmpresaToolStripMenuItem_Click);
+            // 
+            // deslogarToolStripMenuItem
+            // 
+            this.deslogarToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deslogarToolStripMenuItem1});
+            this.deslogarToolStripMenuItem.Name = "deslogarToolStripMenuItem";
+            this.deslogarToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.deslogarToolStripMenuItem.Text = "Ações";
+            this.deslogarToolStripMenuItem.Click += new System.EventHandler(this.deslogarToolStripMenuItem_Click);
+            // 
+            // deslogarToolStripMenuItem1
+            // 
+            this.deslogarToolStripMenuItem1.Name = "deslogarToolStripMenuItem1";
+            this.deslogarToolStripMenuItem1.Size = new System.Drawing.Size(93, 22);
+            this.deslogarToolStripMenuItem1.Text = "Sair";
+            this.deslogarToolStripMenuItem1.Click += new System.EventHandler(this.deslogarToolStripMenuItem1_Click);
+            // 
             // FrmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -145,10 +203,14 @@
             this.Controls.Add(this.btnEntrar);
             this.Controls.Add(this.txtSenha);
             this.Controls.Add(this.txtUsuario);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "FrmLogin";
             this.Sizable = false;
             this.Text = "Login";
             this.Load += new System.EventHandler(this.FrmLogin_Load);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,5 +225,11 @@
         private System.Windows.Forms.ComboBox cbxEmpresa;
         private MaterialSkin.Controls.MaterialLabel materialLabel1;
         private System.Windows.Forms.CheckBox chxManterLogin;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem cadastrarUsuárioToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cadastrarUsuárioToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem cadastrarEmpresaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deslogarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deslogarToolStripMenuItem1;
     }
 }
