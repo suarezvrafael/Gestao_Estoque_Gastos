@@ -125,7 +125,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    listViewItensReceita
+                    //listViewItensReceita
                 }
                 PreencheComboIngredientes(list);
             }
