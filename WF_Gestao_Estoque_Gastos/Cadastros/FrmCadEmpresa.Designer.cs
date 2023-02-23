@@ -45,7 +45,6 @@
             this.mtxtCnpj = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.mtxtEmail = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.mtxtTelefone = new MaterialSkin.Controls.MaterialSingleLineTextField();
-            this.mtxtCidade = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.mtxtBairro = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.mtxtRua = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.mtxtNumero = new MaterialSkin.Controls.MaterialSingleLineTextField();
@@ -63,6 +62,7 @@
             this.btnCancelar = new MaterialSkin.Controls.MaterialRaisedButton();
             this.lblCodigo = new MaterialSkin.Controls.MaterialLabel();
             this.mtxtId = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.cbxCidade = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // materialDivider1
@@ -298,21 +298,6 @@
             this.mtxtTelefone.TabIndex = 18;
             this.mtxtTelefone.UseSystemPasswordChar = false;
             // 
-            // mtxtCidade
-            // 
-            this.mtxtCidade.Depth = 0;
-            this.mtxtCidade.Hint = "";
-            this.mtxtCidade.Location = new System.Drawing.Point(410, 115);
-            this.mtxtCidade.MouseState = MaterialSkin.MouseState.HOVER;
-            this.mtxtCidade.Name = "mtxtCidade";
-            this.mtxtCidade.PasswordChar = '\0';
-            this.mtxtCidade.SelectedText = "";
-            this.mtxtCidade.SelectionLength = 0;
-            this.mtxtCidade.SelectionStart = 0;
-            this.mtxtCidade.Size = new System.Drawing.Size(381, 23);
-            this.mtxtCidade.TabIndex = 19;
-            this.mtxtCidade.UseSystemPasswordChar = false;
-            // 
             // mtxtBairro
             // 
             this.mtxtBairro.Depth = 0;
@@ -512,11 +497,20 @@
             this.mtxtId.UseSystemPasswordChar = false;
             this.mtxtId.Visible = false;
             // 
+            // cbxCidade
+            // 
+            this.cbxCidade.FormattingEnabled = true;
+            this.cbxCidade.Location = new System.Drawing.Point(411, 135);
+            this.cbxCidade.Name = "cbxCidade";
+            this.cbxCidade.Size = new System.Drawing.Size(380, 21);
+            this.cbxCidade.TabIndex = 34;
+            // 
             // FrmCadEmpresa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(801, 641);
+            this.Controls.Add(this.cbxCidade);
             this.Controls.Add(this.mtxtId);
             this.Controls.Add(this.lblCodigo);
             this.Controls.Add(this.btnCancelar);
@@ -529,7 +523,6 @@
             this.Controls.Add(this.mtxtNumero);
             this.Controls.Add(this.mtxtRua);
             this.Controls.Add(this.mtxtBairro);
-            this.Controls.Add(this.mtxtCidade);
             this.Controls.Add(this.mtxtTelefone);
             this.Controls.Add(this.mtxtEmail);
             this.Controls.Add(this.mtxtCnpj);
@@ -549,6 +542,7 @@
             this.Controls.Add(this.materialDivider1);
             this.Name = "FrmCadEmpresa";
             this.Text = "Cadastro de Empresa";
+            this.Load += new System.EventHandler(this.FrmCadEmpresa_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -573,7 +567,6 @@
         private MaterialSkin.Controls.MaterialSingleLineTextField mtxtCnpj;
         private MaterialSkin.Controls.MaterialSingleLineTextField mtxtEmail;
         private MaterialSkin.Controls.MaterialSingleLineTextField mtxtTelefone;
-        private MaterialSkin.Controls.MaterialSingleLineTextField mtxtCidade;
         private MaterialSkin.Controls.MaterialSingleLineTextField mtxtBairro;
         private MaterialSkin.Controls.MaterialSingleLineTextField mtxtRua;
         private MaterialSkin.Controls.MaterialSingleLineTextField mtxtNumero;
@@ -591,5 +584,6 @@
         private MaterialSkin.Controls.MaterialRaisedButton btnCancelar;
         private MaterialSkin.Controls.MaterialLabel lblCodigo;
         private MaterialSkin.Controls.MaterialSingleLineTextField mtxtId;
+        private System.Windows.Forms.ComboBox cbxCidade;
     }
 }
