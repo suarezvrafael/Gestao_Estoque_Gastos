@@ -44,9 +44,9 @@
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.lsvIngredientes = new System.Windows.Forms.ListView();
             this.Ingrediente = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.precoIngrediente = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.unidMedidaId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.quantidadeUnidade = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.unidMedidaId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.precoIngrediente = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnCadastrar = new MaterialSkin.Controls.MaterialFlatButton();
             this.txtIngrediente = new MaterialSkin.Controls.MaterialSingleLineTextField();
@@ -270,21 +270,21 @@
             this.Ingrediente.Text = "Ingrediente";
             this.Ingrediente.Width = 184;
             // 
-            // precoIngrediente
+            // quantidadeUnidade
             // 
-            this.precoIngrediente.Text = "Preço Ingrediente";
-            this.precoIngrediente.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.precoIngrediente.Width = 164;
+            this.quantidadeUnidade.Text = "Quantidade Un.";
+            this.quantidadeUnidade.Width = 147;
             // 
             // unidMedidaId
             // 
             this.unidMedidaId.Text = "Un. Medida";
-            this.unidMedidaId.Width = 126;
+            this.unidMedidaId.Width = 109;
             // 
-            // quantidadeUnidade
+            // precoIngrediente
             // 
-            this.quantidadeUnidade.Text = "Quantidade Un.";
-            this.quantidadeUnidade.Width = 162;
+            this.precoIngrediente.Text = "Preço Ingrediente (R$)";
+            this.precoIngrediente.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.precoIngrediente.Width = 209;
             // 
             // id
             // 

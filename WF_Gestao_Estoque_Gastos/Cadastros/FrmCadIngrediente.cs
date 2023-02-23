@@ -96,13 +96,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 con.Close();
 
-                // Se o cliente cadastra em kg converter para gramas no banco
-                //if (unidadeMedida == 1)
-                //{
-                //    quantidade = (Convert.ToInt32(quantidade) * 1000).ToString();
-                //    unidadeMedida = 2;
-                //}
-
                 con.Open();
 
                 cmd = con.CreateCommand();
@@ -155,12 +148,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 if (retornoValidacao == false)
                     return;
 
-                //if (uniMedida == 1)
-                //{
-                //    quantidade = (Convert.ToInt32(quantidade) * 1000).ToString();
-                //    uniMedida = 2;
-                //}
-
                 con.Open();
 
                 cmd = con.CreateCommand();
@@ -197,12 +184,20 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             btnExcluir.Enabled = false;
             btnSalvar.Enabled = false;
         }
-        private bool ExcluirIngredientePorId(int id)
+        private void ExcluirIngredientePorId(int id)
         {
+            var message = MessageBox.Show("Deseja excluir o ingrediente?", "", MessageBoxButtons.YesNo);
+
+            if (message != DialogResult.Yes)
+            {
+                btnExcluir.Enabled = true;
+                btnSalvar.Enabled = true;
+                return;
+            }
+
             this.ResetText();
             this.Text = "Cadastro de Ingrediente";
 
-            var excluiu = false;
             try
             {
                 con.Open();
@@ -212,11 +207,14 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 var numLinhasAfetadas = cmd.ExecuteNonQuery();
 
                 if (numLinhasAfetadas > 0)
-                    excluiu = true;
+                    MessageBox.Show("Ingrediente excluído com sucesso.");
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                excluiu = false;
+                Console.WriteLine(ex.Message);
+
+                MessageBox.Show("Ocorreu um erro no sistema");
             }
             finally
             {
@@ -231,7 +229,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
             btnCadastrar.Enabled = true;
 
-            return excluiu;
+            return;
         }
         private void btnLimpar_Click(object sender, EventArgs e)
         {
@@ -428,7 +426,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                         ingr.NomeIngrediente,
                         ingr.QuantidadeUnidade.ToString(),
                         ingr.Descricao.ToString(),
-                        ingr.PrecoIngrediente.ToString().Length >= 7 ? "R$ " + ingr.PrecoIngrediente.ToString().Insert(1, ".") : "R$ " + ingr.PrecoIngrediente.ToString(),
+                        ingr.PrecoIngrediente.ToString().Length >= 7 ? ingr.PrecoIngrediente.ToString().Insert(1, ".") : ingr.PrecoIngrediente.ToString(),
                         ingr.Id.ToString(),
                     }));
                 }
