@@ -29,13 +29,11 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
             if (lblId.Text.Equals(String.Empty))
             {
-                InserirUnidade();
-                limparCampos();
+                InserirUnidade();                
             }
             else
             {
                 AlterarUnidade();
-                limparCampos();
             }
             atualizar_lista();          
         }
@@ -48,7 +46,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             if (descricao.Equals(String.Empty))
             {
                 //msg
-                MessageBox.Show("Digite o campo usuário!");
+                MessageBox.Show("Digite o campo descrição!");
                 txtDescricao.Focus();
                 return;
             }
@@ -63,7 +61,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             {
                 con.Open();
                 cmd = con.CreateCommand();
-                cmd.CommandText = "INSERT INTO tblunidademedidaingrediente (descricaoUnidadeMedidaIngrediente, sigla) VALUES(@descricao , @sigla);";
+                cmd.CommandText = "INSERT INTO tblunidademedidaingrediente (descUnidMedIngrediente, sigla) VALUES(@descricao , @sigla);";
                 cmd.Parameters.AddWithValue("descricao", descricao);
                 cmd.Parameters.AddWithValue("sigla", sigla);
 
@@ -73,6 +71,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     MessageBox.Show("Unidade de medida cadastrado com sucesso.");
                 }
                 con.Close();
+                limparCampos();
             }
             catch (Exception e)
             {
@@ -85,12 +84,27 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             var descricao = txtDescricao.Text;
             var sigla = txtSigla.Text;
             var id = lblId.Text;
+
+            if (descricao.Equals(String.Empty))
+            {
+                //msg
+                MessageBox.Show("Digite o campo descrição!");
+                txtDescricao.Focus();
+                return;
+            }
+            else if (sigla.Equals(string.Empty))
+            {
+                //msg
+                MessageBox.Show("Digite o campo sigla!");
+                txtSigla.Focus();
+                return;
+            }
             try
             {
                 con.Open();
 
                 cmd = con.CreateCommand();
-                cmd.CommandText = "UPDATE tblunidademedidaingrediente SET descricaoUnidadeMedidaIngrediente = @descricao, sigla = @sigla WHERE id = @id;";
+                cmd.CommandText = "UPDATE tblunidademedidaingrediente SET descUnidMedIngrediente = @descricao, sigla = @sigla WHERE id = @id;";
                 cmd.Parameters.AddWithValue("descricao", descricao);
                 cmd.Parameters.AddWithValue("sigla", sigla);
                 cmd.Parameters.AddWithValue("id", id);
@@ -102,6 +116,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     MessageBox.Show("Unidade de medida alterado com sucesso.");
                 }
                 con.Close();
+                limparCampos();
+                groupBox1.Text = "Cadastro";
             }
             catch (Exception e)
             {
@@ -135,7 +151,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 {
                     con.Open();
                     MySqlCommand cmd = con.CreateCommand();
-                    cmd.CommandText = "DELETE FROM tblunidademedidaingrediente WHERE descricaoUnidadeMedidaIngrediente = @descricao";
+                    cmd.CommandText = "DELETE FROM tblunidademedidaingrediente WHERE descUnidMedIngrediente = @descricao";
                     cmd.Parameters.AddWithValue("@descricao", descricao);
                     cmd.ExecuteNonQuery();
                     con.Close();
@@ -146,6 +162,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 }
                 atualizar_lista();
                 limparCampos();
+                groupBox1.Text = "Cadastro";
             }
         }
 
@@ -166,7 +183,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             //seta a conexão para o comando
             cmd = new MySqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "SELECT id,descricaoUnidadeMedidaIngrediente, sigla FROM tblunidademedidaingrediente";
+            cmd.CommandText = "SELECT id,descUnidMedIngrediente, sigla FROM tblunidademedidaingrediente";
 
             //executa o comando
             dr = cmd.ExecuteReader();
@@ -177,7 +194,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 {
                     id = Convert.ToInt32(dr["id"].ToString()),
-                    descricao = dr["descricaoUnidadeMedidaIngrediente"].ToString(),
+                    descricao = dr["descUnidMedIngrediente"].ToString(),
                     sigla = dr["sigla"].ToString(),
 
                 };
