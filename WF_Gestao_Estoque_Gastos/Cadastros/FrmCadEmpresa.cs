@@ -1,4 +1,4 @@
-﻿using MaterialSkin.Controls;
+using MaterialSkin.Controls;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -207,15 +207,15 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             //seta a conexão para o comando
             cmd = new MySqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = $"SELECT `id`, `CNPJ`, `razaoSocial`, `rua`, `bairro`, `numeroEndereco`, `complemento`, `email`, `telefone`, `nomeFantasia`, `{_colunaIdCidade}` FROM `tblempresa`";
+            cmd.CommandText = //$"SELECT `id`, `CNPJ`, `razaoSocial`, `rua`, `bairro`, `numeroEndereco`, `complemento`, `email`, `telefone`, `nomeFantasia`, `{_colunaIdCidade}` FROM `tblempresa`";
 
 
-            /*SELECT tblempresa.id, CNPJ, razaoSocial, rua, bairro, numeroEndereco, complemento, tblcidade.descricaoCidade, email, telefone, nomeFantasia, createEmpresa, updateEmpresa, idUsername
-              FROM tblempresa
-              INNER JOIN tblcidade ON tblempresa.idcidade = tblcidade.id
-              INNER JOIN tblestado ON tblcidade.id = tblestado.id
-              INNER JOIN tblpais ON tblestado.id = tblpais.id            
-            */
+             $@" SELECT tblempresa.id, CNPJ, razaoSocial, rua, bairro, numeroEndereco, complemento, tblcidade.descricaoCidade, email, telefone, nomeFantasia, createEmpresa, updateEmpresa, idUsername
+                 FROM tblempresa
+                 INNER JOIN tblcidade ON tblempresa.idcidade = tblcidade.id
+                 INNER JOIN tblestado ON tblcidade.id = tblestado.id
+                 INNER JOIN tblpais ON tblestado.id = tblpais.id ";          
+           
 
             //executa o comando
             reader = cmd.ExecuteReader();

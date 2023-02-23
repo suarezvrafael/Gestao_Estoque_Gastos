@@ -1,4 +1,4 @@
-namespace WF_Gestao_Estoque_Gastos
+﻿namespace WF_Gestao_Estoque_Gastos
 {
     public class Empresa
     {
@@ -12,6 +12,6 @@ namespace WF_Gestao_Estoque_Gastos
         public string Email { get; set; }
         public string Telefone { get; set; }
         public string NomeFantasia { get; set; }
-        public int CidadeId { get; set; }
+        public string Cidade { get; set; }
     }
 }

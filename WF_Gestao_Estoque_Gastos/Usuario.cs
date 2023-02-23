@@ -1,4 +1,4 @@
-namespace WF_Gestao_Estoque_Gastos
+﻿namespace WF_Gestao_Estoque_Gastos
 {
     public class Usuario
     {
