@@ -3,6 +3,8 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using WF_Gestao_Estoque_Gastos.Conexao.Cidade;
+using WF_Gestao_Estoque_Gastos.Servicos.ComboBoxManager;
 using WF_Gestao_Estoque_Gastos.Servicos.Validacoes;
 
 namespace WF_Gestao_Estoque_Gastos.Cadastros
@@ -29,7 +31,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             mtxtCnpj.Text = String.Empty;
             mtxtTelefone.Text = String.Empty;
             mtxtEmail.Text = String.Empty;
-            mtxtCidade.Text = String.Empty;
+            GerenciarComboBox<Cidade>.Deselecionar(cbxCidade);
             mtxtBairro.Text = String.Empty;
             mtxtComplemento.Text = String.Empty;
             mtxtNumero.Text = String.Empty;
@@ -48,12 +50,12 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             string retornoCnpj = null;
             string razaoSocial = mtxtRazaoSocial.Text;
             string nomeFantasia = mtxtNomeFantasia.Text;
-            
+
             string CNPJ = mtxtCnpj.Text;
             CNPJ = ValidarCampos.RemoveMaskaraCnpj(CNPJ);
             if (!ValidarString.CampoApenasNumerico(CNPJ) && CNPJ.Length == 14)
             {
-                ExibirMensagem.Aviso("Digite apenas Numeros, e apenas 14") ;
+                ExibirMensagem.Aviso("Digite apenas Numeros, e apenas 14");
                 return;
             }
             CNPJ = ValidarCampos.FormatCNPJ(CNPJ); // trata cnpj
@@ -61,13 +63,16 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             CNPJ = ValidarCampos.RemoverPontosHifensEBarra(CNPJ);
             string telefone = "";
             telefone = ValidarCampos.RemoveMaskaraTelefone(mtxtTelefone.Text);
-            if (!ValidarString.CampoApenasNumerico(telefone)){
+            if (!ValidarString.CampoApenasNumerico(telefone))
+            {
                 ExibirMensagem.Erro("Preencha o telefone apenas com números!");
                 return;
             }
 
             string email = mtxtEmail.Text;
-            string idcidade = mtxtCidade.Text; // capturar cidade id
+            //string idcidade = mtxtCidade.Text; // capturar cidade id
+            string idCidade = GerenciarComboBox<Cidade>.RetornaItemSelecionadoCombo(cbxCidade).Id.ToString();
+
             string bairro = mtxtBairro.Text;
             string complemento = mtxtComplemento.Text;
             int numeroResidencia = 0;
@@ -81,7 +86,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             string rua = mtxtRua.Text;
 
             try
-            { 
+            {
                 con.Open();
                 cmd = con.CreateCommand();
 
@@ -91,7 +96,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 while (reader.Read())
                 {
-                     retornoCnpj = reader["CNPJ"].ToString();
+                    retornoCnpj = reader["CNPJ"].ToString();
                 };
                 con.Close();
                 if (retornoCnpj != null)
@@ -111,7 +116,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     cmd.Parameters.AddWithValue("email", email);
                     cmd.Parameters.AddWithValue("telefone", telefone);
                     cmd.Parameters.AddWithValue("nomeFantasia", nomeFantasia);
-                    cmd.Parameters.AddWithValue(_colunaIdCidade, idcidade);
+                    cmd.Parameters.AddWithValue(_colunaIdCidade, idCidade);
 
                     int retornoDoUpdate = cmd.ExecuteNonQuery();
 
@@ -140,7 +145,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     cmd.Parameters.AddWithValue("email", email);
                     cmd.Parameters.AddWithValue("telefone", telefone);
                     cmd.Parameters.AddWithValue("nomeFantasia", nomeFantasia);
-                    cmd.Parameters.AddWithValue(_colunaIdCidade, idcidade);
+                    cmd.Parameters.AddWithValue(_colunaIdCidade, idCidade);
 
                     int retornoDoInsert = cmd.ExecuteNonQuery();
 
@@ -151,11 +156,11 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                         atualizar_lista();
                     }
                     con.Close();
-                }                                
+                }
             }
             catch (Exception ex)
             {
-                ExibirMensagem.Erro("Erro, contate o suporte técnico para verificar!\n"+ ex.Message);
+                ExibirMensagem.Erro("Erro, contate o suporte técnico para verificar!\n" + ex.Message);
             }
 
 
@@ -166,7 +171,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             Excluir_empresa();
         }
 
-       
+
 
         public void Excluir_empresa()
         {
@@ -177,14 +182,13 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             {
                 return;
             }
-            MySqlConnection con = new MySqlConnection("Server=localhost;Database=gestao_estoque_gasto;user=root;Pwd=;SslMode=none");
             try
             {
 
                 con.Open();
                 MySqlCommand cmd = con.CreateCommand();
                 cmd.CommandText = "DELETE FROM `tblempresa` WHERE CNPJ = @CNPJ";
-                cmd.Parameters.AddWithValue("@CNPJ",CNPJEmpresa);
+                cmd.Parameters.AddWithValue("@CNPJ", CNPJEmpresa);
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
@@ -201,21 +205,21 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             //cria uma lista do tipo Empresas
             List<Empresa> listaEmpresas = new List<Empresa>();
 
-            con = new MySqlConnection("Server=localhost;Database=gestao_estoque_gasto;user=root;Pwd=;SslMode=none");
-            con.Open();
+            if (con.State == System.Data.ConnectionState.Closed)
+                con.Open();
 
             //seta a conexão para o comando
             cmd = new MySqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = //$"SELECT `id`, `CNPJ`, `razaoSocial`, `rua`, `bairro`, `numeroEndereco`, `complemento`, `email`, `telefone`, `nomeFantasia`, `{_colunaIdCidade}` FROM `tblempresa`";
+            cmd.CommandText = $"SELECT `id`, `CNPJ`, `razaoSocial`, `rua`, `bairro`, `numeroEndereco`, `complemento`, `email`, `telefone`, `nomeFantasia`, `{_colunaIdCidade}` FROM `tblempresa`";
 
 
-             $@" SELECT tblempresa.id, CNPJ, razaoSocial, rua, bairro, numeroEndereco, complemento, tblcidade.descricaoCidade, email, telefone, nomeFantasia, createEmpresa, updateEmpresa, idUsername
-                 FROM tblempresa
-                 INNER JOIN tblcidade ON tblempresa.idcidade = tblcidade.id
-                 INNER JOIN tblestado ON tblcidade.id = tblestado.id
-                 INNER JOIN tblpais ON tblestado.id = tblpais.id ";          
-           
+            /*SELECT tblempresa.id, CNPJ, razaoSocial, rua, bairro, numeroEndereco, complemento, tblcidade.descricaoCidade, email, telefone, nomeFantasia, createEmpresa, updateEmpresa, idUsername
+              FROM tblempresa
+              INNER JOIN tblcidade ON tblempresa.idcidade = tblcidade.id
+              INNER JOIN tblestado ON tblcidade.id = tblestado.id
+              INNER JOIN tblpais ON tblestado.id = tblpais.id            
+            */
 
             //executa o comando
             reader = cmd.ExecuteReader();
@@ -257,9 +261,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             {
                 listViewEmpresa.Items.Add(new ListViewItem(new String[]
                 {
-                    empresa.id.ToString(),                   
+                    empresa.id.ToString(),
                     empresa.nomeFantasia,
-                    empresa.CNPJ.ToString(),                   
+                    empresa.CNPJ.ToString(),
                     empresa.telefone.ToString(),
                     empresa.email,
                     empresa.razaoSocial,
@@ -310,7 +314,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             var numeroEndereco = Convert.ToInt32(listViewEmpresa.Items[itemSelecionado].SubItems[8].Text);
 
             var complemento = (listViewEmpresa.Items[itemSelecionado].SubItems[9].Text);
-                                 
+
             var cidade = (listViewEmpresa.Items[itemSelecionado].SubItems[10].Text);
 
             mtxtRazaoSocial.Text = razaoSocial.ToString();
@@ -318,12 +322,12 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             mtxtCnpj.Text = ValidarCampos.FormatCNPJ(cnpj.ToString());
             mtxtTelefone.Text = ValidarCampos.FormatarTelefone(telefone.ToString());
             mtxtEmail.Text = email.ToString();
-            mtxtCidade.Text = cidade.ToString();
+            GerenciarComboBox<Cidade>.Selecionar(cbxCidade, cidade);
             mtxtBairro.Text = bairro.ToString();
             mtxtComplemento.Text = complemento.ToString();
             mtxtNumero.Text = numeroEndereco.ToString();
             mtxtRua.Text = rua.ToString();
-            mtxtId.Text = id.ToString();    
+            mtxtId.Text = id.ToString();
         }
 
         private void materialLabel11_Click(object sender, EventArgs e)
@@ -337,7 +341,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             public string razaoSocial { get; set; }
             public string rua { get; set; }
             public string nomeFantasia { get; set; }
-            public string CNPJ  { get; set; }
+            public string CNPJ { get; set; }
             public string telefone { get; set; }
             public string email { get; set; }
             public string cidade { get; set; }
@@ -367,7 +371,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         private void mtxtCnpj_KeyUp(object sender, KeyEventArgs e)
         {
-            
+
         }
 
         private void mtxtCnpj_Click(object sender, EventArgs e)
@@ -382,7 +386,13 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
             //if (caractere != "")
             //    mtxtCnpj.Text += caractere;
-            
+
+        }
+
+        private void FrmCadEmpresa_Load(object sender, EventArgs e)
+        {
+            var listaCidade = MetodosTblCidade.RetornaTodasCidades();
+            GerenciarComboBox<Cidade>.Preencher(cbxCidade, listaCidade, "DescricaoCidade");
         }
     }
 }
