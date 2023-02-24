@@ -1,4 +1,4 @@
-﻿using MaterialSkin.Controls;
+using MaterialSkin.Controls;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -25,13 +25,11 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
             if (lblId.Text.Equals(String.Empty))
             {
-                InserirUnidade();
-                limparCampos();
+                InserirUnidade();                
             }
             else
             {
                 AlterarUnidade();
-                limparCampos();
             }
             atualizar_lista();          
         }
@@ -44,7 +42,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             if (descricao.Equals(String.Empty))
             {
                 //msg
-                MessageBox.Show("Digite o campo usuário!");
+                MessageBox.Show("Digite o campo descrição!");
                 txtDescricao.Focus();
                 return;
             }
@@ -69,6 +67,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     MessageBox.Show("Unidade de medida cadastrado com sucesso.");
                 }
                 con.Close();
+                limparCampos();
             }
             catch (Exception e)
             {
@@ -81,6 +80,21 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             var descricao = txtDescricao.Text;
             var sigla = txtSigla.Text;
             var id = lblId.Text;
+
+            if (descricao.Equals(String.Empty))
+            {
+                //msg
+                MessageBox.Show("Digite o campo descrição!");
+                txtDescricao.Focus();
+                return;
+            }
+            else if (sigla.Equals(string.Empty))
+            {
+                //msg
+                MessageBox.Show("Digite o campo sigla!");
+                txtSigla.Focus();
+                return;
+            }
             try
             {
                 con.Open();
@@ -98,6 +112,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     MessageBox.Show("Unidade de medida alterado com sucesso.");
                 }
                 con.Close();
+                limparCampos();
+                groupBox1.Text = "Cadastro";
             }
             catch (Exception e)
             {
@@ -142,6 +158,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 }
                 atualizar_lista();
                 limparCampos();
+                groupBox1.Text = "Cadastro";
             }
         }
 
@@ -162,7 +179,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             //seta a conexão para o comando
             cmd = new MySqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "SELECT id, descUnidMedIngrediente, sigla FROM tblunidademedidaingrediente";
+            cmd.CommandText = "SELECT id,descUnidMedIngrediente, sigla FROM tblunidademedidaingrediente";
 
             //executa o comando
             dr = cmd.ExecuteReader();
