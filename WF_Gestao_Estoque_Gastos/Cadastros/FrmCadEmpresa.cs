@@ -175,7 +175,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         public void Excluir_empresa()
         {
-            var CNPJEmpresa = Convert.ToDecimal(mtxtCnpj.Text);
+            var CNPJEmpresa = mtxtCnpj.Text;
 
 
             if (listViewEmpresa.SelectedIndices.Count <= 0)
