@@ -22,6 +22,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
             InitializeComponent();
             atualizar_lista();
+            LimpaCampos();
         }
 
         private void LimpaCampos()
@@ -36,6 +37,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             mtxtComplemento.Text = String.Empty;
             mtxtNumero.Text = String.Empty;
             mtxtRua.Text = String.Empty;
+            cbxCidade.Text = "Selecione";
 
         }
 
@@ -50,6 +52,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             string retornoCnpj = null;
             string razaoSocial = mtxtRazaoSocial.Text;
             string nomeFantasia = mtxtNomeFantasia.Text;
+            var idEmpresa = mtxtId.Text;
 
             string CNPJ = mtxtCnpj.Text;
             CNPJ = ValidarCampos.RemoveMaskaraCnpj(CNPJ);
@@ -90,8 +93,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 con.Open();
                 cmd = con.CreateCommand();
 
-                cmd.CommandText = "SELECT CNPJ FROM tblempresa WHERE CNPJ = @CNPJ";
+                cmd.CommandText = "SELECT CNPJ FROM tblempresa WHERE id = @id ,CNPJ = @CNPJ";
                 cmd.Parameters.AddWithValue("CNPJ", CNPJ);
+                cmd.Parameters.AddWithValue("id", idEmpresa);
                 reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -176,7 +180,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         public void Excluir_empresa()
         {
             var CNPJEmpresa = mtxtCnpj.Text;
-
+            var idEmpresa = mtxtId.Text;
 
             if (listViewEmpresa.SelectedIndices.Count <= 0)
             {
@@ -187,8 +191,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 con.Open();
                 MySqlCommand cmd = con.CreateCommand();
-                cmd.CommandText = "DELETE FROM `tblempresa` WHERE CNPJ = @CNPJ";
+                cmd.CommandText = "DELETE FROM `tblempresa` WHERE id = @id CNPJ = @CNPJ";
                 cmd.Parameters.AddWithValue("@CNPJ", CNPJEmpresa);
+                cmd.Parameters.AddWithValue("@id",idEmpresa);
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
