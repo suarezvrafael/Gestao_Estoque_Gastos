@@ -191,7 +191,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 con.Open();
                 MySqlCommand cmd = con.CreateCommand();
-                cmd.CommandText = "DELETE FROM `tblempresa` WHERE id = @id CNPJ = @CNPJ";
+                cmd.CommandText = "DELETE FROM `tblempresa` WHERE id = @id and CNPJ = @CNPJ";
                 cmd.Parameters.AddWithValue("@CNPJ", CNPJEmpresa);
                 cmd.Parameters.AddWithValue("@id",idEmpresa);
                 cmd.ExecuteNonQuery();

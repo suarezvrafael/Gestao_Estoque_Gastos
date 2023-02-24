@@ -78,5 +78,10 @@ namespace WF_Gestao_Estoque_Gastos
         {
             Application.Exit();
         }
+
+        private void receitasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GerenciarTela.AbrirTela(new FrmCadReceitas(), true);
+        }
     }
 }
