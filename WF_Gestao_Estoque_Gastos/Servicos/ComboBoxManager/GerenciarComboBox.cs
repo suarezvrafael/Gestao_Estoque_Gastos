@@ -24,7 +24,7 @@ namespace WF_Gestao_Estoque_Gastos.Servicos.ComboBoxManager
 
         public static void Selecionar(ComboBox combo, string value)
         {
-            combo.SelectedValue = Convert.ToInt64(value);
+            combo.SelectedValue = Convert.ToInt32(value);
         }
 
         public static void Preencher(ComboBox combo, List<Entidade> lista, string descricao, string id = "Id")

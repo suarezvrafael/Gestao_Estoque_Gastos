@@ -203,7 +203,7 @@
             this.materialLabel9.Size = new System.Drawing.Size(63, 19);
             this.materialLabel9.TabIndex = 12;
             this.materialLabel9.Text = "Número";
-            this.materialLabel9.Click += new System.EventHandler(this.materialLabel9_Click);
+            
             // 
             // materialLabel10
             // 
@@ -261,12 +261,7 @@
             this.mtxtCnpj.SelectionStart = 0;
             this.mtxtCnpj.Size = new System.Drawing.Size(159, 23);
             this.mtxtCnpj.TabIndex = 16;
-            this.mtxtCnpj.UseSystemPasswordChar = false;
-            this.mtxtCnpj.Click += new System.EventHandler(this.mtxtCnpj_Click);
-            this.mtxtCnpj.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mtxtCnpj_KeyDown);
-            this.mtxtCnpj.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mtxtCnpj_KeyPress);
-            this.mtxtCnpj.KeyUp += new System.Windows.Forms.KeyEventHandler(this.mtxtCnpj_KeyUp);
-            this.mtxtCnpj.TextChanged += new System.EventHandler(this.mtxtCnpj_TextChanged);
+            this.mtxtCnpj.UseSystemPasswordChar = false;                                 
             // 
             // mtxtEmail
             // 
@@ -450,8 +445,7 @@
             this.materialLabel11.Name = "materialLabel11";
             this.materialLabel11.Size = new System.Drawing.Size(164, 19);
             this.materialLabel11.TabIndex = 30;
-            this.materialLabel11.Text = "Empresas Cadastradas";
-            this.materialLabel11.Click += new System.EventHandler(this.materialLabel11_Click);
+            this.materialLabel11.Text = "Empresas Cadastradas";           
             // 
             // btnCancelar
             // 

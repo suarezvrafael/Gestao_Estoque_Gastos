@@ -21,8 +21,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             con = new MySqlConnection("server=localhost;database=gestao_estoque_gasto;pwd=;uid=root;");
 
             InitializeComponent();
-            atualizar_lista();
-            LimpaCampos();
+            
         }
 
         private void LimpaCampos()
@@ -40,15 +39,10 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             cbxCidade.Text = "Selecione";
 
         }
-
-        private void materialLabel9_Click(object sender, EventArgs e)
-        {
-
-        }
-
+      
         private void materialRaisedButton1_Click(object sender, EventArgs e) // btnSalvar
         {
-
+           
             string retornoCnpj = null;
             string razaoSocial = mtxtRazaoSocial.Text;
             string nomeFantasia = mtxtNomeFantasia.Text;
@@ -89,13 +83,12 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             string rua = mtxtRua.Text;
 
             try
-            {
+            {               
                 con.Open();
                 cmd = con.CreateCommand();
 
-                cmd.CommandText = "SELECT CNPJ FROM tblempresa WHERE id = @id ,CNPJ = @CNPJ";
-                cmd.Parameters.AddWithValue("CNPJ", CNPJ);
-                cmd.Parameters.AddWithValue("id", idEmpresa);
+                cmd.CommandText = "SELECT CNPJ FROM tblempresa WHERE CNPJ = @CNPJ ";
+                cmd.Parameters.AddWithValue("CNPJ", CNPJ);               
                 reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -103,7 +96,14 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     retornoCnpj = reader["CNPJ"].ToString();
                 };
                 con.Close();
-                if (retornoCnpj != null)
+
+                if (retornoCnpj != null && String.IsNullOrEmpty(mtxtId.Text))
+
+                {
+                    ExibirMensagem.Erro("Este CNPJ já está cadastrado");
+                    return;
+                }
+                else if (!String.IsNullOrEmpty(mtxtId.Text))
                 {
                     con.Open();
 
@@ -131,6 +131,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                         atualizar_lista();
                     }
                     con.Close();
+
                 }
                 else
                 {
@@ -166,8 +167,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             {
                 ExibirMensagem.Erro("Erro, contate o suporte técnico para verificar!\n" + ex.Message);
             }
-
-
         }
 
         private void materialRaisedButton2_Click(object sender, EventArgs e) // btnExcluir
@@ -175,11 +174,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             Excluir_empresa();
         }
 
-
-
         public void Excluir_empresa()
         {
-            var CNPJEmpresa = mtxtCnpj.Text;
+            var CNPJEmpresa = ValidarCampos.RemoverPontosHifensEBarra(mtxtCnpj.Text);
             var idEmpresa = mtxtId.Text;
 
             if (listViewEmpresa.SelectedIndices.Count <= 0)
@@ -188,12 +185,11 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             }
             try
             {
-
                 con.Open();
                 MySqlCommand cmd = con.CreateCommand();
                 cmd.CommandText = "DELETE FROM `tblempresa` WHERE id = @id and CNPJ = @CNPJ";
                 cmd.Parameters.AddWithValue("@CNPJ", CNPJEmpresa);
-                cmd.Parameters.AddWithValue("@id",idEmpresa);
+                cmd.Parameters.AddWithValue("@id", idEmpresa);
                 cmd.ExecuteNonQuery();
                 con.Close();
             }
@@ -216,15 +212,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             //seta a conexão para o comando
             cmd = new MySqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = $"SELECT `id`, `CNPJ`, `razaoSocial`, `rua`, `bairro`, `numeroEndereco`, `complemento`, `email`, `telefone`, `nomeFantasia`, `{_colunaIdCidade}` FROM `tblempresa`";
-
-
-            /*SELECT tblempresa.id, CNPJ, razaoSocial, rua, bairro, numeroEndereco, complemento, tblcidade.descricaoCidade, email, telefone, nomeFantasia, createEmpresa, updateEmpresa, idUsername
-              FROM tblempresa
-              INNER JOIN tblcidade ON tblempresa.idcidade = tblcidade.id
-              INNER JOIN tblestado ON tblcidade.id = tblestado.id
-              INNER JOIN tblpais ON tblestado.id = tblpais.id            
-            */
+            cmd.CommandText = $"SELECT `id`, `CNPJ`, `razaoSocial`, `rua`, `bairro`, `numeroEndereco`, `complemento`, `email`, `telefone`, `nomeFantasia`, `{_colunaIdCidade}` FROM `tblempresa`";           
 
             //executa o comando
             reader = cmd.ExecuteReader();
@@ -261,6 +249,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 listaEmpresas.Add(empresa);
             }
             listViewEmpresa.Items.Clear();
+
             //adiciona no ListBox os nomes da lista
             foreach (Empresa empresa in listaEmpresas)
             {
@@ -334,12 +323,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             mtxtRua.Text = rua.ToString();
             mtxtId.Text = id.ToString();
         }
-
-        private void materialLabel11_Click(object sender, EventArgs e)
-        {
-
-        }
-
+       
         class Empresa
         {
             public int id { get; set; }
@@ -363,41 +347,14 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             lblCodigo.Visible = false;
             mtxtId.Visible = false;
             atualizar_lista();
-        }
-
-        private void mtxtCnpj_KeyDown(object sender, KeyEventArgs e)
-        {
-        }
-
-        private void mtxtCnpj_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
-        private void mtxtCnpj_KeyUp(object sender, KeyEventArgs e)
-        {
-
-        }
-
-        private void mtxtCnpj_Click(object sender, EventArgs e)
-        {
-            //inutil, evento de click do input cnpj
-        }
-
-        private void mtxtCnpj_TextChanged(object sender, EventArgs e)
-        {
-
-            //string caractere = ValidarCampos.AdicionaCaracteresMaskara(mtxtCnpj.Text.Length);
-
-            //if (caractere != "")
-            //    mtxtCnpj.Text += caractere;
-
-        }
+        }       
 
         private void FrmCadEmpresa_Load(object sender, EventArgs e)
         {
             var listaCidade = MetodosTblCidade.RetornaTodasCidades();
             GerenciarComboBox<Cidade>.Preencher(cbxCidade, listaCidade, "DescricaoCidade");
+            atualizar_lista();
+            LimpaCampos();
         }
     }
 }
