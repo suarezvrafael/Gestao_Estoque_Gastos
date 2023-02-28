@@ -40,6 +40,7 @@ namespace WF_Gestao_Estoque_Gastos
         }
         private void FrmPrincipal_Load(object sender, EventArgs e)
         {
+            this.pictureBox1.Size = new System.Drawing.Size(1800, 900);
         }
 
         private void empresaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -82,6 +83,11 @@ namespace WF_Gestao_Estoque_Gastos
         private void receitasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GerenciarTela.AbrirTela(new FrmCadReceitas(), true);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.pictureBox1.Size = new System.Drawing.Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
         }
     }
 }

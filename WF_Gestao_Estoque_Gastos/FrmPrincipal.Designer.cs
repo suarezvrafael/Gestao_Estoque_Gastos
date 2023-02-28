@@ -34,12 +34,14 @@
             this.usuárioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ingredientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unidadeDeMedidaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.receitasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.açõesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deslogarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblNomeUsuario = new System.Windows.Forms.Label();
-            this.receitasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -50,7 +52,7 @@
             this.açõesToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(9, -1);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(245, 24);
+            this.menuStrip.Size = new System.Drawing.Size(125, 24);
             this.menuStrip.TabIndex = 2;
             this.menuStrip.Text = "Tela Principal";
             // 
@@ -69,30 +71,37 @@
             // empresaToolStripMenuItem
             // 
             this.empresaToolStripMenuItem.Name = "empresaToolStripMenuItem";
-            this.empresaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.empresaToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.empresaToolStripMenuItem.Text = "Empresa";
             this.empresaToolStripMenuItem.Click += new System.EventHandler(this.empresaToolStripMenuItem_Click);
             // 
             // usuárioToolStripMenuItem
             // 
             this.usuárioToolStripMenuItem.Name = "usuárioToolStripMenuItem";
-            this.usuárioToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.usuárioToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.usuárioToolStripMenuItem.Text = "Usuário";
             this.usuárioToolStripMenuItem.Click += new System.EventHandler(this.usuárioToolStripMenuItem_Click);
             // 
             // ingredientesToolStripMenuItem
             // 
             this.ingredientesToolStripMenuItem.Name = "ingredientesToolStripMenuItem";
-            this.ingredientesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ingredientesToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.ingredientesToolStripMenuItem.Text = "Ingredientes";
             this.ingredientesToolStripMenuItem.Click += new System.EventHandler(this.ingredientesToolStripMenuItem_Click);
             // 
             // unidadeDeMedidaToolStripMenuItem
             // 
             this.unidadeDeMedidaToolStripMenuItem.Name = "unidadeDeMedidaToolStripMenuItem";
-            this.unidadeDeMedidaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.unidadeDeMedidaToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.unidadeDeMedidaToolStripMenuItem.Text = "Unidade de Medida";
             this.unidadeDeMedidaToolStripMenuItem.Click += new System.EventHandler(this.unidadeDeMedidaToolStripMenuItem_Click);
+            // 
+            // receitasToolStripMenuItem
+            // 
+            this.receitasToolStripMenuItem.Name = "receitasToolStripMenuItem";
+            this.receitasToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.receitasToolStripMenuItem.Text = "Receitas";
+            this.receitasToolStripMenuItem.Click += new System.EventHandler(this.receitasToolStripMenuItem_Click);
             // 
             // açõesToolStripMenuItem
             // 
@@ -127,18 +136,24 @@
             this.lblNomeUsuario.TabIndex = 3;
             this.lblNomeUsuario.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // receitasToolStripMenuItem
+            // pictureBox1
             // 
-            this.receitasToolStripMenuItem.Name = "receitasToolStripMenuItem";
-            this.receitasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.receitasToolStripMenuItem.Text = "Receitas";
-            this.receitasToolStripMenuItem.Click += new System.EventHandler(this.receitasToolStripMenuItem_Click);
+            this.pictureBox1.Image = global::WF_Gestao_Estoque_Gastos.Properties.Resources.LogoScreen;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 63);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(798, 385);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
             // 
             // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::WF_Gestao_Estoque_Gastos.Properties.Resources.LogoScreen;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblNomeUsuario);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
@@ -150,6 +165,7 @@
             this.Shown += new System.EventHandler(this.FrmPrincipal_Shown);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -167,6 +183,7 @@
         private System.Windows.Forms.Label lblNomeUsuario;
         private System.Windows.Forms.ToolStripMenuItem sairToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem receitasToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

@@ -109,8 +109,23 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                     cmd = con.CreateCommand();
 
-                    cmd.CommandText = $"UPDATE tblempresa SET CNPJ = @CNPJ, razaoSocial = @razaoSocial, rua = @rua, bairro = @bairro, numeroEndereco = @numeroResidencia, complemento = @complemento, email = @email, telefone = @telefone, nomeFantasia = @nomeFantasia, {_colunaIdCidade} = @idcidade WHERE CNPJ = @CNPJ";
+                    cmd.CommandText = $@"UPDATE
+                                            tblempresa
+                                        SET
+                                            CNPJ = @CNPJ,
+                                            razaoSocial = @razaoSocial,
+                                            rua = @rua,
+                                            bairro = @bairro,
+                                            numeroEndereco = @numeroResidencia,
+                                            complemento = @complemento,
+                                            email = @email,
+                                            telefone = @telefone,
+                                            nomeFantasia = @nomeFantasia,
+                                            {_colunaIdCidade} = @idcidade
+                                        WHERE
+                                            id = @id";
 
+                    cmd.Parameters.AddWithValue("id", idEmpresa);
                     cmd.Parameters.AddWithValue("CNPJ", CNPJ);
                     cmd.Parameters.AddWithValue("razaoSocial", razaoSocial);
                     cmd.Parameters.AddWithValue("rua", rua);
@@ -139,7 +154,30 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                     cmd = con.CreateCommand();
 
-                    cmd.CommandText = $"INSERT INTO tblempresa (CNPJ,razaoSocial,rua,bairro,numeroEndereco,complemento,email,telefone,nomeFantasia,{_colunaIdCidade}) VALUES (@CNPJ,@razaoSocial,@rua,@bairro,@numeroResidencia,@complemento,@email,@telefone,@nomeFantasia,@idcidade)";
+                    cmd.CommandText = $@"INSERT INTO tblempresa(
+                                                CNPJ,
+                                                razaoSocial,
+                                                rua,
+                                                bairro,
+                                                numeroEndereco,
+                                                complemento,
+                                                email,
+                                                telefone,
+                                                nomeFantasia,
+                                                {_colunaIdCidade}
+                                            )
+                                            VALUES(
+                                                @CNPJ,
+                                                @razaoSocial,
+                                                @rua,
+                                                @bairro,
+                                                @numeroResidencia,
+                                                @complemento,
+                                                @email,
+                                                @telefone,
+                                                @nomeFantasia,
+                                                @idcidade
+                                            )";
 
                     cmd.Parameters.AddWithValue("CNPJ", CNPJ);
                     cmd.Parameters.AddWithValue("razaoSocial", razaoSocial);
@@ -212,7 +250,20 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             //seta a conexão para o comando
             cmd = new MySqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = $"SELECT `id`, `CNPJ`, `razaoSocial`, `rua`, `bairro`, `numeroEndereco`, `complemento`, `email`, `telefone`, `nomeFantasia`, `{_colunaIdCidade}` FROM `tblempresa`";           
+            cmd.CommandText = $@"SELECT
+                                    `id`,
+                                    `CNPJ`,
+                                    `razaoSocial`,
+                                    `rua`,
+                                    `bairro`,
+                                    `numeroEndereco`,
+                                    `complemento`,
+                                    `email`,
+                                    `telefone`,
+                                    `nomeFantasia`,
+                                    `{_colunaIdCidade}`
+                                FROM
+                                    `tblempresa`";           
 
             //executa o comando
             reader = cmd.ExecuteReader();
