@@ -86,7 +86,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             string rua = mtxtRua.Text;
 
             try
-            {
+            { 
                 con.Open();
                 cmd = con.CreateCommand();
 

@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,11 +43,14 @@ namespace WF_Gestao_Estoque_Gastos.Conexao.Cidade
 
             while (reader.Read())
             {
+                var id = Convert.ToInt32(reader["Id"].ToString());
+                var descricaoCidade = reader["descricaoCidade"].ToString();
+                var IdEstado = Convert.ToInt32(reader["idEstado"].ToString());
                 var cidade = new Cidade()
                 {
-                    Id = Convert.ToInt32(reader[""].ToString()),
-                    DescricaoCidade = reader["descricaoCidade"].ToString(),
-                    IdEstado = Convert.ToInt32(reader["idEstado"].ToString())
+                    Id = id,
+                    DescricaoCidade = descricaoCidade,
+                    IdEstado = IdEstado
                 };
                 lista.Add(cidade);
             }

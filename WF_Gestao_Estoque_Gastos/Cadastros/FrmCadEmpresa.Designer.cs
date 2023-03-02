@@ -1,4 +1,4 @@
-﻿namespace WF_Gestao_Estoque_Gastos.Cadastros
+namespace WF_Gestao_Estoque_Gastos.Cadastros
 {
     partial class FrmCadEmpresa
     {

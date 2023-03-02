@@ -1,4 +1,4 @@
-﻿using Org.BouncyCastle.Asn1.TeleTrust;
+using Org.BouncyCastle.Asn1.TeleTrust;
 using System;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
