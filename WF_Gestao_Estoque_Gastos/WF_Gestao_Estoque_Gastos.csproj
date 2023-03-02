@@ -112,6 +112,7 @@
     <Compile Include="Cadastros\FrmCadIngrediente.Designer.cs">
       <DependentUpon>FrmCadIngrediente.cs</DependentUpon>
     </Compile>
+    <Compile Include="Conexao\Cidade\MetodosTblCidade.cs" />
     <Compile Include="Conexao\ConexaoBD.cs" />
     <Compile Include="Servicos\ComboBoxManager\GerenciarComboBox.cs" />
     <Compile Include="Servicos\ListViewManager\ListViewManager.cs" />
