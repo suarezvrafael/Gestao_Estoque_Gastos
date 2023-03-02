@@ -37,6 +37,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             mtxtNumero.Text = String.Empty;
             mtxtRua.Text = String.Empty;
             cbxCidade.Text = "Selecione";
+            mtxtId.Text = String.Empty;
 
         }
       
@@ -209,7 +210,51 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         private void materialRaisedButton2_Click(object sender, EventArgs e) // btnExcluir
         {
-            Excluir_empresa();
+            var idEmpresa = mtxtId.Text;
+
+            try
+            {
+                con.Open();
+                MySqlCommand cmd = con.CreateCommand();
+                cmd.CommandText = "SELECT * FROM `tblusuario` WHERE empresaId = @idEmpresa";
+                cmd.Parameters.AddWithValue("idEmpresa", idEmpresa);
+                var readerusuario = cmd.ExecuteReader();
+                var retornoSelectUsuario = readerusuario.Read();
+                readerusuario.Close();
+
+                cmd = con.CreateCommand();
+                cmd.CommandText = "SELECT * FROM `tblreceita` WHERE idEmpresa = @idEmpresa";
+                cmd.Parameters.AddWithValue("idEmpresa", idEmpresa);
+                var readerReceita = cmd.ExecuteReader();
+                var retornoSelectReceita = readerReceita.Read();
+                readerReceita.Close();
+
+                if (retornoSelectUsuario)
+                {
+                    ExibirMensagem.Erro("Erro Existem Usuáros vinculados a essa empresa.");
+                    return;
+                }
+                else if (retornoSelectReceita)
+                {
+                    ExibirMensagem.Erro("Erro Existem Receitas vinculadas a essa empresa.");
+                    return;
+                }
+                else
+                {
+                    con.Close();
+                    Excluir_empresa();
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                ExibirMensagem.Erro("Erro, contate o suporte técnico para verificar!\n" + ex.Message);
+            }
+            finally {
+                con.Close();
+            }
+                                  
         }
 
         public void Excluir_empresa()
@@ -229,12 +274,18 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 cmd.Parameters.AddWithValue("@CNPJ", CNPJEmpresa);
                 cmd.Parameters.AddWithValue("@id", idEmpresa);
                 cmd.ExecuteNonQuery();
-                con.Close();
+                
             }
             catch (Exception e)
             {
                 ExibirMensagem.Erro("Ops. Erro: " + e.Message);
             }
+
+            finally
+            {
+                con.Close();
+            }
+            ExibirMensagem.Informacao("Empresa Excluida com sucesso!");
             atualizar_lista();
             LimpaCampos();
         }
@@ -320,6 +371,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 }
                 ));
             }
+            
             con.Close();
 
         }
