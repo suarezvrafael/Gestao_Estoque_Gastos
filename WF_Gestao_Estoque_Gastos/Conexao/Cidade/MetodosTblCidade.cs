@@ -48,9 +48,9 @@ namespace WF_Gestao_Estoque_Gastos.Conexao.Cidade
                 var IdEstado = Convert.ToInt32(reader["idEstado"].ToString());
                 var cidade = new Cidade()
                 {
-                    Id = id,
-                    DescricaoCidade = descricaoCidade,
-                    IdEstado = IdEstado
+                    Id = Convert.ToInt32(reader["id"].ToString()),
+                    DescricaoCidade = reader["descricaoCidade"].ToString(),
+                    IdEstado = Convert.ToInt32(reader["idEstado"].ToString())
                 };
                 lista.Add(cidade);
             }
