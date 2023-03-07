@@ -249,10 +249,28 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             }
         }
 
+        public bool ValidarCampos()
+        {
+            if(txtNome.Text == "")
+            {
+                MessageBox.Show("Preencha o campo Nome.");
+                return false;
+            }
+            else if(txtCusto.Text == ""){
+                MessageBox.Show("Preencha o campo Custo.");
+                return false;
+            }
+
+            return true;
+        }
+
         private void btnAdicionar_Click_1(object sender, EventArgs e)
         {
             if (novaReceita)
             {
+                if (!ValidarCampos())
+                    return;
+
                 idReceita = InserirReceita() - 1;
                 cbbIngrediente.Enabled = true;
                 txtQuantidade.Enabled = true;
@@ -594,9 +612,26 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             novaReceita = true;
         }
 
+        public bool ValidarCamposIngrediente()
+        {
+            if (cbbIngrediente.Text == "")
+            {
+                MessageBox.Show("Selecione o Ingrediente.");
+                return false;
+            }
+            else if (txtQuantidade.Text == "")
+            {
+                MessageBox.Show("Preencha o campo Quantidade.");
+                return false;
+            }
+
+            return true;
+        }
+
         private void btnAdicionarIngrediente_Click(object sender, EventArgs e)
         {
-
+            if (!ValidarCamposIngrediente())
+                return;
             try
             {
                 con.Open();
@@ -762,6 +797,22 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 con.Close();
             }
 
+        }
+
+        private void txtCusto_KeyPress(object sender, KeyPressEventArgs e)
+        {
+           if(Char.IsLetter(e.KeyChar))
+            {
+                e.KeyChar = '\0';
+            }
+        }
+
+        private void txtQuantidade_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsLetter(e.KeyChar))
+            {
+                e.KeyChar = '\0';
+            }
         }
     }
 }

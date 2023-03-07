@@ -43,6 +43,7 @@
             this.txtCusto = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.txtNome = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblReceitaIngrediente = new MaterialSkin.Controls.MaterialLabel();
             this.btnAdicionarIngrediente = new MaterialSkin.Controls.MaterialRaisedButton();
             this.lblIngrediente = new MaterialSkin.Controls.MaterialLabel();
             this.btnExcluirIngrediente = new MaterialSkin.Controls.MaterialRaisedButton();
@@ -57,7 +58,6 @@
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lblReceitaIngrediente = new MaterialSkin.Controls.MaterialLabel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -222,6 +222,7 @@
             this.txtCusto.Size = new System.Drawing.Size(196, 23);
             this.txtCusto.TabIndex = 1;
             this.txtCusto.UseSystemPasswordChar = false;
+            this.txtCusto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCusto_KeyPress);
             // 
             // txtNome
             // 
@@ -255,6 +256,20 @@
             this.groupBox2.Size = new System.Drawing.Size(751, 243);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
+            // 
+            // lblReceitaIngrediente
+            // 
+            this.lblReceitaIngrediente.AutoSize = true;
+            this.lblReceitaIngrediente.Depth = 0;
+            this.lblReceitaIngrediente.Font = new System.Drawing.Font("Roboto", 11F);
+            this.lblReceitaIngrediente.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblReceitaIngrediente.Location = new System.Drawing.Point(117, 16);
+            this.lblReceitaIngrediente.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblReceitaIngrediente.Name = "lblReceitaIngrediente";
+            this.lblReceitaIngrediente.Size = new System.Drawing.Size(85, 19);
+            this.lblReceitaIngrediente.TabIndex = 16;
+            this.lblReceitaIngrediente.Text = "tirar depois";
+            this.lblReceitaIngrediente.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btnAdicionarIngrediente
             // 
@@ -325,6 +340,7 @@
             this.txtQuantidade.Size = new System.Drawing.Size(196, 23);
             this.txtQuantidade.TabIndex = 7;
             this.txtQuantidade.UseSystemPasswordChar = false;
+            this.txtQuantidade.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtQuantidade_KeyPress);
             // 
             // materialLabel3
             // 
@@ -403,20 +419,6 @@
             // columnHeader8
             // 
             this.columnHeader8.Width = 0;
-            // 
-            // lblReceitaIngrediente
-            // 
-            this.lblReceitaIngrediente.AutoSize = true;
-            this.lblReceitaIngrediente.Depth = 0;
-            this.lblReceitaIngrediente.Font = new System.Drawing.Font("Roboto", 11F);
-            this.lblReceitaIngrediente.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblReceitaIngrediente.Location = new System.Drawing.Point(117, 16);
-            this.lblReceitaIngrediente.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lblReceitaIngrediente.Name = "lblReceitaIngrediente";
-            this.lblReceitaIngrediente.Size = new System.Drawing.Size(85, 19);
-            this.lblReceitaIngrediente.TabIndex = 16;
-            this.lblReceitaIngrediente.Text = "tirar depois";
-            this.lblReceitaIngrediente.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // FrmCadReceitas
             // 
