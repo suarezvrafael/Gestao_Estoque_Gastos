@@ -120,6 +120,7 @@
     </Compile>
     <Compile Include="Conexao\Cidade\MetodosTblCidade.cs" />
     <Compile Include="Cadastros\Ingrediente.cs" />
+    <Compile Include="Cadastros\ReceitaIngrediente.cs" />
     <Compile Include="Conexao\ConexaoBD.cs" />
     <Compile Include="Servicos\ComboBoxManager\GerenciarComboBox.cs" />
     <Compile Include="Servicos\ListViewManager\ListViewManager.cs" />
@@ -150,6 +151,8 @@
     <Compile Include="FrmPrincipal.Designer.cs">
       <DependentUpon>FrmPrincipal.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListaDeIngredientes.cs" />
+    <Compile Include="ListaDeReceitas.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servicos\CloseDelegate.cs" />
