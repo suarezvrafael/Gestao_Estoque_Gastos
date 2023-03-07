@@ -24,7 +24,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         public int idReceita;
         bool inseriuReceita = true;
 
-        public MySqlConnection con = new MySqlConnection("server=localhost;database=gestao_estoque_gastos;uid=root;pwd=;sslmode=none");
+        public MySqlConnection con = new MySqlConnection("server=localhost;database=gestao_estoque_gasto;uid=root;pwd=;sslmode=none");
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlDataReader rd;
 
@@ -72,7 +72,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 con.Open();
 
                 cmd.Connection = con;
-                cmd.CommandText = ($@"SELECT * FROM gestao_estoque_gastos.tblReceita");
+                cmd.CommandText = ($@"SELECT * FROM gestao_estoque_gasto.tblReceita");
                 var reader = cmd.ExecuteReader();
 
                 listViewReceitas.Items.Clear();
@@ -121,7 +121,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 cmd.Connection = con;
 
-                cmd.CommandText = ($@"SELECT ri.Id as Id, i.NomeIngrediente as Nome, ri.QuantidadeIngrediente as Quantidade, r.valorTotalReceita as Custo, ri.IdIngrediente  FROM gestao_estoque_gastos.tblReceitaIngrediente AS ri, gestao_estoque_gastos.tblIngrediente AS i, gestao_estoque_gastos.tblReceita as r WHERE ri.idIngrediente = i.Id and ri.idReceita = r.Id and r.Id = {id};");
+                cmd.CommandText = ($@"SELECT ri.Id as Id, i.NomeIngrediente as Nome, ri.QuantidadeIngrediente as Quantidade, r.valorTotalReceita as Custo, ri.IdIngrediente  FROM gestao_estoque_gasto.tblReceitaIngrediente AS ri, gestao_estoque_gasto.tblIngrediente AS i, gestao_estoque_gasto.tblReceita as r WHERE ri.idIngrediente = i.Id and ri.idReceita = r.Id and r.Id = {id};");
                 var reader = cmd.ExecuteReader();
 
                 listViewIngredientes.Items.Clear();
@@ -171,7 +171,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 con.Open();
 
                 cmd.Connection = con;
-                cmd.CommandText = ($@"select * from gestao_estoque_gastos.tblIngrediente");
+                cmd.CommandText = ($@"select * from gestao_estoque_gasto.tblIngrediente");
                 var reader = cmd.ExecuteReader();
 
                 cbbIngrediente.Items.Clear();
@@ -222,7 +222,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 con.Open();
                 cmd.Connection = con;
                 cmd.CommandText = ($@"INSERT INTO 
-                                      gestao_estoque_gastos.tblReceitaIngrediente 
+                                      gestao_estoque_gasto.tblReceitaIngrediente 
                                       (idIngrediente, idReceita, quantidadeIngrediente, idGastoVariado, qntGastoVariado) 
                                       VALUES ({cbbIngrediente.SelectedIndex + 1}, {id}, {txtQuantidade.Text}, '1', {txtCusto.Text.ToString()})");
                 int retorno = cmd.ExecuteNonQuery();
@@ -359,7 +359,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 con.Open();
                 cmd.Connection = con;
-                cmd.CommandText = "SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'tblReceita' AND table_schema = 'gestao_estoque_gastos';";
+                cmd.CommandText = "SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'tblReceita' AND table_schema = 'gestao_estoque_gasto';";
 
 
                 var reader = cmd.ExecuteReader();
@@ -394,7 +394,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 con.Open();
 
                 cmd.Connection = con;
-                cmd.CommandText = ($@"select * from gestao_estoque_gastos.tblIngrediente WHERE id = {id};");
+                cmd.CommandText = ($@"select * from gestao_estoque_gasto.tblIngrediente WHERE id = {id};");
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
@@ -450,7 +450,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                                         a.quantidadeIngrediente,
                                         b.PrecoIngrediente
                                     FROM
-                                        gestao_estoque_gastos.tblReceitaIngrediente AS a,
+                                        gestao_estoque_gasto.tblReceitaIngrediente AS a,
                                         tblingrediente AS b
                                     WHERE
                                         a.idIngrediente = b.id AND idReceita = {id}");
@@ -527,7 +527,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 var idIngrediente = cbbIngrediente.SelectedValue;
                 cmd.Connection = con;
                 cmd.CommandText = ($@"INSERT INTO 
-                                      gestao_estoque_gastos.tblReceitaIngrediente 
+                                      gestao_estoque_gasto
+                                        .tblReceitaIngrediente 
                                       (idIngrediente, idReceita, quantidadeIngrediente, idGastoVariado, qntGastoVariado) 
                                       VALUES 
                                       ({idIngrediente}, '{idReceita}', '{txtQuantidade.Text}', '1', '1')");
@@ -563,7 +564,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 cmd.Connection = con;
                 cmd.CommandText = ($@"INSERT INTO 
-                                      gestao_estoque_gastos.tblReceita
+                                      gestao_estoque_gasto.tblReceita
                                       (nomeReceita, IdEmpresa, ValorTotalReceita)
                                       VALUES
                                       ('{txtNome.Text}', '1', {txtCusto.Text})");
