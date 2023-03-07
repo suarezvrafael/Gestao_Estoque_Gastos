@@ -306,7 +306,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 con.Open();
                 cmd.Connection = con;
-                cmd.CommandText = $@"SELECT i.id, i.NomeIngrediente, i.PrecoIngrediente, u.Descricao, i.QuantidadeUnidade, i.ReceitaId, i.PedidoId, i.EmpresaId FROM tblingrediente i, tblunidademedida u WHERE i.UnidadeMedidaId = u.Id AND i.NomeIngrediente LIKE '%{nomeIngrediente}%' ORDER BY i.NomeIngrediente ASC";
+                cmd.CommandText = $@"SELECT i.id, i.NomeIngrediente, i.PrecoIngrediente, u.Descricao, i.QuantidadeUnidade, i.ReceitaId, i.PedidoId, i.EmpresaId FROM tblingrediente i, tblunidademedidaingrediente u WHERE i.UnidadeMedidaId = u.Id AND i.NomeIngrediente LIKE '%{nomeIngrediente}%' ORDER BY i.NomeIngrediente ASC";
                 reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -359,7 +359,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 con.Open();
                 cmd.Connection = con;
-                cmd.CommandText = @"SELECT * FROM tblunidademedida";
+                cmd.CommandText = @"SELECT * FROM tblunidademedidaingrediente";
                 reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -367,7 +367,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     var unidadeMedida = new UnidadeMedida()
                     {
                         Id = Convert.ToInt32(reader["id"].ToString()),
-                        Descricao = reader["descricao"].ToString(),
+                        Descricao = reader["descUnidMedIngrediente"].ToString(),
                         Sigla = reader["sigla"].ToString(),
                     };
 
@@ -399,7 +399,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 con.Open();
                 cmd.Connection = con;
                 cmd.CommandText = @"SELECT i.id, i.NomeIngrediente, i.PrecoIngrediente, u.Descricao, i.QuantidadeUnidade, i.ReceitaId, i.PedidoId, 
-                                    i.EmpresaId FROM tblingrediente i, tblunidademedida u WHERE i.UnidadeMedidaId = u.Id ORDER BY i.NomeIngrediente ASC";
+                                    i.EmpresaId FROM tblingrediente i, tblunidademedidaingrediente u WHERE i.UnidadeMedidaId = u.Id ORDER BY i.NomeIngrediente ASC";
                 reader = cmd.ExecuteReader();
 
                 while (reader.Read())

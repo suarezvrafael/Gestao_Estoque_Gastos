@@ -59,7 +59,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             {
                 con.Open();
                 cmd = con.CreateCommand();
-                cmd.CommandText = "INSERT INTO tblunidademedidaingrediente (descricaoUnidadeMedidaIngrediente, sigla) VALUES(@descricao , @sigla);";
+                cmd.CommandText = "INSERT INTO tblunidademedidaingrediente (descUnidMedIngrediente, sigla) VALUES(@descricao , @sigla);";
                 cmd.Parameters.AddWithValue("descricao", descricao);
                 cmd.Parameters.AddWithValue("sigla", sigla);
 
@@ -87,7 +87,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 con.Open();
 
                 cmd = con.CreateCommand();
-                cmd.CommandText = "UPDATE tblunidademedidaingrediente SET descricaoUnidadeMedidaIngrediente = @descricao, sigla = @sigla WHERE id = @id;";
+                cmd.CommandText = "UPDATE tblunidademedidaingrediente SET descUnidMedIngrediente = @descricao, sigla = @sigla WHERE id = @id;";
                 cmd.Parameters.AddWithValue("descricao", descricao);
                 cmd.Parameters.AddWithValue("sigla", sigla);
                 cmd.Parameters.AddWithValue("id", id);
@@ -166,7 +166,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             //seta a conexão para o comando
             cmd = new MySqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "SELECT id,descricaoUnidadeMedidaIngrediente, sigla FROM tblunidademedidaingrediente";
+            cmd.CommandText = "SELECT id,descUnidMedIngrediente, sigla FROM tblunidademedidaingrediente";
 
             //executa o comando
             dr = cmd.ExecuteReader();
@@ -176,7 +176,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 Unidade unidade = new Unidade()
                 {
                     id = Convert.ToInt32(dr["id"].ToString()),
-                    descricao = dr["descricaoUnidadeMedidaIngrediente"].ToString(),
+                    descricao = dr["descUnidMedIngrediente"].ToString(),
                     sigla = dr["sigla"].ToString(),
 
                 };
