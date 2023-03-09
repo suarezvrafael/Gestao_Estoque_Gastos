@@ -103,6 +103,7 @@
             this.lblReceita.TabIndex = 13;
             this.lblReceita.Text = "remover texto depois";
             this.lblReceita.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblReceita.Visible = false;
             // 
             // btnAdicionarReceita
             // 
@@ -237,6 +238,7 @@
             this.lblReceitaIngrediente.TabIndex = 16;
             this.lblReceitaIngrediente.Text = "tirar depois";
             this.lblReceitaIngrediente.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblReceitaIngrediente.Visible = false;
             // 
             // btnAdicionarIngrediente
             // 
@@ -265,6 +267,7 @@
             this.lblIngrediente.TabIndex = 14;
             this.lblIngrediente.Text = "tirar depois";
             this.lblIngrediente.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblIngrediente.Visible = false;
             // 
             // btnExcluirIngrediente
             // 
