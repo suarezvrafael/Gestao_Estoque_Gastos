@@ -375,10 +375,10 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     unidMedida.Add(unidadeMedida);
                 }
 
-                foreach (var unMedida in unidMedida)
-                {
-                    cbxUnidMedida.Items.Insert((int)unMedida.Id, unMedida.Descricao);
-                }
+                cbxUnidMedida.DataSource = unidMedida;
+                cbxUnidMedida.DisplayMember = "Descricao";
+                cbxUnidMedida.ValueMember = "Id";
+                cbxUnidMedida.SelectedIndex = -1;
 
                 con.Close();
             }
