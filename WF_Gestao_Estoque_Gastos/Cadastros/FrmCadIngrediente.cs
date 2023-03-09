@@ -18,7 +18,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         public FrmCadIngrediente()
         {
             InitializeComponent();
-            con = new MySqlConnection("Server=localhost;Database=gestao_estoque_gasto;Uid=root;Pwd=;SslMode=none");
+            con = new MySqlConnection("server=localhost;database=gestao_estoque_gasto;uid=root;pwd=;sslmode=none");
             cmd = new MySqlCommand();
             cmd.Connection = con;
 

@@ -50,7 +50,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             novaReceita = true;
             btnAdicionarReceita.Enabled = true;
             txtNome.Enabled = true;
-            txtCusto.Enabled = true;
             LimparCamposReceita();
         }
 
@@ -59,7 +58,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             lblReceita.Text = String.Empty;
             lblIngrediente.Text = String.Empty;
             txtNome.Text = String.Empty;
-            txtCusto.Text = String.Empty;
             listViewIngredientes.Items.Clear();
         }
 
@@ -79,18 +77,21 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 while (reader.Read())
                 {
-                    var listaDeReceitas = new ListaDeReceitas()
-                    {
-                        Id = int.Parse(reader["id"].ToString()),
-                        Receita = reader["NomeReceita"].ToString(),
-                        TotalReceita = decimal.Parse(reader["ValorTotalReceita"].ToString())
-                    };
+
+                    var listaDeReceitas = new ListaDeReceitas();
+                    listaDeReceitas.Id = int.Parse(reader["id"].ToString());
+                    listaDeReceitas.Receita = reader["nomeReceita"].ToString();
+
+                    var valor = string.IsNullOrEmpty(reader["valorTotalReceita"].ToString()) ? "0" : reader["valorTotalReceita"].ToString();
+
+                    listaDeReceitas.TotalReceita = decimal.Parse(valor);
+
                     list.Add(listaDeReceitas);
 
                     var item = new string[] {
                         reader["id"].ToString(),
-                        reader["NomeReceita"].ToString(),
-                        reader["ValorTotalReceita"].ToString()
+                        reader["nomeReceita"].ToString(),
+                        reader["valorTotalReceita"].ToString()
 
                     };
 
@@ -101,8 +102,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             }
             catch (Exception)
             {
-
-
+                MessageBox.Show("Não foi possível buscar as receitas!");
+                return;
             }
             finally
             {
@@ -121,7 +122,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 cmd.Connection = con;
 
-                cmd.CommandText = ($@"SELECT ri.Id as Id, i.NomeIngrediente as Nome, ri.QuantidadeIngrediente as Quantidade, r.valorTotalReceita as Custo, ri.IdIngrediente  FROM gestao_estoque_gasto.tblReceitaIngrediente AS ri, gestao_estoque_gasto.tblIngrediente AS i, gestao_estoque_gasto.tblReceita as r WHERE ri.idIngrediente = i.Id and ri.idReceita = r.Id and r.Id = {id};");
+                cmd.CommandText = ($@"SELECT ri.Id as Id, i.NomeIngrediente as Nome, ri.QuantidadeIngrediente as Quantidade, (ri.QuantidadeIngrediente * i.precoIngrediente) as Custo, ri.IdIngrediente  FROM gestao_estoque_gasto.tblReceitaIngrediente AS ri, gestao_estoque_gasto.tblIngrediente AS i, gestao_estoque_gasto.tblReceita as r WHERE ri.idIngrediente = i.Id and ri.idReceita = r.Id and r.Id = {id};");
                 var reader = cmd.ExecuteReader();
 
                 listViewIngredientes.Items.Clear();
@@ -154,7 +155,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show("Não foi possível cadastrar ingrediente!");
+                return;
             }
             finally
             {
@@ -214,50 +216,12 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         }
 
-        private void CadastrarIngredientesReceita(int id)
-        {
-            try
-            {
-
-                con.Open();
-                cmd.Connection = con;
-                cmd.CommandText = ($@"INSERT INTO 
-                                      gestao_estoque_gasto.tblReceitaIngrediente 
-                                      (idIngrediente, idReceita, quantidadeIngrediente, idGastoVariado, qntGastoVariado) 
-                                      VALUES ({cbbIngrediente.SelectedIndex + 1}, {id}, {txtQuantidade.Text}, '1', {txtCusto.Text.ToString()})");
-                int retorno = cmd.ExecuteNonQuery();
-
-
-                if (retorno < 1)
-                {
-                    MessageBox.Show("Não foi possível cadastrar os ingredientes da receita!");
-                }
-                else
-                {
-                    MessageBox.Show("Usuário inserido com sucesso!");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Não foi possível cadastrar ingrediente!");
-                Console.WriteLine(ex.Message);
-                return;
-            }
-            finally
-            {
-                con.Close();
-            }
-        }
 
         public bool ValidarCampos()
         {
-            if(txtNome.Text == "")
+            if (txtNome.Text == "")
             {
                 MessageBox.Show("Preencha o campo Nome.");
-                return false;
-            }
-            else if(txtCusto.Text == ""){
-                MessageBox.Show("Preencha o campo Custo.");
                 return false;
             }
 
@@ -307,21 +271,27 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         {
             txtNome.Enabled = false;
 
-            txtCusto.Enabled = false;
             btnAdicionarReceita.Enabled = false;
         }
 
         public void DesabilitarCamposIngrediente()
         {
+            LimpaCamposIgrediente();
+            cbbIngrediente.Enabled = false;
+            txtQuantidade.Enabled = false;
+        }
+
+        private void LimpaCamposIgrediente()
+        {
             cbbIngrediente.SelectedIndex = -1;
             txtQuantidade.Text = String.Empty;
-            cbbIngrediente.Enabled = false;
         }
 
         public void HabilitarCamposIngrediente()
         {
             cbbIngrediente.Enabled = true;
             txtQuantidade.Text = String.Empty;
+            txtQuantidade.Enabled = true;
             cbbIngrediente.SelectedIndex = -1;
         }
         private void listViewCadastroReceitas_SelectedIndexChanged(object sender, EventArgs e)
@@ -338,10 +308,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             var indiceItemSelecionado = Convert.ToInt32(listViewReceitas.SelectedIndices[0]);
             id = int.Parse(listViewReceitas.Items[indiceItemSelecionado].Text);
             string nomeReceita = listViewReceitas.Items[indiceItemSelecionado].SubItems[1].Text;
-            string quantidadeReceita = listViewReceitas.Items[indiceItemSelecionado].SubItems[2].Text;
 
             txtNome.Text = nomeReceita;
-            txtCusto.Text = quantidadeReceita;
 
             lblReceita.Text = id.ToString();
 
@@ -376,59 +344,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Não foi possível obter id!");
+                MessageBox.Show("Não foi possível obter id da receita!");
                 Console.WriteLine(ex.Message);
                 return 0;
-            }
-            finally
-            {
-                con.Close();
-            }
-        }
-
-        private void BuscarListaDeIngredientesReceita(int id)
-        {
-            try
-            {
-                var list = new List<ListaDeIngredientes>();
-                con.Open();
-
-                cmd.Connection = con;
-                cmd.CommandText = ($@"select * from gestao_estoque_gasto.tblIngrediente WHERE id = {id};");
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    var listaDeIngredientes = new ListaDeIngredientes()
-                    {
-
-                    };
-                    list.Add(listaDeIngredientes);
-                }
-                listViewIngredientes.Items.Clear();
-
-                foreach (var ingrediente in list)
-                {
-                    listViewIngredientes.Items.Add(new ListViewItem(
-
-                        new String[]
-                        {
-
-                            ingrediente.Id.ToString(),
-                            ingrediente.IdIngrediente.ToString(),
-                            ingrediente.IdReceita.ToString(),
-                            ingrediente.QuantidadeIngrediente.ToString(),
-                            ingrediente.IdGastoVariado.ToString(),
-                            ingrediente.QuantidadeGastoVariado.ToString()
-                        })
-                     );
-                }
-                PreencheListaIngredientes(list);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Não foi possível obter lista de ingredientes da receita!");
-                Console.WriteLine(ex.Message);
-                return;
             }
             finally
             {
@@ -484,7 +402,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             catch (Exception ex)
             {
                 MessageBox.Show("Não foi possível buscar os ingredientes da receita!");
-                Console.WriteLine(ex.Message);
             }
             finally
             {
@@ -528,7 +445,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 cmd.Connection = con;
                 cmd.CommandText = ($@"INSERT INTO 
                                       gestao_estoque_gasto
-                                        .tblReceitaIngrediente 
+                                        .tblReceitaIngrediente
                                       (idIngrediente, idReceita, quantidadeIngrediente, idGastoVariado, qntGastoVariado) 
                                       VALUES 
                                       ({idIngrediente}, '{idReceita}', '{txtQuantidade.Text}', '1', '1')");
@@ -546,7 +463,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             catch (Exception ex)
             {
                 MessageBox.Show("Não foi possível cadastrar ingrediente!");
-                Console.WriteLine(ex.Message);
                 return;
             }
             finally
@@ -558,6 +474,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         public int InserirReceita()
         {
             int idReceita = 0;
+            var dadosUsuario = DadosUsuario.GetUsuario();
+            var idEmpresa = dadosUsuario.EmpresaId;
             try
             {
                 con.Open();
@@ -565,26 +483,26 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 cmd.Connection = con;
                 cmd.CommandText = ($@"INSERT INTO 
                                       gestao_estoque_gasto.tblReceita
-                                      (nomeReceita, IdEmpresa, ValorTotalReceita)
+                                      (nomeReceita, IdEmpresa)
                                       VALUES
-                                      ('{txtNome.Text}', '1', {txtCusto.Text})");
+                                      ('{txtNome.Text}', {idEmpresa})");
                 int retorno = cmd.ExecuteNonQuery();
 
                 if (retorno < 1)
                 {
                     inseriuReceita = false;
-                    MessageBox.Show("Não foi possível cadastrar Receita(inserirReceita)!");
+                    MessageBox.Show("Não foi possível inserir receita!");
                 }
                 else
                 {
                     MessageBox.Show("Receita cadastrada!");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 inseriuReceita = false;
-                MessageBox.Show("Não foi possível Inserir receita (INSERIRRECEITA)!");
-                Console.WriteLine(ex.Message);
+                MessageBox.Show("Não foi possível inserir receita!");
+                return 0;
             }
             finally
             {
@@ -629,10 +547,79 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             return true;
         }
 
+
+
         private void btnAdicionarIngrediente_Click(object sender, EventArgs e)
         {
             if (!ValidarCamposIngrediente())
                 return;
+            try
+            {
+                var idIngrediente = VerificaIngredienteCadastrado();
+
+                if (idIngrediente <= 0)
+                {
+                    InserirIngredienteNaReceita();
+                }
+                else
+                {
+                    AtualizarIngredienteDaReceita();
+                }
+
+            }
+            catch (Exception)
+            {
+                con.Close();
+                MessageBox.Show("Não foi possível cadastrar ingrediente!");
+                return;
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            DesabilitarCamposIngrediente();
+        }
+
+        private void AtualizarIngredienteDaReceita()
+        {
+            try
+            {
+                con.Open();
+                cmd.Connection = con;
+                cmd.CommandText = ($@"UPDATE tblreceitaingrediente
+                                      SET quantidadeIngrediente = {Convert.ToInt32(txtQuantidade.Text)} WHERE
+                                      idIngrediente = {lblIngrediente.Text} AND idReceita = {lblReceita.Text}");
+                int retorno = cmd.ExecuteNonQuery();
+
+                if (retorno < 1)
+                {
+                    MessageBox.Show("Não foi possível cadastrar os ingredientes da receita!");
+                }
+                else
+                {
+                    con.Close();
+                    PreencheListaIngredientes(int.Parse(lblReceita.Text));
+                    MessageBox.Show("Ingrediente atualizado");
+
+                    AtualizaCustoReceita(lblReceita.Text);
+                }
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Não foi possível atualizar os ingredientes da receita!");
+                return;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        private void InserirIngredienteNaReceita()
+        {
+
             try
             {
                 con.Open();
@@ -652,19 +639,121 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     con.Close();
                     PreencheListaIngredientes(int.Parse(lblReceita.Text));
                     MessageBox.Show("Ingrediente inserido");
+
+                    AtualizaCustoReceita(lblReceita.Text);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                con.Close();
-                MessageBox.Show("Não foi possível cadastrar ingrediente!");
-                Console.WriteLine(ex.Message);
+
+                MessageBox.Show("Não foi possível inserir ingrediente na receita!");
                 return;
             }
             finally
             {
                 con.Close();
             }
+        }
+
+        public int VerificaIngredienteCadastrado()
+        {
+
+            var idIngrediente = 0;
+            
+            try
+            {
+                con.Open();
+                cmd.Connection = con;
+                cmd.CommandText = ($@"SELECT idIngrediente FROM tblReceitaIngrediente WHERE
+                                      idIngrediente = {lblIngrediente.Text} AND idReceita = {lblReceita.Text}");
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    idIngrediente = int.Parse(reader["idIngrediente"].ToString());
+                }
+
+                con.Close();
+            }
+            catch (Exception)
+            {
+
+                MessageBox.Show("Erro interno!");
+                return 0;
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            return idIngrediente;
+        }
+
+        private void AtualizaCustoReceita(string idReceita)
+        {
+            try
+            {
+                decimal totalCustoReceita = GetTotalCustoReceita(idReceita);
+
+                con.Open();
+                cmd.Connection = con;
+                cmd.CommandText = ($@"UPDATE tblReceita
+                                      SET valorTotalReceita = {totalCustoReceita}
+                                      WHERE id = {idReceita}");
+
+                int retorno = cmd.ExecuteNonQuery();
+
+                if (retorno < 1)
+                {
+                    MessageBox.Show("Erro ao atualizar custo!");
+                }
+                else
+                {
+                    con.Close();
+                    PreencheListaReceitas();
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Não foi possível atualizar o custo da receita!");
+                return;
+            }
+            finally
+            {
+                con.Close();
+            }
+
+        }
+
+        private decimal GetTotalCustoReceita(string idReceita)
+        {
+            decimal totalCustoReceita = 0;
+            try
+            {
+                con.Open();
+                cmd.Connection = con;
+                cmd.CommandText = ($@"SELECT Sum(b.PrecoIngrediente * a.quantidadeIngrediente) as valor FROM gestao_estoque_gasto.tblReceitaIngrediente AS a, tblingrediente AS b WHERE a.idIngrediente = b.id
+                                      and a.idReceita = {idReceita};");
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    totalCustoReceita = decimal.Parse(reader["valor"].ToString());
+                }
+
+                con.Close();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Não foi possível pegar o custo total da receita!");
+                return 0;
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            return totalCustoReceita;
         }
 
         private void btnExcluir_Click(object sender, EventArgs e)
@@ -708,11 +797,10 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     DeletarIngredientesDaReceita();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 con.Close();
                 MessageBox.Show("Erro ao deletar receita!");
-                Console.WriteLine(ex.Message);
             }
             finally
             {
@@ -736,11 +824,10 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 con.Close();
-                MessageBox.Show("Não foi possível cadastrar ingrediente!");
-                Console.WriteLine(ex.Message);
+                MessageBox.Show("Não foi possível deletar ingrediente da receita!");
             }
             finally
             {
@@ -787,25 +874,16 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 con.Close();
                 MessageBox.Show("Não foi possível deletar ingrediente!");
-                Console.WriteLine(ex.Message);
             }
             finally
             {
                 con.Close();
             }
 
-        }
-
-        private void txtCusto_KeyPress(object sender, KeyPressEventArgs e)
-        {
-           if(Char.IsLetter(e.KeyChar))
-            {
-                e.KeyChar = '\0';
-            }
         }
 
         private void txtQuantidade_KeyPress(object sender, KeyPressEventArgs e)

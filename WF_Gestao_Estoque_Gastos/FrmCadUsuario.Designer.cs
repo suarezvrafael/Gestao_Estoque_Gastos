@@ -154,7 +154,6 @@
             this.checkBox.TabStop = false;
             this.checkBox.Text = "Ativar/Inativar";
             this.checkBox.UseVisualStyleBackColor = true;
-            this.checkBox.Click += new System.EventHandler(this.checkBox_Click);
             // 
             // txtSenha
             // 

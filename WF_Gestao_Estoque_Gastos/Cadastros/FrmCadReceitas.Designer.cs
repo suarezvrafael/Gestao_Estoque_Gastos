@@ -32,7 +32,6 @@
             this.btnNovaReceita = new MaterialSkin.Controls.MaterialRaisedButton();
             this.lblReceita = new MaterialSkin.Controls.MaterialLabel();
             this.btnAdicionarReceita = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.materialLabel6 = new MaterialSkin.Controls.MaterialLabel();
             this.lblNome = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.btnExcluir = new MaterialSkin.Controls.MaterialRaisedButton();
@@ -40,7 +39,6 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.txtCusto = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.txtNome = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblReceitaIngrediente = new MaterialSkin.Controls.MaterialLabel();
@@ -67,12 +65,10 @@
             this.groupBox1.Controls.Add(this.btnNovaReceita);
             this.groupBox1.Controls.Add(this.lblReceita);
             this.groupBox1.Controls.Add(this.btnAdicionarReceita);
-            this.groupBox1.Controls.Add(this.materialLabel6);
             this.groupBox1.Controls.Add(this.lblNome);
             this.groupBox1.Controls.Add(this.materialLabel1);
             this.groupBox1.Controls.Add(this.btnExcluir);
             this.groupBox1.Controls.Add(this.listViewReceitas);
-            this.groupBox1.Controls.Add(this.txtCusto);
             this.groupBox1.Controls.Add(this.txtNome);
             this.groupBox1.Location = new System.Drawing.Point(25, 95);
             this.groupBox1.Name = "groupBox1";
@@ -121,19 +117,6 @@
             this.btnAdicionarReceita.Text = " Adicionar Receita";
             this.btnAdicionarReceita.UseVisualStyleBackColor = false;
             this.btnAdicionarReceita.Click += new System.EventHandler(this.btnAdicionar_Click_1);
-            // 
-            // materialLabel6
-            // 
-            this.materialLabel6.AutoSize = true;
-            this.materialLabel6.Depth = 0;
-            this.materialLabel6.Font = new System.Drawing.Font("Roboto", 11F);
-            this.materialLabel6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel6.Location = new System.Drawing.Point(22, 133);
-            this.materialLabel6.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabel6.Name = "materialLabel6";
-            this.materialLabel6.Size = new System.Drawing.Size(49, 19);
-            this.materialLabel6.TabIndex = 10;
-            this.materialLabel6.Text = "Custo";
             // 
             // lblNome
             // 
@@ -207,22 +190,6 @@
             // 
             this.columnHeader3.Text = "Total da Receita";
             this.columnHeader3.Width = 98;
-            // 
-            // txtCusto
-            // 
-            this.txtCusto.Depth = 0;
-            this.txtCusto.Hint = "";
-            this.txtCusto.Location = new System.Drawing.Point(25, 160);
-            this.txtCusto.MouseState = MaterialSkin.MouseState.HOVER;
-            this.txtCusto.Name = "txtCusto";
-            this.txtCusto.PasswordChar = '\0';
-            this.txtCusto.SelectedText = "";
-            this.txtCusto.SelectionLength = 0;
-            this.txtCusto.SelectionStart = 0;
-            this.txtCusto.Size = new System.Drawing.Size(196, 23);
-            this.txtCusto.TabIndex = 1;
-            this.txtCusto.UseSystemPasswordChar = false;
-            this.txtCusto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCusto_KeyPress);
             // 
             // txtNome
             // 
@@ -414,7 +381,8 @@
             // 
             // columnHeader7
             // 
-            this.columnHeader7.Text = "Custo";
+            this.columnHeader7.Text = "Custo Total";
+            this.columnHeader7.Width = 85;
             // 
             // columnHeader8
             // 
@@ -461,8 +429,6 @@
         private MaterialSkin.Controls.MaterialLabel lblNome;
         private MaterialSkin.Controls.MaterialRaisedButton btnAdicionarReceita;
         private MaterialSkin.Controls.MaterialRaisedButton btnExcluirIngrediente;
-        private MaterialSkin.Controls.MaterialLabel materialLabel6;
-        private MaterialSkin.Controls.MaterialSingleLineTextField txtCusto;
         private System.Windows.Forms.ColumnHeader columnHeader7;
         private MaterialSkin.Controls.MaterialLabel lblReceita;
         private MaterialSkin.Controls.MaterialLabel lblIngrediente;

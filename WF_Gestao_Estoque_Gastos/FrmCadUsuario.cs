@@ -170,14 +170,17 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         private void CadastrarUsuario()
         {
 
+            var dadosUsuario = DadosUsuario.GetUsuario();
+            var idEmpresa = dadosUsuario.EmpresaId;
+
             try
             {
                 con.Open();
 
                 cmd.Connection = con;
-                cmd.CommandText = ($@"INSERT INTO dbLogin.tblUsuario(
+                cmd.CommandText = ($@"INSERT INTO tblUsuario(
                     Nome, Username, Senha, Acesso, EmpresaId, ManterLogado, Ativo) VALUES
-                    ('{txtNome.Text}','{txtUsuario.Text}', '{txtSenha.Text}','1', '1','0','S')");
+                    ('{txtNome.Text}','{txtUsuario.Text}', '{txtSenha.Text}','1', {idEmpresa},'0','1')");
                 int retorno = cmd.ExecuteNonQuery();
 
                 if (retorno < 1)
@@ -217,12 +220,18 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 if (listView.SelectedIndices.Count > -1)
                 {
 
-                    cmd.CommandText = ($"UPDATE dbLogin.tblUsuario SET Ativo = 'N' WHERE id = {lblid.Text}");
+                    cmd.CommandText = ($"UPDATE tblUsuario SET Ativo = 'N' WHERE id = {lblid.Text}");
 
                     con.Open();
                     cmd.Connection = con;
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Usuário foi desativado!");
+                    var reader = cmd.ExecuteNonQuery();
+                    if (reader > 1)
+                    {
+                        MessageBox.Show("Usuário foi desativado!");
+                    } else
+                    {
+                        MessageBox.Show("Não foi possível desativar o usuário!");
+                    }
                 }
             }
             catch (Exception ex)
@@ -242,26 +251,29 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         private void AtualizarUsuario()
         {
             var inserirStatus = String.Empty;
+            var dadosUsuario = DadosUsuario.GetUsuario();
+            var idEmpresa = dadosUsuario.EmpresaId;
 
             try
             {
                 if (listView.SelectedIndices.Count > -1)
                 {
-                    if (checkBox.Text == "Ativo")
+                    if (checkBox.Checked)
                     {
-                        inserirStatus = "S";
+                        inserirStatus = "1";
                     }
                     else
                     {
-                        inserirStatus = "N";
+                        inserirStatus = "2";
                     }
+
 
                     cmd.CommandText = ($@"UPDATE tblUsuario SET Nome = '{txtNome.Text}',
                                        UserName = '{txtUsuario.Text}', 
                                        Senha = '{txtSenha.Text}', 
                                        Acesso = 1, 
                                        ManterLogado = 1, 
-                                       EmpresaId = 1, 
+                                       EmpresaId = {idEmpresa}, 
                                        Ativo = '{inserirStatus}'    
                                        WHERE id = {lblid.Text}");
 
@@ -301,9 +313,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     Name = rd["Nome"].ToString(),
                     Username = rd["Username"].ToString(),
                     Acesso = rd["Acesso"].ToString(),
-                    Ativo = rd["Ativo"].ToString()
-
+                    Ativo = rd["Ativo"].ToString() == "1" ? "Sim" : "Não"
                 };
+
                 usuarios.Add(user);
             }
             listView.Items.Clear();
@@ -379,18 +391,20 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         private void NivelDeSeguranca()
         {
-            if(ContemMaiusculas())
+            if (ContemMaiusculas())
             {
                 lblMaiusculas.BackColor = Color.Green;
-            } else
+            }
+            else
             {
                 lblMaiusculas.BackColor = Color.Red;
             }
 
-            if(ContemMinusculas())
+            if (ContemMinusculas())
             {
                 lblMinusculas.BackColor = Color.Green;
-            } else
+            }
+            else
             {
                 lblMinusculas.BackColor = Color.Red;
             }
@@ -407,7 +421,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             if (MinimoCaracteres())
             {
                 lblOitoCaracteres.BackColor = Color.Green;
-            } else
+            }
+            else
             {
                 lblOitoCaracteres.BackColor = Color.Red;
             }
@@ -415,7 +430,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             if (ContemCaracteresEspeciais())
             {
                 lblCaracterEspecial.BackColor = Color.Green;
-            } else
+            }
+            else
             {
                 lblCaracterEspecial.BackColor = Color.Red;
             }
@@ -448,7 +464,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         public bool MinimoCaracteres()
         {
-            if(txtSenha.Text.Length >= 8)
+            if (txtSenha.Text.Length >= 8)
             {
                 return true;
             }
@@ -466,7 +482,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             if (txtUsuario.Text.Contains(" ") || !regex.Match(txtUsuario.Text).Success)
             {
                 retorno = false;
-            } 
+            }
 
             return retorno;
         }
@@ -482,7 +498,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             }
 
             return retorno;
-            
+
         }
 
         private bool CamposValidos()
@@ -501,7 +517,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 return valido;
             }
 
-            if(!VerificarNome())
+            if (!VerificarNome())
             {
                 ExibirMensagem.Informacao("Nome deve conter apenas letras e espaços!");
                 return valido;
