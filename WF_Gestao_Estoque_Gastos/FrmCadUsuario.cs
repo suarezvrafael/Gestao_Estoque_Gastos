@@ -220,12 +220,12 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 if (listView.SelectedIndices.Count > -1)
                 {
 
-                    cmd.CommandText = ($"UPDATE tblUsuario SET Ativo = 'N' WHERE id = {lblid.Text}");
+                    cmd.CommandText = ($"UPDATE tblUsuario SET Ativo = 2 WHERE id = {lblid.Text}");
 
                     con.Open();
                     cmd.Connection = con;
                     var reader = cmd.ExecuteNonQuery();
-                    if (reader > 1)
+                    if (reader >= 1)
                     {
                         MessageBox.Show("Usuário foi desativado!");
                     } else
