@@ -38,7 +38,7 @@ namespace WF_Gestao_Estoque_Gastos
 
         private void btnEntrar_Click(object sender, EventArgs e)
         {
-            var usuarioLogou = false;
+            var usuarioLogou = false; 
 
             DesmarcarUsuariosManterLogin();
             var id = 0;
