@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24-Fev-2023 às 01:21
+-- Tempo de geração: 09-Mar-2023 às 22:50
 -- Versão do servidor: 10.4.27-MariaDB
 -- versão do PHP: 8.2.0
 
@@ -121,9 +121,9 @@ CREATE TABLE `tblgastovariado` (
 CREATE TABLE `tblingrediente` (
   `id` int(11) NOT NULL,
   `nomeIngrediente` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `precoIngrediente` float(10,0) NOT NULL,
+  `precoIngrediente` float(10,2) NOT NULL,
   `unidadeMedidaId` int(11) NOT NULL,
-  `quantidadeUnidade` float(10,0) NOT NULL,
+  `quantidadeUnidade` float(10,3) NOT NULL,
   `empresaId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -194,7 +194,7 @@ CREATE TABLE `tblreceita` (
   `id` int(11) NOT NULL,
   `nomeReceita` varchar(140) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `idEmpresa` int(11) NOT NULL,
-  `valorTotalReceita` float(10,0) NOT NULL
+  `valorTotalReceita` float(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -241,7 +241,8 @@ CREATE TABLE `tblunidademedidaingrediente` (
 --
 
 INSERT INTO `tblunidademedidaingrediente` (`id`, `descUnidMedIngrediente`, `sigla`) VALUES
-(2, 'quilos', 'Kg');
+(2, 'quilos', 'Kg'),
+(4, 'Litros', 'l');
 
 -- --------------------------------------------------------
 
@@ -432,7 +433,7 @@ ALTER TABLE `tblunidademedidagastovariado`
 -- AUTO_INCREMENT de tabela `tblunidademedidaingrediente`
 --
 ALTER TABLE `tblunidademedidaingrediente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `tblusuario`
