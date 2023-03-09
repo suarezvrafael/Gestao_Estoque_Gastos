@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
+
 namespace WF_Gestao_Estoque_Gastos.Cadastros
 {
     public partial class FrmCadUnidadeMedida : MaterialForm
@@ -26,14 +27,12 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             if (lblId.Text.Equals(String.Empty))
             {
                 InserirUnidade();
-                limparCampos();
             }
             else
             {
                 AlterarUnidade();
-                limparCampos();
             }
-            atualizar_lista();          
+            atualizar_lista();
         }
 
         public void InserirUnidade()
@@ -82,6 +81,21 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             var descricao = txtDescricao.Text;
             var sigla = txtSigla.Text;
             var id = lblId.Text;
+
+            if (descricao.Equals(String.Empty))
+            {
+                //msg
+                MessageBox.Show("Digite o campo descrição!");
+                txtDescricao.Focus();
+                return;
+            }
+            else if (sigla.Equals(string.Empty))
+            {
+                //msg
+                MessageBox.Show("Digite o campo sigla!");
+                txtSigla.Focus();
+                return;
+            }
             try
             {
                 con.Open();
@@ -112,7 +126,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         {
             var descricao = "";
             var sigla = "";
-
+            var unidadeMedidaId = lblId.Text;
             // verifica se não existe um item na lista selecionado
             if (listViewUnidade.SelectedIndices.Count <= 0)
             {
@@ -129,23 +143,42 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 txtDescricao.Text = descricao;
                 txtSigla.Text = sigla;
                 lblId.Text = descricao;
+                lblId.Text = unidadeMedidaId;
+
                 MySqlConnection con = new MySqlConnection("Server=localhost;Database=gestao_estoque_gasto;user=root;Pwd=;SslMode=none");
-                try
+
+                con.Open();
+                MySqlCommand cmdunmedida = con.CreateCommand();
+                cmdunmedida.CommandText = "SELECT * FROM `tblingrediente` WHERE unidadeMedidaId = @unidadeMedidaId";
+                cmdunmedida.Parameters.AddWithValue("unidadeMedidaId", unidadeMedidaId);
+                var readerunmedida = cmdunmedida.ExecuteReader();
+                var retornoSelectUnMedida = readerunmedida.Read();
+                readerunmedida.Close();
+                con.Close();
+                if (retornoSelectUnMedida)
                 {
-                    con.Open();
-                    MySqlCommand cmd = con.CreateCommand();
-                    cmd.CommandText = "DELETE FROM tblunidademedidaingrediente WHERE descUnidMedIngrediente = @descricao";
-                    cmd.Parameters.AddWithValue("@descricao", descricao);
-                    cmd.ExecuteNonQuery();
-                    con.Close();
+                    ExibirMensagem.Erro("Erro! Existe uma receita vinculada a essa unidade de medida.");
+                    return;
                 }
-                catch (Exception e)
+                else
                 {
-                    MessageBox.Show("Ops. Erro: " + e.Message);
+                    try
+                    {
+                        con.Open();
+                        MySqlCommand cmd = con.CreateCommand();
+                        cmd.CommandText = "DELETE FROM tblunidademedidaingrediente WHERE descUnidMedIngrediente = @descricao";
+                        cmd.Parameters.AddWithValue("@descricao", descricao);
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Ops. Erro: " + e.Message);
+                    }
+                    atualizar_lista();
+                    limparCampos();
+                    groupBox1.Text = "Cadastro";
                 }
-                atualizar_lista();
-                limparCampos();
-                groupBox1.Text = "Cadastro";
             }
         }
 
