@@ -332,9 +332,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     lsvIngredientes.Items.Add(new ListViewItem(new string[]
                     {
                             ingr.NomeIngrediente,
-                            ingr.PrecoIngrediente.ToString().Length >= 7 ? ingr.PrecoIngrediente.ToString().Insert(1, ".") : ingr.PrecoIngrediente.ToString(),
-                            ingr.Descricao.ToString(),
                             ingr.QuantidadeUnidade.ToString(),
+                            ingr.Descricao.ToString(),
+                            ingr.PrecoIngrediente.ToString().Length >= 7 ? ingr.PrecoIngrediente.ToString().Insert(1, ".") : ingr.PrecoIngrediente.ToString(),
                             ingr.Id.ToString(),
                     }));
                 }
