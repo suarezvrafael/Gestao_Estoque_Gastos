@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09-Mar-2023 às 22:50
+-- Tempo de geração: 14-Mar-2023 às 00:36
 -- Versão do servidor: 10.4.27-MariaDB
 -- versão do PHP: 8.2.0
 
@@ -72,13 +72,9 @@ CREATE TABLE `tblempresa` (
 --
 
 INSERT INTO `tblempresa` (`id`, `CNPJ`, `razaoSocial`, `rua`, `bairro`, `numeroEndereco`, `complemento`, `email`, `telefone`, `nomeFantasia`, `idcidade`, `createEmpresa`, `updateEmpresa`, `idUsername`) VALUES
-(7, '230233434', 'chocolandia', 'marechal', 'centro', 12, 'ao lado da sorveteria', 'choco@onion', '2147483647', 'choco deep898797', 0, '2023-02-04 00:02:07', NULL, 0),
-(9, '34234523', 'fvsddsfvsdf', 'dfvdfv', 'dfvfdvdfv', 2, 'sdvdfvdfv', 'sdfdfvfvsdvf', '3452345', 'sdfvsdfvsdf', 0, '2023-02-04 00:02:07', NULL, 0),
-(10, '99887799', 'vista real', 'pedro geromel', 'centro', 365, 'ao lado do kanemann', 'vistareal@gmail.com', '2147483647', 'vistoria', 0, '2023-02-04 00:02:07', NULL, 0),
-(11, '230233434', 'chocolandia', 'marechal', 'centro', 12, 'ao lado da sorveteria', 'choco@onion', '2147483647', 'choco deep898797', 0, '2023-02-04 00:02:07', NULL, 0),
-(12, '9999999999', 'chocolandia', 'marechal', 'centro', 12, 'ao lado da sorveteria', 'choco@onion', '2147483647', 'choco pelvico', 0, '2023-02-04 00:02:07', NULL, 0),
-(13, '99.862.0001/14', 'textos Express', 'av geromel', 'centro', 352, 'ao lado do kanemann', 'texto@hotmail.com', '9996557', 'Texto Facil', 7, '2023-02-04 00:04:09', NULL, 1),
-(14, '00000230233434', 'chocolandia', 'marechal', 'centro', 12, 'ao lado da sorveteria', 'choco@onion', '02147483647', 'choco deep898797', 1, '2023-02-24 00:13:20', NULL, 0);
+(7, '00099862000222', 'Chocolandia Filial', 'marechal', 'centro', 12, 'ao lado da sorveteria', 'chocolandia@choco.com.br', '51999999999', 'Chocolandia', 1, '2023-02-04 00:02:07', NULL, 0),
+(18, '92402542000109', 'Senac Confeitaria', 'Paixao flores', 'Centro', 2509, 'ao lado do banco ', 'senacConfeitaria@senac.com.br', '51998592475', 'Confeitaria da NoNo', 2, '2023-03-13 23:06:44', NULL, 0),
+(19, '65721209000190', 'Churrasco Do farias', 'Pleno Pinho', 'centro', 925, 'ao lado da igreja', 'churrascoFEito@farias.com', '51989896567', 'Farias Ou nao ', 4, '2023-03-13 23:11:43', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -126,6 +122,13 @@ CREATE TABLE `tblingrediente` (
   `quantidadeUnidade` float(10,3) NOT NULL,
   `empresaId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `tblingrediente`
+--
+
+INSERT INTO `tblingrediente` (`id`, `nomeIngrediente`, `precoIngrediente`, `unidadeMedidaId`, `quantidadeUnidade`, `empresaId`) VALUES
+(1, 'Milho', 4.00, 1, 5.000, 2);
 
 -- --------------------------------------------------------
 
@@ -241,8 +244,10 @@ CREATE TABLE `tblunidademedidaingrediente` (
 --
 
 INSERT INTO `tblunidademedidaingrediente` (`id`, `descUnidMedIngrediente`, `sigla`) VALUES
-(2, 'quilos', 'Kg'),
-(4, 'Litros', 'l');
+(2, 'Quilos', 'Kg'),
+(4, 'Gramas', 'g'),
+(5, 'Litros', 'l'),
+(6, 'Mililitros', 'ml');
 
 -- --------------------------------------------------------
 
@@ -266,7 +271,10 @@ CREATE TABLE `tblusuario` (
 --
 
 INSERT INTO `tblusuario` (`id`, `nome`, `username`, `senha`, `acesso`, `manterLogado`, `empresaId`, `ativo`) VALUES
-(1, 'm', 'm', 'm', '1', '1', 7, '1');
+(1, 'm', 'm', 'm', '1', '1', 18, '1'),
+(3, 'Juari de Consuelo', 'juarizinho', 'Senacrs123/*-', '1', '', 7, '1'),
+(4, 'Francisca Lucia Mara', 'chiquina', 'Senacrs123/*-', '1', '', 7, '1'),
+(5, 'Francieli Da Silva Pereira', 'ciele', 'Senacrs123/*-', '1', '', 7, '1');
 
 --
 -- Índices para tabelas despejadas
@@ -379,7 +387,7 @@ ALTER TABLE `tblcidade`
 -- AUTO_INCREMENT de tabela `tblempresa`
 --
 ALTER TABLE `tblempresa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de tabela `tblestado`
@@ -391,7 +399,7 @@ ALTER TABLE `tblestado`
 -- AUTO_INCREMENT de tabela `tblingrediente`
 --
 ALTER TABLE `tblingrediente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `tblpais`
@@ -433,13 +441,23 @@ ALTER TABLE `tblunidademedidagastovariado`
 -- AUTO_INCREMENT de tabela `tblunidademedidaingrediente`
 --
 ALTER TABLE `tblunidademedidaingrediente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `tblusuario`
 --
 ALTER TABLE `tblusuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Restrições para despejos de tabelas
+--
+
+--
+-- Limitadores para a tabela `tblempresa`
+--
+ALTER TABLE `tblempresa`
+  ADD CONSTRAINT `tblempresa_ibfk_1` FOREIGN KEY (`idcidade`) REFERENCES `tblcidade` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
