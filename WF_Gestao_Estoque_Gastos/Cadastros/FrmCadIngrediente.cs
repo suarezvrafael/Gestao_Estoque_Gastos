@@ -100,8 +100,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 cmd = con.CreateCommand();
 
-                cmd.CommandText = "INSERT INTO tblingrediente (nomeingrediente, precoingrediente, unidademedidaid, quantidadeunidade, receitaid, pedidoid, empresaid) " +
-                        "VALUES (@nomeingrediente, @precoingrediente, @unidademedidaid, @quantidadeunidade, @receitaid, @pedidoid, @empresaid)";
+                cmd.CommandText = "INSERT INTO tblingrediente (nomeingrediente, precoingrediente, unidademedidaid, quantidadeunidade, empresaid) " +
+                        "VALUES (@nomeingrediente, @precoingrediente, @unidademedidaid, @quantidadeunidade, @empresaid)";
 
                 cmd.Parameters.AddWithValue("nomeingrediente", ingrediente);
                 cmd.Parameters.AddWithValue("quantidadeunidade", quantidade);
@@ -134,6 +134,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         {
             try
             {
+
                 var id = lblid.Text;
                 var ingrediente = txtIngrediente.Text.Trim();
                 var preco = txtPreco.Text;
@@ -166,6 +167,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     MessageBox.Show("Ingrediente alterado com sucesso.");
 
                 con.Close();
+                btnCadastrar.Enabled = true;
                 PreencherListViewIngredientes();
             }
             catch (Exception ex)
@@ -248,7 +250,6 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
         {
             Close();
         }
-
         private void lsvIngredientes_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             AlterarNomeForm(false);
@@ -306,7 +307,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 con.Open();
                 cmd.Connection = con;
-                cmd.CommandText = $@"SELECT i.id, i.NomeIngrediente, i.PrecoIngrediente, u.Descricao, i.QuantidadeUnidade, i.ReceitaId, i.PedidoId, i.EmpresaId FROM tblingrediente i, tblunidademedidaingrediente u WHERE i.UnidadeMedidaId = u.Id AND i.NomeIngrediente LIKE '%{nomeIngrediente}%' ORDER BY i.NomeIngrediente ASC";
+                cmd.CommandText = $@"SELECT i.id, i.NomeIngrediente, i.PrecoIngrediente, u.DescUnidMedIngrediente, i.QuantidadeUnidade,
+                                    i.EmpresaId FROM tblingrediente i, tblunidademedidaingrediente u WHERE i.UnidadeMedidaId = u.Id 
+                                    AND i.NomeIngrediente LIKE '%{nomeIngrediente}%' ORDER BY i.NomeIngrediente ASC";
                 reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -316,10 +319,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                         Id = Convert.ToInt32(reader["id"].ToString()),
                         NomeIngrediente = reader["nomeingrediente"].ToString(),
                         PrecoIngrediente = Convert.ToDecimal(reader["precoingrediente"].ToString()),
-                        Descricao = reader["descricao"].ToString(),
+                        Descricao = reader["DescUnidMedIngrediente"].ToString(),
                         QuantidadeUnidade = Convert.ToInt32(reader["quantidadeunidade"].ToString()),
-                        ReceitaId = Convert.ToInt32(reader["receitaid"].ToString()),
-                        PedidoId = Convert.ToInt32(reader["pedidoid"].ToString()),
                         EmpresaId = Convert.ToInt32(reader["empresaid"].ToString()),
                     };
 
@@ -331,9 +332,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     lsvIngredientes.Items.Add(new ListViewItem(new string[]
                     {
                             ingr.NomeIngrediente,
-                            ingr.PrecoIngrediente.ToString().Length >= 7 ? ingr.PrecoIngrediente.ToString().Insert(1, ".") : ingr.PrecoIngrediente.ToString(),
-                            ingr.Descricao.ToString(),
                             ingr.QuantidadeUnidade.ToString(),
+                            ingr.Descricao.ToString(),
+                            ingr.PrecoIngrediente.ToString().Length >= 7 ? ingr.PrecoIngrediente.ToString().Insert(1, ".") : ingr.PrecoIngrediente.ToString(),
                             ingr.Id.ToString(),
                     }));
                 }
@@ -374,10 +375,10 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                     unidMedida.Add(unidadeMedida);
                 }
 
-                foreach (var unMedida in unidMedida)
-                {
-                    cbxUnidMedida.Items.Insert((int)unMedida.Id, unMedida.Descricao);
-                }
+                cbxUnidMedida.DataSource = unidMedida;
+                cbxUnidMedida.DisplayMember = "Descricao";
+                cbxUnidMedida.ValueMember = "Id";
+                cbxUnidMedida.SelectedIndex = -1;
 
                 con.Close();
             }
@@ -385,7 +386,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             {
                 Console.WriteLine(ex.Message);
 
-                MessageBox.Show("Ocorreu um erro no sistema");
+                MessageBox.Show("Ocorreu um erro ao carregar as unidades de medida");
             }
         }
         private void PreencherListViewIngredientes()
@@ -398,8 +399,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
                 con.Open();
                 cmd.Connection = con;
-                cmd.CommandText = @"SELECT i.id, i.NomeIngrediente, i.PrecoIngrediente, u.Descricao, i.QuantidadeUnidade, i.ReceitaId, i.PedidoId, 
-                                    i.EmpresaId FROM tblingrediente i, tblunidademedidaingrediente u WHERE i.UnidadeMedidaId = u.Id ORDER BY i.NomeIngrediente ASC";
+                cmd.CommandText = @"SELECT i.id, i.NomeIngrediente, i.PrecoIngrediente, u.DescUnidMedIngrediente, i.QuantidadeUnidade, i.EmpresaId 
+                                    FROM tblingrediente i, tblunidademedidaingrediente u WHERE i.UnidadeMedidaId = u.Id ORDER BY i.NomeIngrediente ASC";
                 reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -409,10 +410,8 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                         Id = Convert.ToInt32(reader["id"].ToString()),
                         NomeIngrediente = reader["nomeingrediente"].ToString(),
                         PrecoIngrediente = Convert.ToDecimal(reader["precoingrediente"].ToString()),
-                        Descricao = reader["descricao"].ToString(),
+                        Descricao = reader["DescUnidMedIngrediente"].ToString(),
                         QuantidadeUnidade = Convert.ToInt32(reader["quantidadeunidade"].ToString()),
-                        ReceitaId = Convert.ToInt32(reader["receitaid"].ToString()),
-                        PedidoId = Convert.ToInt32(reader["pedidoid"].ToString()),
                         EmpresaId = Convert.ToInt32(reader["empresaid"].ToString()),
                     };
 
