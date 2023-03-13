@@ -38,7 +38,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
             var ingrediente = txtIngrediente.Text.Trim();
             var quantidade = txtQuantidade.Text;
             var preco = txtPreco.Text;
-            var unidadeMedida = cbxUnidMedida.SelectedIndex;
+            var unidadeMedida = Convert.ToInt32(cbxUnidMedida.SelectedValue);
 
             var count = 0;
 
@@ -461,7 +461,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 txtPreco.Focus();
                 isOk = false;
             }
-            else if (unidadeMedida <= 0)
+            else if (unidadeMedida < 0)
             {
                 MessageBox.Show("Selecione uma unidade de medida.");
                 cbxUnidMedida.Focus();
