@@ -758,7 +758,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         private void btnExcluir_Click(object sender, EventArgs e)
         {
-            const string message = "Realmente deseja excluir a receita?";
+            const string message = "Deseja realmente excluir a receita?";
             const string caption = "Exclusão";
             var result = MessageBox.Show(message, caption,
                                          MessageBoxButtons.YesNo,
