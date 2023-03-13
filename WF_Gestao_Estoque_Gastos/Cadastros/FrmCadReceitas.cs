@@ -600,7 +600,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 {
                     con.Close();
                     PreencheListaIngredientes(int.Parse(lblReceita.Text));
-                    MessageBox.Show("Ingrediente atualizado");
+                    MessageBox.Show("Ingrediente atualizado!");
 
                     AtualizaCustoReceita(lblReceita.Text);
                 }
@@ -837,7 +837,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
 
         private void btnExcluirIngrediente_Click(object sender, EventArgs e)
         {
-            const string message = "Realmente deseja excluir a receita?";
+            const string message = "Realmente deseja excluir o ingrediente da receita?";
             const string caption = "Exclusão";
             var result = MessageBox.Show(message, caption,
                                          MessageBoxButtons.YesNo,
@@ -871,6 +871,9 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 {
                     MessageBox.Show("Erro ao deletar ingrediente!");
                     return;
+                } else
+                {
+                    MessageBox.Show("Ingrediente deletado com sucesso!");
                 }
 
             }
