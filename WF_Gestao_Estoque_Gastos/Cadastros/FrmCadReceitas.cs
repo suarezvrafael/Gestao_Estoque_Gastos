@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Policy;
@@ -699,7 +700,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 con.Open();
                 cmd.Connection = con;
                 cmd.CommandText = ($@"UPDATE tblReceita
-                                      SET valorTotalReceita = {totalCustoReceita}
+                                      SET valorTotalReceita = {totalCustoReceita.ToString("F2",CultureInfo.InvariantCulture)}
                                       WHERE id = {idReceita}");
 
                 int retorno = cmd.ExecuteNonQuery();
