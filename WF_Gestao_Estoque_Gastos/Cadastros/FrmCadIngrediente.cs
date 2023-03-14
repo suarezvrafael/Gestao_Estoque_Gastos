@@ -138,7 +138,7 @@ namespace WF_Gestao_Estoque_Gastos.Cadastros
                 var id = lblid.Text;
                 var ingrediente = txtIngrediente.Text.Trim();
                 var preco = txtPreco.Text;
-                var uniMedida = cbxUnidMedida.SelectedIndex;
+                var uniMedida = Convert.ToInt32(cbxUnidMedida.SelectedValue);
                 var quantidade = txtQuantidade.Text;
 
                 var retornoValidacao = ValidarCampos(ingrediente, quantidade, preco, uniMedida);
