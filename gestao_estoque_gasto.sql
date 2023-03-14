@@ -1,4 +1,4 @@
--- phpMyAdmin SQL Dump
+-- phpMyAdmin SQL Dump 
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
@@ -170,7 +170,7 @@ CREATE TABLE `tblpedido` (
   `dataPedido` datetime NOT NULL,
   `obsPedido` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `idUsuario` int(11) NOT NULL,
-  `valorTotalReceita` float(10,0) NOT NULL,
+  `valorTotalReceita` float(10,2) NOT NULL,
   `valorMaoDeObra` float(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
